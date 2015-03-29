@@ -3,6 +3,9 @@
 	   <script src="./d3.v3.min.js"></script>
 	   <script src="./dimple.v2.1.2.js"></script>
 		<script type="text/javascript">
+			// Again this is 0-based...
+			var stream_names = ["", "Material", "Formal", "Interface", "Interaction"]
+			
 			function recalculate_durations(data) {
 				// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
 				 var stream_times = [null, null, null, null, null];
@@ -18,7 +21,15 @@
 				 };
 
 				return data;
+			};
+			
+			function switch_stream_id_for_stream_name(data) {
+				for (var i = 0; i < data.length; i++) {
+					data[i].streamid = stream_names[data[i].streamid];
+				}
+				// return data;
 			}
+						
 		</script>
 	</head>
 	
@@ -31,6 +42,7 @@
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
+				 switch_stream_id_for_stream_name(data);
 	 		    var myChart = new dimple.chart(svg, data);
 	 		    myChart.setBounds(60, 30, 1000, 530);
 	 		    myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
@@ -52,6 +64,7 @@
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 				 data = recalculate_durations(data);
+				 switch_stream_id_for_stream_name(data);
 	 		    var myChart2 = new dimple.chart(svg2, data);
 	 		    myChart2.setBounds(60, 30, 1000, 530);
 	 		    myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
@@ -65,7 +78,7 @@
 		  </script>
 		</div>
 		
-		<h2>Stats 1 - Co-occurrence (beta)</h2>
+		<h2>Stats 1 - Co-occurrence</h2>
 		<div id="stats1">
 		  <script type="text/javascript">
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
@@ -86,12 +99,12 @@
 				 var heading_row = mytable.append("tr");
 				 heading_row.append("th").text("x");
 				 for (var i = 0; i < 4; i++) {
-					 heading_row.append("th").text("stream "+(i+1));
+					 heading_row.append("th").text(stream_names[(i+1)]);
 				 };
 
 				 for (var i = 0; i < stream_cooccurrence.length; i++) {
 					 var myrow = mytable.append("tr");
-					 myrow.append("td").text("stream "+(i+1));
+					 myrow.append("td").text(stream_names[(i+1)]);
 					 for (var j = 0; j < stream_cooccurrence[i].length; j++) {
 						 myrow.append("td").text(stream_cooccurrence[i][j]);
 					 }
