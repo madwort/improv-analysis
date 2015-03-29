@@ -2,6 +2,24 @@
 	<head>
 	   <script src="./d3.v3.min.js"></script>
 	   <script src="./dimple.v2.1.2.js"></script>
+		<script type="text/javascript">
+			function recalculate_durations(data) {
+				// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
+				 var stream_times = [null, null, null, null, null];
+				 var format = d3.time.format("%M:%S:%L");
+				 for (var i = 0; i < data.length; i++) {
+					 // console.log(stream_times[data[i].streamid]);
+					 if (stream_times[data[i].streamid] != null) {
+						 data[i].duration = (format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
+					 } else {
+						 data[i].duration = 0;
+					 }
+					 stream_times[data[i].streamid] = data[i].time;
+				 };
+
+				return data;
+			}
+		</script>
 	</head>
 	
 	<body>
@@ -29,22 +47,7 @@
 		<h2>Chart 2 - duration between events of same category</h2>
 		<div id="chartContainer2">
 		  <script type="text/javascript">
-			function recalculate_durations(data) {
-				// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
-				 var stream_times = [null, null, null, null, null];
-				 var format = d3.time.format("%M:%S:%L");
-				 for (var i = 0; i < data.length; i++) {
-					 // console.log(stream_times[data[i].streamid]);
-					 if (stream_times[data[i].streamid] != null) {
-						 data[i].duration = (format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
-					 } else {
-						 data[i].duration = 0;
-					 }
-					 stream_times[data[i].streamid] = data[i].time;
-				 };
 
-				return data;
-			}
 
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
@@ -61,7 +64,41 @@
 	 		 });
 		  </script>
 		</div>
+		
+		<h2>Stats 1 - Co-occurrence (beta)</h2>
+		<div id="stats1">
+		  <script type="text/javascript">
+			 d3.csv("./Everything 1a Charts.csv", function (data) {
+				 // We're translating streamids 1-4 to be 0-3 for our purposes!
+				 // Remember this when rendering!!!
+				 // stream_cooccurrence[from][to]
+				 var stream_cooccurrence = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+				 // assume at least one piece of data!
+				 var previous_streamid = (data[0].streamid-1);
+				 var this_streamid = -1;
+				 for (var i = 1; i < data.length; i++) {
+					 this_streamid = (data[i].streamid-1);
+					 stream_cooccurrence[previous_streamid][this_streamid]++;
+					 previous_streamid = this_streamid;
+				 }
+				 // console.log(stream_cooccurrence);
+				 var mytable = d3.select("#stats1").append("table");
+				 var heading_row = mytable.append("tr");
+				 heading_row.append("th").text("x");
+				 for (var i = 0; i < 4; i++) {
+					 heading_row.append("th").text("stream "+(i+1));
+				 };
 
+				 for (var i = 0; i < stream_cooccurrence.length; i++) {
+					 var myrow = mytable.append("tr");
+					 myrow.append("td").text("stream "+(i+1));
+					 for (var j = 0; j < stream_cooccurrence[i].length; j++) {
+						 myrow.append("td").text(stream_cooccurrence[i][j]);
+					 }
+				 }
+	 		 });
+		  </script>
+		</div>
 		
 	</body>
 	
