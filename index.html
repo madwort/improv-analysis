@@ -6,13 +6,13 @@
 	
 	<body>
 		<h1>Rodalytics v0.2</h1>
+		<h2>Chart 1 - duration between events of all categories</h2>
 		<div id="chartContainer">
 		  <script type="text/javascript">
 			 var svg = dimple.newSvg("#chartContainer", 1100, 600);
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
-          	 console.log(data[0]);
 	 		    var myChart = new dimple.chart(svg, data);
 	 		    myChart.setBounds(60, 30, 1000, 530);
 	 		    myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
@@ -25,7 +25,46 @@
 	 		 });
 		  </script>
 		</div>
-		
+
+		<h2>Chart 2 - duration between events of same category (beta)</h2>
+		<div id="chartContainer2">
+		  <script type="text/javascript">
+			function recalculate_durations(data) {
+				// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
+				 var stream_times = [null, null, null, null, null];
+				 var format = d3.time.format("%M:%S:%L");
+				 for (var i = 0; i < data.length; i++) {
+					 // console.log(stream_times[data[i].streamid]);
+					 if (stream_times[data[i].streamid] != null) {
+						 data[i].duration = (format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
+					 } else {
+						 data[i].duration = 0;
+					 }
+					 stream_times[data[i].streamid] = data[i].time;
+				 };
+
+				return data;
+			}
+
+			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
+			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			  	 // data = dimple.filterData(data, "id", "3");
+			 	 console.log(data[10]);
+				 data = recalculate_durations(data);
+			 	 console.log(data[10]);
+	 		    var myChart2 = new dimple.chart(svg2, data);
+	 		    myChart2.setBounds(60, 30, 1000, 530);
+	 		    myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+	 		    myChart2.addCategoryAxis("y", "streamid");
+	 		    myChart2.addMeasureAxis("z", "duration");
+	 		    myChart2.addSeries("duration", dimple.plot.bubble);
+	 		    myChart2.addLegend(140, 10, 360, 20, "left");
+				 myChart2.addSeries("comment");
+	 		    myChart2.draw();
+	 		 });
+		  </script>
+		</div>
+
 		
 	</body>
 	
