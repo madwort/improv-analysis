@@ -5,8 +5,22 @@
 		<script type="text/javascript">
 			// Again this is 0-based...
 			var stream_names = ["", "Material", "Formal", "Interface", "Interaction"]
-			
-			function recalculate_durations(data) {
+	
+		   function calculate_durations(data) {
+				 var previous_time = null;
+				 var format = d3.time.format("%M:%S:%L");
+				 for (var i = 0; i < data.length; i++) {
+					 // console.log(stream_times[data[i].streamid]);
+					 if (previous_time != null) {
+						 data[i].duration = (format.parse(data[i].time) - format.parse(previous_time))/1000;
+					 } else {
+						 data[i].duration = 0;
+					 }
+					 previous_time = data[i].time;
+				 };
+			};
+		
+			function calculate_durations_per_stream(data) {
 				// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
 				 var stream_times = [null, null, null, null, null];
 				 var format = d3.time.format("%M:%S:%L");
@@ -19,9 +33,8 @@
 					 }
 					 stream_times[data[i].streamid] = data[i].time;
 				 };
-
-				return data;
 			};
+
 			
 			function switch_stream_id_for_stream_name(data) {
 				for (var i = 0; i < data.length; i++) {
@@ -42,6 +55,9 @@
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
+				 
+				 // possibly change csv file format using this
+				 calculate_durations(data);
 				 switch_stream_id_for_stream_name(data);
 	 		    var myChart = new dimple.chart(svg, data);
 	 		    myChart.setBounds(60, 30, 1000, 530);
@@ -63,7 +79,7 @@
 
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
-				 data = recalculate_durations(data);
+				 calculate_durations_per_stream(data);
 				 switch_stream_id_for_stream_name(data);
 	 		    var myChart2 = new dimple.chart(svg2, data);
 	 		    myChart2.setBounds(60, 30, 1000, 530);
@@ -78,7 +94,7 @@
 		  </script>
 		</div>
 		
-		<h2>Stats 1 - Co-occurrence</h2>
+		<h2>Stats 1 - Co-occurrence / State-transition matrix</h2>
 		<div id="stats1">
 		  <script type="text/javascript">
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
