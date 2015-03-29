@@ -17,10 +17,10 @@
 	 		    myChart.setBounds(60, 30, 1000, 530);
 	 		    myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 	 		    myChart.addCategoryAxis("y", "streamid");
-	 		    // myChart.addCategoryAxis("z", "duration");
+	 		    myChart.addMeasureAxis("z", "duration");
 	 		    myChart.addSeries("duration", dimple.plot.bubble);
 	 		    myChart.addLegend(140, 10, 360, 20, "left");
-				 // myChart.addSeries("comment", dimple.plot.bubble);
+				 myChart.addSeries("comment");
 	 		    myChart.draw();
 	 		 });
 		  </script>
