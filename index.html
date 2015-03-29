@@ -15,8 +15,7 @@
           	 console.log(data[0]);
 	 		    var myChart = new dimple.chart(svg, data);
 	 		    myChart.setBounds(60, 30, 1000, 530);
-				 var mytimeformat = "%M:%S:%L";
-	 		    myChart.addTimeAxis("x", "time", mytimeformat);
+	 		    myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 	 		    myChart.addCategoryAxis("y", "streamid");
 	 		    // myChart.addCategoryAxis("z", "duration");
 	 		    myChart.addSeries("duration", dimple.plot.bubble);
