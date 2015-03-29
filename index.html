@@ -48,10 +48,7 @@
 
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
-			  	 // data = dimple.filterData(data, "id", "3");
-			 	 console.log(data[10]);
 				 data = recalculate_durations(data);
-			 	 console.log(data[10]);
 	 		    var myChart2 = new dimple.chart(svg2, data);
 	 		    myChart2.setBounds(60, 30, 1000, 530);
 	 		    myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
