@@ -132,13 +132,37 @@
 		  </script>
 		</div>
 		
-		<h2>Stats 2 - Stats durations per stream</h2>
+		<h2>Stats 2 - Activity Summary</h2>
 		<div id="stats2">
+		  <script type="text/javascript">
+			 d3.csv("./Everything 1a Charts.csv", function (data) {
+				 
+				 var mytable = d3.select("#stats2").append("table");
+				 // could refactor & do forEach on streamname list?
+				 var heading_row = mytable.append("tr");
+				 heading_row.append("th").text("Stream");
+				 heading_row.append("th").text("Instances");
+
+				 for (var i = 1; i < 5; i++) {
+					 var myrow = mytable.append("tr");
+					 myrow.append("td").text(stream_names[i]);
+
+					 // filter is string not int
+					 var stream = dimple.filterData(data, "streamid", ""+i);
+					 myrow.append("td").text(stream.length);
+				 }
+				 
+	 		 });
+		  </script>
+		</div>		
+		
+		<h2>Stats 3 - Duration stats per stream</h2>
+		<div id="stats3">
 		  <script type="text/javascript">
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 				 calculate_durations_per_stream(data);
 				 
-				 var mytable = d3.select("#stats2").append("table");
+				 var mytable = d3.select("#stats3").append("table");
 				 // could refactor & do forEach on streamname list?
 				 var heading_row = mytable.append("tr");
 				 heading_row.append("th").text("Stream");
