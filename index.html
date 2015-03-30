@@ -148,27 +148,29 @@
 				 heading_row.append("th").text("Std Dev");
 				 heading_row.append("th").text("Max");
 
+				 var three_sf = d3.format(".3g");
+
 				 for (var i = 1; i < 5; i++) {
 					 var myrow = mytable.append("tr");
 					 myrow.append("td").text(stream_names[i]);
 
 					 // filter is string not int
 					 var stream = dimple.filterData(data, "streamid", ""+i);
-					 myrow.append("td").text(d3.min(stream, function (d) {
+					 myrow.append("td").text(three_sf(d3.min(stream, function (d) {
 						 return d.duration;
-					 }));
-					 myrow.append("td").text(d3.median(stream, function (d) {
+					 })));
+					 myrow.append("td").text(three_sf(d3.median(stream, function (d) {
 						 return d.duration;
-					 }));
-					 myrow.append("td").text(d3.mean(stream, function (d) {
+					 })));
+					 myrow.append("td").text(three_sf(d3.mean(stream, function (d) {
 						 return d.duration;
-					 }));
-					 myrow.append("td").text(d3.deviation(stream, function (d) {
+					 })));
+					 myrow.append("td").text(three_sf(d3.deviation(stream, function (d) {
 						 return d.duration;
-					 }));
-					 myrow.append("td").text(d3.max(stream, function (d) {
+					 })));
+					 myrow.append("td").text(three_sf(d3.max(stream, function (d) {
 						 return d.duration;
-					 }));
+					 })));
 
 				 }
 				 
