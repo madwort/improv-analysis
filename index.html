@@ -132,7 +132,7 @@
 		  </script>
 		</div>
 		
-		<h2>Stats 2 - Average durations per stream</h2>
+		<h2>Stats 2 - Mean durations per stream</h2>
 		<div id="stats2">
 		  <script type="text/javascript">
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
@@ -144,6 +144,25 @@
 					 // filter is string not int
 					 var stream = dimple.filterData(data, "streamid", ""+i);
 					 mylist.append("li").text(stream_names[i]+": "+d3.mean(stream, function (d) {
+						 return d.duration;
+					 })+" seconds");
+				 }
+				 
+	 		 });
+		  </script>
+		</div>
+		<h2>Stats 3 - Std deviation per stream</h2>
+		<div id="stats3">
+		  <script type="text/javascript">
+			 d3.csv("./Everything 1a Charts.csv", function (data) {
+				 calculate_durations_per_stream(data);
+				 
+				 var mylist = d3.select("#stats3").append("ul");
+				 // could refactor & do forEach on streamname list?
+				 for (var i = 1; i < 5; i++) {
+					 // filter is string not int
+					 var stream = dimple.filterData(data, "streamid", ""+i);
+					 mylist.append("li").text(stream_names[i]+": "+d3.deviation(stream, function (d) {
 						 return d.duration;
 					 })+" seconds");
 				 }
