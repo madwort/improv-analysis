@@ -110,7 +110,10 @@
 					 stream_cooccurrence[previous_streamid][this_streamid]++;
 					 previous_streamid = this_streamid;
 				 }
+				 
 				 // console.log(stream_cooccurrence);
+				 
+				 // Output the data that we've calculated
 				 var mytable = d3.select("#stats1").append("table");
 				 var heading_row = mytable.append("tr");
 				 heading_row.append("th").text("x");
@@ -129,6 +132,55 @@
 		  </script>
 		</div>
 		
+		<h2>Stats 2 - Average durations per stream</h2>
+		<div id="stats2">
+		  <script type="text/javascript">
+			 d3.csv("./Everything 1a Charts.csv", function (data) {
+				 // // We're translating streamids 1-4 to be 0-3 for our purposes!
+				 // // Remember this when rendering!!!
+				 // // stream_cooccurrence[from][to]
+				 // var sum_durations = [0,0,0,0];
+				 // var count_durations = [0,0,0,0];
+				 //
+				 // // duplicated with chart 1, but maybe we can refactor this later
+				 // calculate_durations_per_stream(data);
+				 // var_streamid = -1;
+				 // for (var i = 0; i < data.length; i++) {
+				 // 					 this_streamid = (data[i].streamid-1);
+				 // 					 sum_durations[this_streamid] += data[i].duration;
+				 // 					 count_durations[this_streamid]++;
+				 //
+				 // }
+				 
+				 calculate_durations_per_stream(data);
+				 var stream_one = dimple.filterData(data, "streamid", "2");
+				 console.log(stream_one); 
+				 console.log(d3.mean(stream_one, function (d) {
+					 return d.duration;
+				 }));
+				 
+				 // Output the data that we've calculated
+				 var mylist = d3.select("#stats2").append("ul");
+				 for (var i = 0; i < sum_durations.length; i++) {
+					 mylist.append("li").text(stream_names[(i+1)]+": "+(sum_durations[i]/count_durations[i])+" seconds");
+				 }
+				 
+				 // var heading_row = mytable.append("tr");
+				 // heading_row.append("th").text("x");
+				 // for (var i = 0; i < 4; i++) {
+				 // 					 heading_row.append("th").text(stream_names[(i+1)]);
+				 // };
+				 //
+				 // for (var i = 0; i < stream_cooccurrence.length; i++) {
+				 // 					 var myrow = mytable.append("tr");
+				 // 					 myrow.append("td").text(stream_names[(i+1)]);
+				 // 					 for (var j = 0; j < stream_cooccurrence[i].length; j++) {
+				 // 						 myrow.append("td").text(stream_cooccurrence[i][j]);
+				 // 					 }
+				 // }
+	 		 });
+		  </script>
+		</div>
 	</body>
 	
 </html>
