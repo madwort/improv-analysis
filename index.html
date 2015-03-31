@@ -55,7 +55,7 @@
 	
 	<body>
 		<h1>Rodalytics v0.3</h1>
-		<h2>Chart - durations between events</h2>
+		<h2>Chart 1 - durations between events</h2>
 		<div id="chartControls">
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
@@ -105,6 +105,59 @@
 			});
 		  </script>
 		</div>
+		
+		<h2>Chart 2 - event trends</h2>
+		<!-- <div id="chartControls">
+			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
+			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
+		</div> -->
+		<div id="chartContainer2">
+		  <script type="text/javascript">
+			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
+			 var myChart2 = null;
+			 var myData2 = null;
+			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			  	 // data = dimple.filterData(data, "id", "3");
+			 	 // console.log(data);
+
+	 		    myData2 = data;
+				 
+				 // possibly change csv file format using this
+				 calculate_durations(myData2);
+				 calculate_durations_per_stream(myData2);
+ 				 myData2.map(function (d) {
+ 				 	d.duration = d.duration_all_streams;
+ 				 })
+				 add_stream_name(myData2);
+				 // console.log(myData2);
+				 myChart2 = new dimple.chart(svg2, myData2);
+	 		    myChart2.setBounds(60, 30, 1000, 530);
+	 		    var x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+				 // x.addOrderRule("Date");
+				 myChart2.addMeasureAxis("y", "duration_per_stream");
+				 // myChart2.addSeries("comment");
+				 myChart2.addSeries("stream_name", dimple.plot.bubble);
+	 		    
+				 // myChart2.addLegend(140, 10, 360, 20, "left");
+	 		    myChart2.draw();
+	 		 });
+			 
+			// d3.select("#btn_all_cat").on("click", function() {
+			// 	myData.map(function (d) {
+			// 		d.duration = d.duration_all_streams;
+			// 	})
+			// 	myChart.draw(1000);
+			// });
+			//
+			// d3.select("#btn_same_cat").on("click", function() {
+			// 	myData.map(function (d) {
+			// 		d.duration = d.duration_per_stream;
+			// 	})
+			//  	myChart.draw(1000);
+			// });
+		  </script>
+		</div>
+		
 		
 
 		<h2>Stats 1 - Co-occurrence / Event-transition matrix</h2>
