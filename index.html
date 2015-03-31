@@ -181,8 +181,13 @@
 				 
 				 y = myChart2.addMeasureAxis("y", "duration_per_stream");
 				 y.overrideMax = maxDuration;
+				 
 				 // myChart2.addSeries("comment");
-				 myChart2.addSeries("stream_name", dimple.plot.bubble);
+				 myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
+				 
+				 var y2 = myChart2.addMeasureAxis("y","stream_regression");
+				 myChart2.addSeries("stream_regression", dimple.plot.line, [x,y2]);
+				 y2.overrideMax = maxDuration;
 	 		    
 				 myChart2.assignColor("Material", "#fea18d");
 				 myChart2.assignColor("Formal", "#93d1ff");
@@ -198,43 +203,49 @@
  				myChart2.data = myData2;
  				myChart2.draw(1000);
  			});
-			d3.select("#btn2_cat_1").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "1");
-				myChart2.draw(1000);
-			});
-			d3.select("#btn2_cat_2").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "2");
-				myChart2.draw(1000);
-			});
-			d3.select("#btn2_cat_3").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "3");
-				myChart2.draw(1000);
-			});
-			d3.select("#btn2_cat_4").on("click", function() {
-				myData2.map(function (d) {
-					d.time_offset = (timeFormat.parse(d.time)-timeFormat.parse(minTime))/1000;
-				});
-				
-				
-				myChart2.data = dimple.filterData(myData2, "streamid", "4");
-				
+			// d3.select("#btn2_cat_1").on("click", function() {
+			// 	myChart2.data = dimple.filterData(myData2, "streamid", "1");
+			// 	myChart2.draw(1000);
+			// });
+			// d3.select("#btn2_cat_2").on("click", function() {
+			// 	myChart2.data = dimple.filterData(myData2, "streamid", "2");
+			// 	myChart2.draw(1000);
+			// });
+			// d3.select("#btn2_cat_3").on("click", function() {
+			// 	myChart2.data = dimple.filterData(myData2, "streamid", "3");
+			// 	myChart2.draw(1000);
+			// });
 
-				var regressionData = myChart2.data.map(function (d) {
-					return [d.time_offset,d.duration_per_stream];
-				});
-				console.log(regressionData);
-				var regression = window.regression('linear', regressionData );
-				console.log(regression);
-				for (var i = 0; i < myChart2.data.length; i++) {
-					myChart2.data[i].stream_regression = regression.points[i][1];
+			function create_btn2(index) {
+				return function() {
+					myData2.map(function (d) {
+						d.time_offset = (timeFormat.parse(d.time)-timeFormat.parse(minTime))/1000;
+					});
+
+					console.log(index.toString());
+					myChart2.data = dimple.filterData(myData2, "streamid", index.toString());
+					console.log(myChart2.data);
+
+					var regressionData = myChart2.data.map(function (d) {
+						return [d.time_offset,d.duration_per_stream];
+					});
+					// console.log(regressionData);
+					var regression = window.regression('linear', regressionData );
+					// console.log(regression);
+					for (var j = 0; j < myChart2.data.length; j++) {
+						myChart2.data[j].stream_regression = regression.points[j][1];
+					}
+					// console.log(myChart2.data);
+
+
+					myChart2.draw(1000);
 				}
-				console.log(myChart2.data);
+			}
 
-				var y2 = myChart2.addMeasureAxis("y","stream_regression");
-				myChart2.addSeries("stream_regression", dimple.plot.line, [x,y2]);
-				
-				myChart2.draw(1000);
-			});
+			// move this code out into function because of scoping issues in closures!
+			for (var i = 1; i < 5; i++) {
+				d3.select("#btn2_cat_"+i).on("click", create_btn2(i));				
+			}
 
 		  </script>
 		</div>
