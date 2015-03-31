@@ -84,12 +84,16 @@
 	 		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 				 x.timePeriod = d3.time.seconds;
 				 x.timeInterval = 10;
-	 		    myChart.addCategoryAxis("y", "stream_name");
-	 		    myChart.addMeasureAxis("z", "duration");
-	 		    myChart.addLegend(700, 10, 360, 50, "left");
-				 myChart.addSeries("stream_name");
-				 // myChart.addSeries("comment", null);
+	 		    var y = myChart.addCategoryAxis("y", "stream_name");
+				 y.addOrderRule(stream_names, true);
 				 
+				 myChart.addMeasureAxis("z", "duration");
+	 		    myChart.addLegend(700, 10, 360, 50, "left");
+				 var mySeries = myChart.addSeries("stream_name");
+
+				 // this changes the colouring!
+				 // myChart.addSeries("comment", null);
+				  
 				 myChart.assignColor("Material", "#fea18d");
 				 myChart.assignColor("Formal", "#93d1ff");
 				 myChart.assignColor("Interface", "#b7e695");
