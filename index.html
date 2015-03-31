@@ -107,10 +107,13 @@
 		</div>
 		
 		<h2>Chart 2 - event trends</h2>
-		<!-- <div id="chartControls">
-			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
-			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
-		</div> -->
+		<div id="chartControls2">
+			<input type="button" name="btn2_cat_all" value="All categories" id="btn2_cat_all">
+			<input type="button" name="btn2_cat_1" value="Category 1" id="btn2_cat_1">
+			<input type="button" name="btn2_cat_2" value="Category 2" id="btn2_cat_2">
+			<input type="button" name="btn2_cat_3" value="Category 3" id="btn2_cat_3">
+			<input type="button" name="btn2_cat_4" value="Category 4" id="btn2_cat_4">
+		</div>
 		<div id="chartContainer2">
 		  <script type="text/javascript">
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
@@ -141,20 +144,28 @@
 				 // myChart2.addLegend(140, 10, 360, 20, "left");
 	 		    myChart2.draw();
 	 		 });
-			 
-			// d3.select("#btn_all_cat").on("click", function() {
-			// 	myData.map(function (d) {
-			// 		d.duration = d.duration_all_streams;
-			// 	})
-			// 	myChart.draw(1000);
-			// });
-			//
-			// d3.select("#btn_same_cat").on("click", function() {
-			// 	myData.map(function (d) {
-			// 		d.duration = d.duration_per_stream;
-			// 	})
-			//  	myChart.draw(1000);
-			// });
+
+ 			d3.select("#btn2_cat_all").on("click", function() {
+ 				myChart2.data = myData2;
+ 				myChart2.draw(1000);
+ 			});
+			d3.select("#btn2_cat_1").on("click", function() {
+				myChart2.data = dimple.filterData(myData2, "streamid", "1");
+				myChart2.draw(1000);
+			});
+			d3.select("#btn2_cat_2").on("click", function() {
+				myChart2.data = dimple.filterData(myData2, "streamid", "2");
+				myChart2.draw(1000);
+			});
+			d3.select("#btn2_cat_3").on("click", function() {
+				myChart2.data = dimple.filterData(myData2, "streamid", "3");
+				myChart2.draw(1000);
+			});
+			d3.select("#btn2_cat_4").on("click", function() {
+				myChart2.data = dimple.filterData(myData2, "streamid", "4");
+				myChart2.draw(1000);
+			});
+
 		  </script>
 		</div>
 		
