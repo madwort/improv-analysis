@@ -4,7 +4,7 @@
 	   <script src="./dimple.v2.1.2.js"></script>
 		<script type="text/javascript">
 			// Again this is 0-based...
-			var stream_names = ["", "Material", "Formal", "Interface", "Interaction"]
+		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
 	
 		   function calculate_durations(data) {
 				 var previous_time = null;
@@ -108,17 +108,18 @@
 		
 		<h2>Chart 2 - event trends</h2>
 		<div id="chartControls2">
-			<input type="button" name="btn2_cat_all" value="All categories" id="btn2_cat_all">
-			<input type="button" name="btn2_cat_1" value="Category 1" id="btn2_cat_1">
-			<input type="button" name="btn2_cat_2" value="Category 2" id="btn2_cat_2">
-			<input type="button" name="btn2_cat_3" value="Category 3" id="btn2_cat_3">
-			<input type="button" name="btn2_cat_4" value="Category 4" id="btn2_cat_4">
+			<input type="button" name="btn2_cat_all" value="All streams" id="btn2_cat_all">
+			<input type="button" name="btn2_cat_1" value="Material" id="btn2_cat_1">
+			<input type="button" name="btn2_cat_2" value="Formal" id="btn2_cat_2">
+			<input type="button" name="btn2_cat_3" value="Interface" id="btn2_cat_3">
+			<input type="button" name="btn2_cat_4" value="Interaction" id="btn2_cat_4">
 		</div>
 		<div id="chartContainer2">
 		  <script type="text/javascript">
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 var myChart2 = null;
 			 var myData2 = null;
+			 var maxTime = null;
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
@@ -133,6 +134,11 @@
  				 })
 				 add_stream_name(myData2);
 				 // console.log(myData2);
+				 
+				 maxTime = d3.max(myData2, function (d) {
+					 return d.time;
+				 })
+				 
 				 myChart2 = new dimple.chart(svg2, myData2);
 	 		    myChart2.setBounds(60, 30, 1000, 530);
 	 		    var x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
@@ -141,8 +147,14 @@
 				 // myChart2.addSeries("comment");
 				 myChart2.addSeries("stream_name", dimple.plot.bubble);
 	 		    
+				 myChart2.assignColor("Material", "#fea18d");
+				 myChart2.assignColor("Formal", "#93d1ff");
+				 myChart2.assignColor("Interface", "#b7e695");
+				 myChart2.assignColor("Interaction", "#fefca2");
+				 
 				 // myChart2.addLegend(140, 10, 360, 20, "left");
 	 		    myChart2.draw();
+
 	 		 });
 
  			d3.select("#btn2_cat_all").on("click", function() {
