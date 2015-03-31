@@ -81,7 +81,9 @@
 				 // console.log(myData);
 				 myChart = new dimple.chart(svg, myData);
 	 		    myChart.setBounds(60, 30, 1000, 530);
-	 		    myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+	 		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+				 x.timePeriod = d3.time.seconds;
+				 x.timeInterval = 10;
 	 		    myChart.addCategoryAxis("y", "stream_name");
 	 		    myChart.addMeasureAxis("z", "duration");
 	 		    myChart.addSeries("duration", dimple.plot.bubble);
@@ -143,6 +145,9 @@
 	 		    myChart2.setBounds(60, 30, 1000, 530);
 	 		    var x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 				 // x.addOrderRule("Date");
+				 // x.overrideMax = maxTime;
+				 x.timePeriod = d3.time.seconds;
+				 x.timeInterval = 10;
 				 myChart2.addMeasureAxis("y", "duration_per_stream");
 				 // myChart2.addSeries("comment");
 				 myChart2.addSeries("stream_name", dimple.plot.bubble);
