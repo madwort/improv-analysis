@@ -12,9 +12,9 @@
 				 for (var i = 0; i < data.length; i++) {
 					 // console.log(stream_times[data[i].streamid]);
 					 if (previous_time != null) {
-						 data[i].duration = (format.parse(data[i].time) - format.parse(previous_time))/1000;
+						 data[i].duration_all_streams = (format.parse(data[i].time) - format.parse(previous_time))/1000;
 					 } else {
-						 data[i].duration = 0;
+						 data[i].duration_all_streams = 0;
 					 }
 					 previous_time = data[i].time;
 				 };
@@ -27,18 +27,18 @@
 				 for (var i = 0; i < data.length; i++) {
 					 // console.log(stream_times[data[i].streamid]);
 					 if (stream_times[data[i].streamid] != null) {
-						 data[i].duration = (format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
+						 data[i].duration_per_stream = 
+						 	(format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
 					 } else {
-						 data[i].duration = 0;
+						 data[i].duration_per_stream = 0;
 					 }
 					 stream_times[data[i].streamid] = data[i].time;
 				 };
 			};
-
 			
-			function switch_stream_id_for_stream_name(data) {
+			function add_stream_name(data) {
 				for (var i = 0; i < data.length; i++) {
-					data[i].streamid = stream_names[data[i].streamid];
+					data[i].stream_name = stream_names[data[i].streamid];
 				}
 				// return data;
 			}
@@ -57,17 +57,25 @@
 		  <script type="text/javascript">
 			 var svg = dimple.newSvg("#chartContainer", 1100, 600);
 			 var myChart = null;
+			 var myData = null;
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
+
+	 		    myData = data;
 				 
 				 // possibly change csv file format using this
-				 calculate_durations(data);
-				 switch_stream_id_for_stream_name(data);
-	 		    myChart = new dimple.chart(svg, data);
+				 calculate_durations(myData);
+				 calculate_durations_per_stream(myData);
+ 				 myData.map(function (d) {
+ 				 	d.duration = d.duration_all_streams;
+ 				 })
+				 add_stream_name(myData);
+				 // console.log(myData);
+				 myChart = new dimple.chart(svg, myData);
 	 		    myChart.setBounds(60, 30, 1000, 530);
 	 		    myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
-	 		    myChart.addCategoryAxis("y", "streamid");
+	 		    myChart.addCategoryAxis("y", "stream_name");
 	 		    myChart.addMeasureAxis("z", "duration");
 	 		    myChart.addSeries("duration", dimple.plot.bubble);
 	 		    myChart.addLegend(140, 10, 360, 20, "left");
@@ -76,19 +84,17 @@
 	 		 });
 			 
 			d3.select("#btn_all_cat").on("click", function() {
-				 d3.csv("./Everything 1a Charts.csv", function (data) {
-					 calculate_durations(data);
-					 myChart.data = data;
-			    	 myChart.draw(1000);
-			 	});
+				myData.map(function (d) {
+					d.duration = d.duration_all_streams;
+				})
+				myChart.draw(1000);
 			});
 
 			d3.select("#btn_same_cat").on("click", function() {
-				 d3.csv("./Everything 1a Charts.csv", function (data) {
-					 calculate_durations_per_stream(data);
-					 myChart.data = data;
-			    	 myChart.draw(1000);
-			 	});
+				myData.map(function (d) {
+					d.duration = d.duration_per_stream;
+				})
+			 	myChart.draw(1000);
 			});
 		  </script>
 		</div>
@@ -180,21 +186,15 @@
 
 					 // filter is string not int
 					 var stream = dimple.filterData(data, "streamid", ""+i);
-					 myrow.append("td").text(three_sf(d3.min(stream, function (d) {
-						 return d.duration;
-					 })));
-					 myrow.append("td").text(three_sf(d3.median(stream, function (d) {
-						 return d.duration;
-					 })));
-					 myrow.append("td").text(three_sf(d3.mean(stream, function (d) {
-						 return d.duration;
-					 })));
-					 myrow.append("td").text(three_sf(d3.deviation(stream, function (d) {
-						 return d.duration;
-					 })));
-					 myrow.append("td").text(three_sf(d3.max(stream, function (d) {
-						 return d.duration;
-					 })));
+					 var get_duration_per_stream = function (d) {
+						 return d.duration_per_stream;
+					 };
+					 
+					 myrow.append("td").text(three_sf(d3.min(stream, get_duration_per_stream)));
+					 myrow.append("td").text(three_sf(d3.median(stream, get_duration_per_stream)));
+					 myrow.append("td").text(three_sf(d3.mean(stream, get_duration_per_stream)));
+					 myrow.append("td").text(three_sf(d3.deviation(stream, get_duration_per_stream)));
+					 myrow.append("td").text(three_sf(d3.max(stream, get_duration_per_stream)));
 
 				 }
 				 
