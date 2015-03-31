@@ -220,7 +220,7 @@
 				
 
 				var regressionData = myChart2.data.map(function (d) {
-					return [d.time_offset,d.duration];
+					return [d.time_offset,d.duration_per_stream];
 				});
 				console.log(regressionData);
 				var regression = window.regression('linear', regressionData );
