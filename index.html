@@ -121,7 +121,9 @@
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 var myChart2 = null;
 			 var myData2 = null;
-			 var maxTime = null;
+			 var minTime, maxTime, maxDuration = null;
+			 var timeFormat = d3.time.format("%M:%S:%L");
+			 
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
@@ -137,10 +139,18 @@
 				 add_stream_name(myData2);
 				 // console.log(myData2);
 				 
+				 minTime = d3.min(myData2, function (d) {
+				         return d.time;
+				 })
+				 
 				 maxTime = d3.max(myData2, function (d) {
 					 return d.time;
 				 })
 				 
+				 maxDuration = d3.max(myData2, function (d) {
+				       return d.duration_per_stream;
+				 })
+
 				 myChart2 = new dimple.chart(svg2, myData2);
 	 		    myChart2.setBounds(60, 30, 1000, 530);
 	 		    var x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
@@ -148,7 +158,11 @@
 				 // x.overrideMax = maxTime;
 				 x.timePeriod = d3.time.seconds;
 				 x.timeInterval = 10;
-				 myChart2.addMeasureAxis("y", "duration_per_stream");
+				 x.overrideMin = timeFormat.parse(minTime);
+				 x.overrideMax = timeFormat.parse(maxTime);
+				 
+				 var y = myChart2.addMeasureAxis("y", "duration_per_stream");
+				 y.overrideMax = maxDuration;
 				 // myChart2.addSeries("comment");
 				 myChart2.addSeries("stream_name", dimple.plot.bubble);
 	 		    
