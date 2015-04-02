@@ -61,6 +61,7 @@
 		<div id="chartControls">
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
+			<input type="range" name="slider1" min="0" max="190" step="10" value="0" id="slider1" />
 		</div>
 		<div id="chartContainer">
 		  <script type="text/javascript">
@@ -117,6 +118,28 @@
 				})
 			 	myChart.draw(1000);
 			});
+
+			d3.select("#slider1").on("change", function() {
+				console.log(myChart.data);
+				console.log(this.value);
+				var slider_value = this.value;
+
+				myChart.data = myData.filter(function (d, index) {
+					// d = myData[0];
+					// console.log(typeof parseInt(slider_value));
+					// console.log(((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > slider_value);
+					if (((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > slider_value) { 
+						return true;
+					} else {
+						return false;
+					}
+				});
+				console.log(myChart.data);
+
+			 	myChart.draw(1000);
+			});
+
+
 		  </script>
 		</div>
 		
