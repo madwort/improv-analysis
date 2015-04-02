@@ -2,6 +2,7 @@
 	<head>
 	   <script src="./d3.v3.min.js"></script>
 	   <script src="./dimple.v2.1.2.js"></script>
+	   <script src="./regression-js/build/regression.min.js"></script>
 		<script type="text/javascript">
 			// Again this is 0-based...
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
@@ -134,6 +135,7 @@
 			 var myData2 = null;
 			 var minTime, maxTime, maxDuration = null;
 			 var timeFormat = d3.time.format("%M:%S:%L");
+			 var x,y = null;
 			 
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
@@ -151,11 +153,16 @@
 				 // console.log(myData2);
 				 
 				 minTime = d3.min(myData2, function (d) {
-				         return d.time;
-				 })
-				 
+					 return d.time;
+					 
+				 });
+					 
 				 maxTime = d3.max(myData2, function (d) {
 					 return d.time;
+				 })
+
+				 var maxDuration = d3.max(myData2, function (d) {
+					 return d.duration_per_stream;
 				 })
 				 
 				 maxDuration = d3.max(myData2, function (d) {
@@ -164,18 +171,27 @@
 
 				 myChart2 = new dimple.chart(svg2, myData2);
 	 		    myChart2.setBounds(60, 30, 1000, 530);
-	 		    var x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+	 		    x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 				 // x.addOrderRule("Date");
-				 // x.overrideMax = maxTime;
 				 x.timePeriod = d3.time.seconds;
 				 x.timeInterval = 10;
+				 
 				 x.overrideMin = timeFormat.parse(minTime);
 				 x.overrideMax = timeFormat.parse(maxTime);
 				 
-				 var y = myChart2.addMeasureAxis("y", "duration_per_stream");
+				 y = myChart2.addMeasureAxis("y", "duration_per_stream");
 				 y.overrideMax = maxDuration;
+				 
 				 // myChart2.addSeries("comment");
-				 myChart2.addSeries("stream_name", dimple.plot.bubble);
+				 myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
+				 
+				 calculate_regression(myChart2);
+				 
+				 var y2 = myChart2.addMeasureAxis("y","stream_regression");
+				 // set second axis to match first one
+				 y2.overrideMax = maxDuration;
+
+				 var lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
 	 		    
 				 myChart2.assignColor("Material", "#fea18d");
 				 myChart2.assignColor("Formal", "#93d1ff");
@@ -189,24 +205,50 @@
 
  			d3.select("#btn2_cat_all").on("click", function() {
  				myChart2.data = myData2;
+				calculate_regression(myChart2);
  				myChart2.draw(1000);
  			});
-			d3.select("#btn2_cat_1").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "1");
-				myChart2.draw(1000);
-			});
-			d3.select("#btn2_cat_2").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "2");
-				myChart2.draw(1000);
-			});
-			d3.select("#btn2_cat_3").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "3");
-				myChart2.draw(1000);
-			});
-			d3.select("#btn2_cat_4").on("click", function() {
-				myChart2.data = dimple.filterData(myData2, "streamid", "4");
-				myChart2.draw(1000);
-			});
+
+			function create_btn2(index) {
+				return function() {
+					myChart2.data = dimple.filterData(myData2, "streamid", index.toString());
+					calculate_regression(myChart2);
+					myChart2.draw(1000);
+
+				}
+			}
+
+			function calculate_regression(chart) {
+				myData2.map(function (d) {
+					d.time_offset = (timeFormat.parse(d.time)-timeFormat.parse(minTime))/1000;
+				});
+				var regressionData = chart.data.map(function (d) {
+					return [d.time_offset,d.duration_per_stream];
+				});
+				// console.log(regressionData);
+				var regression = window.regression('linear', regressionData );
+				// console.log(regression);
+				
+				// chart.data can arrive unsorted by time_offset in some casse
+				// therefore we have to check all time_offsets as our current graphing method
+				// will error if we have two entries at the same time_offset
+				// there's almost certainly a faster way to do this! 
+				var previous_time_offsets = [];
+				
+				for (var j = 0; j < chart.data.length; j++) {
+					if (previous_time_offsets.indexOf(chart.data[j].time_offset) == -1) { 
+						chart.data[j].stream_regression = regression.points[j][1];
+					} else {
+						delete chart.data[j].stream_regression;
+					} 
+					previous_time_offsets.push(chart.data[j].time_offset);
+				}
+			}
+		
+			// move this code out into function because of scoping issues in closures!
+			for (var i = 1; i < 5; i++) {
+				d3.select("#btn2_cat_"+i).on("click", create_btn2(i));				
+			}
 
 		  </script>
 		</div>
