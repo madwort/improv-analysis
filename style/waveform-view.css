@@ -1,0 +1,32 @@
+.axis path,
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+.axis path {
+    fill: steelblue;
+    stroke: none;
+}
+rect, path {
+    fill: steelblue;
+    shape-rendering: auto;
+}
+
+.graph{
+  margin-bottom: 2em;
+  margin-left: 70px;
+  width: 1000px;
+}
+.graph::before{
+  line-height: 35px;
+  opacity: 0.7;
+  vertical-align: middle;
+}
+.graph:not([data-programme])::before{
+  content: attr(data-url) " - " attr(data-format) " (" attr(data-layout) ")";
+}
+.graph:not([data-url])::before{
+  content: attr(data-programme) " - " attr(data-format) " (" attr(data-layout) ")";
+}
+			

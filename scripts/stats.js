@@ -1,0 +1,91 @@
+function stats1(data) {
+	 // We're translating streamids 1-4 to be 0-3 for our purposes!
+	 // Remember this when rendering!!!
+	 // stream_cooccurrence[from][to]
+	 var stream_cooccurrence = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+	 // assume at least one piece of data!
+	 var previous_streamid = (data[0].streamid-1);
+	 var this_streamid = -1;
+	 for (var i = 1; i < data.length; i++) {
+		 this_streamid = (data[i].streamid-1);
+		 stream_cooccurrence[previous_streamid][this_streamid]++;
+		 previous_streamid = this_streamid;
+	 }
+	 
+	 // console.log(stream_cooccurrence);
+	 
+	 // Output the data that we've calculated
+	 var mytable = d3.select("#stats1").append("table");
+	 var heading_row = mytable.append("tr");
+	 heading_row.append("th").text("x");
+	 for (var i = 0; i < 4; i++) {
+		 var label = heading_row.append("th");
+		 label.text(stream_names[(i+1)]);
+		 label.classed(stream_names[(i+1)], "true");
+	 };
+	
+	 for (var i = 0; i < stream_cooccurrence.length; i++) {
+		 var myrow = mytable.append("tr");
+		 var label = myrow.append("td");
+		 label.text(stream_names[i+1]);
+		 label.classed(stream_names[i+1], "true");
+		 for (var j = 0; j < stream_cooccurrence[i].length; j++) {
+			 myrow.append("td").text(stream_cooccurrence[i][j]);
+		 }
+	 }
+}
+
+function stats2(data) {
+	 var mytable = d3.select("#stats2").append("table");
+	 // could refactor & do forEach on streamname list?
+	 var heading_row = mytable.append("tr");
+	 heading_row.append("th").text("Stream");
+	 heading_row.append("th").text("Instances");
+
+	 for (var i = 1; i < 5; i++) {
+		 var myrow = mytable.append("tr");
+		 var label = myrow.append("td");
+		 label.text(stream_names[i]);
+		 label.classed(stream_names[i], "true");
+
+		 // filter is string not int
+		 var stream = dimple.filterData(data, "streamid", ""+i);
+		 myrow.append("td").text(stream.length);
+	 }
+}
+
+function stats3(data) {
+	 calculate_durations_per_stream(data);
+ 
+	 var mytable = d3.select("#stats3").append("table");
+	 // could refactor & do forEach on streamname list?
+	 var heading_row = mytable.append("tr");
+	 heading_row.append("th").text("Stream");
+	 heading_row.append("th").text("Min");
+	 heading_row.append("th").text("Median");
+	 heading_row.append("th").text("Mean");
+	 heading_row.append("th").text("Std Dev");
+	 heading_row.append("th").text("Max");
+
+	 var three_sf = d3.format(".3g");
+
+	 for (var i = 1; i < 5; i++) {
+		 var myrow = mytable.append("tr");
+		 var label = myrow.append("td");
+		 label.text(stream_names[i]);
+		 label.classed(stream_names[i], "true");
+
+		 // filter is string not int
+		 var stream = dimple.filterData(data, "streamid", ""+i);
+		 var get_duration_per_stream = function (d) {
+			 return d.duration_per_stream;
+		 };
+	 
+		 myrow.append("td").text(three_sf(d3.min(stream, get_duration_per_stream)));
+		 myrow.append("td").text(three_sf(d3.median(stream, get_duration_per_stream)));
+		 myrow.append("td").text(three_sf(d3.mean(stream, get_duration_per_stream)));
+		 myrow.append("td").text(three_sf(d3.deviation(stream, get_duration_per_stream)));
+		 myrow.append("td").text(three_sf(d3.max(stream, get_duration_per_stream)));
+
+	 }
+}
