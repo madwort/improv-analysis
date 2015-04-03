@@ -61,13 +61,17 @@
 		<div id="chartControls">
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
-			<input type="range" name="slider1" min="0" max="190" step="10" value="0" id="slider1" />
+			<input type="range" name="slider_left" min="0" max="190" step="10" value="0" id="slider_left" />
+			<input type="range" name="slider_right" min="10" max="200" step="10" value="200" id="slider_right" />
 		</div>
 		<div id="chartContainer">
 		  <script type="text/javascript">
 			 var svg = dimple.newSvg("#chartContainer", 1100, 600);
 			 var myChart = null;
 			 var myData = null;
+			 var leftBound = 0;
+			 var rightBound = 200;
+
 			 d3.csv("./Everything 1a Charts.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
@@ -103,7 +107,9 @@
 				 myChart.assignColor("Interaction", "#fefca2");
 				 
 	 		    myChart.draw();
-	 		 });
+			 });
+			 
+			 
 			 
 			d3.select("#btn_all_cat").on("click", function() {
 				myData.map(function (d) {
@@ -119,24 +125,32 @@
 			 	myChart.draw(1000);
 			});
 
-			d3.select("#slider1").on("change", function() {
-				console.log(myChart.data);
-				console.log(this.value);
-				var slider_value = this.value;
+			// zooming controls
 
+			function applyBounds() {
 				myChart.data = myData.filter(function (d, index) {
-					// d = myData[0];
-					// console.log(typeof parseInt(slider_value));
-					// console.log(((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > slider_value);
-					if (((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > slider_value) { 
-						return true;
-					} else {
-						return false;
-					}
+					return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > leftBound ) &&
+								((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) < rightBound);
 				});
-				console.log(myChart.data);
-
 			 	myChart.draw(1000);
+			}
+
+			d3.select("#slider_left").on("change", function() {
+				if (this.value >= rightBound) {
+					rightBound = this.value+10;
+					d3.select("#slider_right").property("value",rightBound);
+				}
+				leftBound = this.value;
+				applyBounds();
+			});
+
+			d3.select("#slider_right").on("change", function() {
+				if (this.value <= leftBound) {
+					leftBound = this.value-10;
+					d3.select("#slider_left").property("value",leftBound);
+				}
+				rightBound = this.value;
+				applyBounds();
 			});
 
 
