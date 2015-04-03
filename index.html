@@ -3,6 +3,8 @@
 	   <script src="./d3.v3.min.js"></script>
 	   <script src="./dimple.v2.1.2.js"></script>
 	   <script src="./regression-js/build/regression.min.js"></script>
+		<script src="./node_modules/waveform-data/dist/waveform-data.js"></script>
+		<script src="./waveform-layouts.js"></script>
 		<script type="text/javascript">
 			// Again this is 0-based...
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
@@ -53,10 +55,109 @@
 			.Interaction { background-color: #fefca2;}
 				
 		</style>
+		
+		<!-- this is from oncletom's d3 waveform-live -->
+		<style type="text/css" media="screen">
+	      .axis path,
+	      .axis line {
+	          fill: none;
+	          stroke: black;
+	          shape-rendering: crispEdges;
+	      }
+	      .axis path {
+	          fill: steelblue;
+	          stroke: none;
+	      }
+	      rect, path {
+	          fill: steelblue;
+	          shape-rendering: auto;
+	      }
+
+	      .graph{
+	        margin-bottom: 2em;
+			  margin-left: 70px;
+			  width: 1000px;
+	      }
+	      .graph::before{
+	        line-height: 35px;
+	        opacity: 0.7;
+	        vertical-align: middle;
+	      }
+	      .graph:not([data-programme])::before{
+	        content: attr(data-url) " - " attr(data-format) " (" attr(data-layout) ")";
+	      }
+	      .graph:not([data-url])::before{
+	        content: attr(data-programme) " - " attr(data-format) " (" attr(data-layout) ")";
+	      }
+			
+		</style>
+		
 	</head>
 	
 	<body>
-		<h1>Rodalytics v0.4</h1>
+		<h1>Rodalytics v0.5</h1>
+		
+		<h2>View 1 - waveform</h2>
+		<div id="waveform">
+			<div class="graph" data-format="binary" data-url="Everything 1a.mp3" data-layout="area">
+			  <div class="controls">
+			    <button data-navigate="previous">Previous</button><button data-navigate="next">Next</button><button data-navigate="zoom">Zoom In</button><button data-navigate="dezoom">Zoom Out</button>
+			  </div>
+			</div>
+			
+			<script type="text/javascript">
+			var size = { width: 1000, height: 150 };
+			var formats = {
+			  json: { "extension": "json", "mimeType": "application/json", "responseType": "json" },
+			  binary: { "extension": "raw", "mimeType": "application/octet-stream", "responseType": "arraybuffer" }
+			};
+
+			var graphs = d3.selectAll(".graph[data-format]");
+			graphs.append("svg")
+			    .attr("width", size.width)
+			    .attr("height", size.height)
+
+
+			graphs.each(function(){
+			  var format = formats[this.getAttribute("data-format")];
+			  var programme = this.getAttribute("data-programme");
+
+			  var config = {
+			    event_identifier: ["load", programme, format.extension].join("."),
+			    format: format,
+			    size: size,
+			    programme: programme,
+			    layout: this.getAttribute("data-layout"),
+			    resample: true,
+			    data_url: this.getAttribute("data-url") || "./data-"+programme+"."+format.extension
+			  };
+
+			  var layout = layouts(d3.select(this).select("svg"), config);
+
+			  var xhr = d3.xhr(config.data_url, format.mimeType);
+			  xhr.responseType(format.responseType);
+
+			  xhr.on(config.event_identifier, layout.init.bind(layout));
+			  xhr.get();
+			  this.addEventListener("click", function(event){
+			      var target = event.target;
+
+			      if (!target.hasAttribute("data-navigate")){
+			        return;
+			      }
+
+			      switch(target.getAttribute("data-navigate")){
+			        case "previous":    layout.previousOffset(); break;
+			        case "next":        layout.nextOffset(); break;
+			        case "zoom":        layout.zoomIn(); break;
+			        case "dezoom":      layout.zoomOut(); break;
+			      }
+			    });
+			  });
+			</script>
+			
+		</div>
+		
 		<h2>Chart 1 - durations between events</h2>
 		<div id="chartControls">
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
@@ -72,7 +173,7 @@
 			 var leftBound = 0;
 			 var rightBound = 200;
 
-			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			 d3.csv("./Everything 1a.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
 
@@ -174,7 +275,7 @@
 			 var timeFormat = d3.time.format("%M:%S:%L");
 			 var x,y = null;
 			 
-			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			 d3.csv("./Everything 1a.csv", function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
 
@@ -290,12 +391,11 @@
 		  </script>
 		</div>
 		
-		
 
 		<h2>Stats 1 - Co-occurrence / Event-transition matrix</h2>
 		<div id="stats1">
 		  <script type="text/javascript">
-			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			 d3.csv("./Everything 1a.csv", function (data) {
 				 // We're translating streamids 1-4 to be 0-3 for our purposes!
 				 // Remember this when rendering!!!
 				 // stream_cooccurrence[from][to]
@@ -337,7 +437,7 @@
 		<h2>Stats 2 - Activity Summary</h2>
 		<div id="stats2">
 		  <script type="text/javascript">
-			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			 d3.csv("./Everything 1a.csv", function (data) {
 				 
 				 var mytable = d3.select("#stats2").append("table");
 				 // could refactor & do forEach on streamname list?
@@ -363,7 +463,7 @@
 		<h2>Stats 3 - Duration stats per stream</h2>
 		<div id="stats3">
 		  <script type="text/javascript">
-			 d3.csv("./Everything 1a Charts.csv", function (data) {
+			 d3.csv("./Everything 1a.csv", function (data) {
 				 calculate_durations_per_stream(data);
 				 
 				 var mytable = d3.select("#stats3").append("table");
