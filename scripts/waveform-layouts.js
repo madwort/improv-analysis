@@ -46,6 +46,7 @@
         };
 
         //scaling
+		  // console.log(values.max);
         x.domain([0, values.max.length]).rangeRound([0, config.size.width]);
         y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
 

@@ -6,6 +6,7 @@
 		<script src="./node_modules/waveform-data/dist/waveform-data.js"></script>
 		<script src="./scripts/waveform-layouts.js"></script>
 		<script src="./scripts/stats.js"></script>
+
 		<script type="text/javascript">
 			// Again this is 0-based...
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
@@ -49,20 +50,18 @@
 						
 		</script>
 			
-<!-- stats -->
-			
 		<script type="text/javascript">
+			// calc stats & display
 		   d3.csv("./Everything 1a.csv", function (data) {
 		  	 stats1(data);
 		  	 stats2(data);
 		  	 stats3(data);
 		   });
 		</script>			
-			
-
-			 <link rel="stylesheet" href="./style/rodalytics.css" type="text/css" media="screen">
-			 <!-- this is from oncletom's d3 waveform-live -->
-			 <link rel="stylesheet" href="./style/waveform-view.css" type="text/css" media="screen">
+		
+		<link rel="stylesheet" href="./style/rodalytics.css" type="text/css" media="screen">
+		<!-- this is from oncletom's d3 waveform-live -->
+		<link rel="stylesheet" href="./style/waveform-view.css" type="text/css" media="screen">
 		
 	</head>
 	
@@ -111,6 +110,7 @@
 
 			  xhr.on(config.event_identifier, layout.init.bind(layout));
 			  xhr.get();
+			  
 			  this.addEventListener("click", function(event){
 			      var target = event.target;
 
