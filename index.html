@@ -131,114 +131,121 @@
 		</div>
 		
 		<h2>Chart 1 - durations between events</h2>
-		<div id="chartControls">
+		
+		<div id="chartContainer" class="chartContainer">
+		</div>
+		<div id="chartControls" class="chartControls">
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
-			<input type="range" name="slider_left" min="0" max="190" step="10" value="0" id="slider_left" />
-			<input type="range" name="slider_right" min="10" max="200" step="10" value="200" id="slider_right" />
+			<label for="slider_left">Slider left</label>
+				<input type="range" name="slider_left" min="0" max="190" step="10" value="0" id="slider_left" />
+			<label for="slider_right">Slider right</label>
+				<input type="range" name="slider_right" min="10" max="200" step="10" value="200" id="slider_right" />
 		</div>
-		<div id="chartContainer">
-		  <script type="text/javascript">
-			 var svg = dimple.newSvg("#chartContainer", 1100, 600);
-			 var myChart = null;
-			 var myData = null;
-			 var leftBound = 0;
-			 var rightBound = 200;
+	  <script type="text/javascript">
+		 var svg = dimple.newSvg("#chartContainer", 1100, 600);
+		 var myChart = null;
+		 var myData = null;
+		 var leftBound = 0;
+		 var rightBound = 200;
 
-			 d3.csv("./Everything 1a.csv", function (data) {
-			  	 // data = dimple.filterData(data, "id", "3");
-			 	 // console.log(data);
+		 d3.csv("./Everything 1a.csv", function (data) {
+		  	 // data = dimple.filterData(data, "id", "3");
+		 	 // console.log(data);
 
-	 		    myData = data;
-				 
-				 // possibly change csv file format using this
-				 calculate_durations(myData);
-				 calculate_durations_per_stream(myData);
- 				 myData.map(function (d) {
- 				 	d.duration = d.duration_all_streams;
- 				 })
-				 add_stream_name(myData);
-				 // console.log(myData);
-				 myChart = new dimple.chart(svg, myData);
-	 		    myChart.setBounds(60, 30, 1000, 530);
-	 		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
-				 x.timePeriod = d3.time.seconds;
-				 x.timeInterval = 10;
-	 		    var y = myChart.addCategoryAxis("y", "stream_name");
-				 y.addOrderRule(stream_names, true);
-				 
-				 myChart.addMeasureAxis("z", "duration");
-	 		    myChart.addLegend(700, 10, 360, 50, "left");
-				 var mySeries = myChart.addSeries("stream_name");
+ 		    myData = data;
+			 
+			 // possibly change csv file format using this
+			 calculate_durations(myData);
+			 calculate_durations_per_stream(myData);
+			 myData.map(function (d) {
+			 	d.duration = d.duration_all_streams;
+			 })
+			 add_stream_name(myData);
+			 // console.log(myData);
+			 myChart = new dimple.chart(svg, myData);
+ 		    myChart.setBounds(60, 30, 1000, 530);
+ 		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+			 x.timePeriod = d3.time.seconds;
+			 x.timeInterval = 10;
+ 		    var y = myChart.addCategoryAxis("y", "stream_name");
+			 y.addOrderRule(stream_names, true);
+			 
+			 myChart.addMeasureAxis("z", "duration");
+ 		    myChart.addLegend(700, 10, 360, 50, "left");
+			 var mySeries = myChart.addSeries("stream_name");
 
-				 // this changes the colouring!
-				 // myChart.addSeries("comment", null);
-				  
-				 myChart.assignColor("Material", "#fea18d");
-				 myChart.assignColor("Formal", "#93d1ff");
-				 myChart.assignColor("Interface", "#b7e695");
-				 myChart.assignColor("Interaction", "#fefca2");
-				 
-	 		    myChart.draw();
-			 });
+			 // this changes the colouring!
+			 // myChart.addSeries("comment", null);
+			  
+			 myChart.assignColor("Material", "#fea18d");
+			 myChart.assignColor("Formal", "#93d1ff");
+			 myChart.assignColor("Interface", "#b7e695");
+			 myChart.assignColor("Interaction", "#fefca2");
 			 
-			 
-			 
-			d3.select("#btn_all_cat").on("click", function() {
-				myData.map(function (d) {
-					d.duration = d.duration_all_streams;
-				})
-				myChart.draw(1000);
+ 		    myChart.draw();
+		 });
+		 
+		 
+		 
+		d3.select("#btn_all_cat").on("click", function() {
+			myData.map(function (d) {
+				d.duration = d.duration_all_streams;
+			})
+			myChart.draw(1000);
+		});
+
+		d3.select("#btn_same_cat").on("click", function() {
+			myData.map(function (d) {
+				d.duration = d.duration_per_stream;
+			})
+		 	myChart.draw(1000);
+		});
+
+		// zooming controls
+
+		function applyBounds() {
+			myChart.data = myData.filter(function (d, index) {
+				return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > leftBound ) &&
+							((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) < rightBound);
 			});
+		 	myChart.draw(1000);
+		}
 
-			d3.select("#btn_same_cat").on("click", function() {
-				myData.map(function (d) {
-					d.duration = d.duration_per_stream;
-				})
-			 	myChart.draw(1000);
-			});
-
-			// zooming controls
-
-			function applyBounds() {
-				myChart.data = myData.filter(function (d, index) {
-					return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > leftBound ) &&
-								((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) < rightBound);
-				});
-			 	myChart.draw(1000);
+		d3.select("#slider_left").on("change", function() {
+			if (this.value >= rightBound) {
+				rightBound = this.value+10;
+				d3.select("#slider_right").property("value",rightBound);
 			}
+			leftBound = this.value;
+			applyBounds();
+		});
 
-			d3.select("#slider_left").on("change", function() {
-				if (this.value >= rightBound) {
-					rightBound = this.value+10;
-					d3.select("#slider_right").property("value",rightBound);
-				}
-				leftBound = this.value;
-				applyBounds();
-			});
-
-			d3.select("#slider_right").on("change", function() {
-				if (this.value <= leftBound) {
-					leftBound = this.value-10;
-					d3.select("#slider_left").property("value",leftBound);
-				}
-				rightBound = this.value;
-				applyBounds();
-			});
+		d3.select("#slider_right").on("change", function() {
+			if (this.value <= leftBound) {
+				leftBound = this.value-10;
+				d3.select("#slider_left").property("value",leftBound);
+			}
+			rightBound = this.value;
+			applyBounds();
+		});
 
 
-		  </script>
-		</div>
+	  </script>
+		
+		<div class="clear"></div>
 		
 		<h2>Chart 2 - event trends</h2>
-		<div id="chartControls2">
+		<div id="chartContainer2" class="chartContainer">
+		</div>
+		<div id="chartControls2" class="chartControls">
 			<input type="button" name="btn2_cat_all" value="All streams" id="btn2_cat_all">
 			<input type="button" name="btn2_cat_1" value="Material" id="btn2_cat_1">
 			<input type="button" name="btn2_cat_2" value="Formal" id="btn2_cat_2">
 			<input type="button" name="btn2_cat_3" value="Interface" id="btn2_cat_3">
 			<input type="button" name="btn2_cat_4" value="Interaction" id="btn2_cat_4">
 		</div>
-		<div id="chartContainer2">
+		
 		  <script type="text/javascript">
 			 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 			 var myChart2 = null;
@@ -361,9 +368,10 @@
 			}
 
 		  </script>
-		</div>
-		
-
+			
+		<div class="clear"></div>
+			
+			
 		<h2>Stats 1 - Co-occurrence / Event-transition matrix</h2>
 		<div id="stats1">
 		</div>
