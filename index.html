@@ -217,8 +217,8 @@
 		function applyBounds() {
 			// apply to chart 1
 			myChart.data = myData.filter(function (d, index) {
-				return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > leftBound ) &&
-							((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) < rightBound);
+				return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
+							((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) <= rightBound);
 			});
 		 	myChart.draw(1000);
 
