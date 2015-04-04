@@ -1,4 +1,5 @@
-// by oncletom http://bl.ocks.org/oncletom/5822102  
+// based on demo by oncletom http://bl.ocks.org/oncletom/5822102  
+// developed by madwort
 "use strict";
 
 (function(w, d3){
@@ -46,7 +47,7 @@
         };
 
         //scaling
-		  // console.log(values.max);
+		  // console.log(waveform_data.time(values.max.length));
         x.domain([0, values.max.length]).rangeRound([0, config.size.width]);
         y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
 
@@ -71,6 +72,23 @@
 
       renderer(values);
     }
+	 
+	 function setBounds(leftBound,rightBound) {
+		 // console.log(leftBound,rightBound);
+		 var data = waveform_data;
+       var renderer = this.renderers[config.layout];
+
+		 data.offset(waveform_data.at_time(leftBound),
+		 				waveform_data.at_time(rightBound));
+
+        var values = {
+          min: data.min,
+          max: data.max
+        };
+
+        renderer(values);
+		 
+	 }
 
     /**
      * Displays data as area
@@ -152,7 +170,8 @@
         offsetX = Math.floor(offsetX * 2);
 
         this.navigate(offsetX, scale);
-      }
+      },
+		setBounds: setBounds
     };
   };
 })(window, d3);

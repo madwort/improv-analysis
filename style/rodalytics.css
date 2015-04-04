@@ -7,8 +7,13 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 .chartContainer { float: left;}
 
+#waveform { float: left;}
+
 .chartControls { float: left;}
 
 .chartControls input { display: block;}
 
 .clear { clear: both;}
+
+/* emulate h2 but inline element */
+.chartTitle { font-size: 1.5em; font-weight: bold;}

@@ -57,7 +57,7 @@
 		  	 stats2(data);
 		  	 stats3(data);
 		   });
-		</script>			
+		</script>
 		
 		<link rel="stylesheet" href="./style/rodalytics.css" type="text/css" media="screen">
 		<!-- this is from oncletom's d3 waveform-live -->
@@ -66,14 +66,13 @@
 	</head>
 	
 	<body>
-		<h1>Rodalytics v0.5</h1>
+		<h1>Rodalytics v0.6</h1>
 		
-		<h2>View 1 - waveform &amp; Chart 1 - durations between events</h2>
 		<div id="waveform">
 			<div class="graph" data-format="binary" data-url="Everything 1a.mp3" data-layout="area">
-			  <div class="controls">
+			  <!-- <div class="controls">
 			    <button data-navigate="previous">Previous</button><button data-navigate="next">Next</button><button data-navigate="zoom">Zoom In</button><button data-navigate="dezoom">Zoom Out</button>
-			  </div>
+			  </div> -->
 			</div>
 			
 			<script type="text/javascript">
@@ -82,7 +81,9 @@
 			  json: { "extension": "json", "mimeType": "application/json", "responseType": "json" },
 			  binary: { "extension": "raw", "mimeType": "application/octet-stream", "responseType": "arraybuffer" }
 			};
-
+			
+			var waveform_layout = null;
+			
 			var graphs = d3.selectAll(".graph[data-format]");
 			graphs.append("svg")
 			    .attr("width", size.width)
@@ -104,6 +105,7 @@
 			  };
 
 			  var layout = layouts(d3.select(this).select("svg"), config);
+			  waveform_layout = layout;
 
 			  var xhr = d3.xhr(config.data_url, format.mimeType);
 			  xhr.responseType(format.responseType);
@@ -129,10 +131,18 @@
 			</script>
 			
 		</div>
-		
+		<div class="chartControls">
+			<span class="chartTitle">Waveform</span>
+		</div>
+
+		<div class="clear">
+		</div>
+
+
 		<div id="chartContainer" class="chartContainer">
 		</div>
 		<div id="chartControls" class="chartControls">
+			<span class="chartTitle">Chart 1</span>
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
 			<label for="slider_left">Slider left</label>
@@ -166,6 +176,8 @@
  		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 			 x.timePeriod = d3.time.seconds;
 			 x.timeInterval = 10;
+			 // x.overrideMax = timeFormat.parse(maxTime);
+			 
  		    var y = myChart.addCategoryAxis("y", "stream_name");
 			 y.addOrderRule(stream_names, true);
 			 
@@ -203,11 +215,16 @@
 		// zooming controls
 
 		function applyBounds() {
+			// apply to chart 1
 			myChart.data = myData.filter(function (d, index) {
 				return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) > leftBound ) &&
 							((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) < rightBound);
 			});
 		 	myChart.draw(1000);
+
+			// apply to waveform display
+			waveform_layout.setBounds(leftBound,rightBound);
+			
 		}
 
 		d3.select("#slider_left").on("change", function() {
@@ -233,10 +250,10 @@
 		
 		<div class="clear"></div>
 		
-		<h2>Chart 2 - event trends</h2>
 		<div id="chartContainer2" class="chartContainer">
 		</div>
 		<div id="chartControls2" class="chartControls">
+			<span class="chartTitle">Chart 2</span>
 			<input type="button" name="btn2_cat_all" value="All streams" id="btn2_cat_all">
 			<input type="button" name="btn2_cat_1" value="Material" id="btn2_cat_1">
 			<input type="button" name="btn2_cat_2" value="Formal" id="btn2_cat_2">
