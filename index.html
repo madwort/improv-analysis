@@ -51,9 +51,10 @@
 		</script>
 			
 		<script type="text/javascript">
-			// calc stats & display
+			// load stats module
 		   rodstat = stats();
 			
+			// calc stats & display
 			d3.csv("./Everything 1a.csv", function (data) {
 			 rodstat.cooccurrence(d3.select("#stats1"), data);
 		  	 rodstat.activitySummary(d3.select("#stats2"),data);
