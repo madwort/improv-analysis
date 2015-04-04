@@ -12,9 +12,18 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 .chartControls { float: left;}
 
-.chartControls input { display: block;}
+.chartControls input { 
+	display: block; 
+}
 
 .clear { clear: both;}
 
 /* emulate h2 but inline element */
 .chartTitle { font-size: 1.5em; font-weight: bold;}
+
+.streamSelection { 
+	width: 8em;
+	border: 1px solid black; 
+	margin: 0;
+}
+
