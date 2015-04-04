@@ -15,8 +15,8 @@ rect, path {
 
 .graph{
 /*  margin-bottom: 2em;*/
-  margin-left: 62px;
-  margin-right: 38px;
+  margin-left: 60px;
+  margin-right: 40px;
   width: 1000px;
 }
 .graph::before{

@@ -8,7 +8,11 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 .chartContainer { float: left;}
 
-#waveform { float: left;}
+#waveform { float: left; }
+
+#waveform div { 
+	border-left: 1px solid black;
+}
 
 .chartControls { float: left;}
 
