@@ -158,8 +158,18 @@
 		 var svg = dimple.newSvg("#chartContainer", 1100, 500);
 		 var myChart = null;
 		 var myData = null;
+		 var mySeries = null;
 		 var leftBound = 0;
 		 var rightBound = 200;
+		 
+		 function bubbleClickAudio(series, audioPlayer) {
+			 // this has to be after dimple.chart.draw() in order to work!
+			 // no need to remove the old listeners as d3 automatically replaces them
+			 series.shapes.on("click", function (e) {
+				audioPlayer.currentTime = (e.x.getMinutes()*60)+e.x.getSeconds();
+			 });
+		 	
+		 }
 
 		 d3.csv("./Everything 1a.csv", function (data) {
 		  	 // data = dimple.filterData(data, "id", "3");
@@ -187,7 +197,7 @@
 			 
 			 myChart.addMeasureAxis("z", "duration");
  		    // myChart.addLegend(700, 10, 360, 50, "left");
-			 var mySeries = myChart.addSeries("stream_name");
+			 mySeries = myChart.addSeries("stream_name");
 
 			 // this changes the colouring!
 			 // myChart.addSeries("comment", null);
@@ -198,13 +208,8 @@
 			 myChart.assignColor("Interaction", "#fefca2");
 			 
  		    myChart.draw();
+			 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
-			 var audioPlayer = d3.select('audio')[0][0];
-
-			 // this has to be after .draw in order to work!
-			 mySeries.shapes.on("click", function (e) {
-				audioPlayer.currentTime = (e.x.getMinutes()*60)+e.x.getSeconds();
-			 });
 		 });
 		 
 		 
@@ -214,6 +219,7 @@
 				d.duration = d.duration_all_streams;
 			})
 			myChart.draw(1000);
+			// don't need to redo the click handlers because bounds don't change 
 		});
 
 		d3.select("#btn_same_cat").on("click", function() {
@@ -221,6 +227,7 @@
 				d.duration = d.duration_per_stream;
 			})
 		 	myChart.draw(1000);
+			// don't need to redo the click handlers because bounds don't change 
 		});
 
 		// zooming controls
@@ -232,6 +239,8 @@
 							((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) <= rightBound);
 			});
 		 	myChart.draw(1000);
+			// redo click handlers
+			bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
 			// apply to waveform display
 			waveform_layout.setBounds(leftBound,rightBound);
