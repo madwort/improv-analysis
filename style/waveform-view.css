@@ -25,9 +25,9 @@ rect, path {
   vertical-align: middle;
 }
 .graph:not([data-programme])::before{
-  content: attr(data-url) " - " attr(data-format) " (" attr(data-layout) ")";
+/*  content: attr(data-url) " - " attr(data-format) " (" attr(data-layout) ")";*/
 }
 .graph:not([data-url])::before{
-  content: attr(data-programme) " - " attr(data-format) " (" attr(data-layout) ")";
+/*  content: attr(data-programme) " - " attr(data-format) " (" attr(data-layout) ")";*/
 }
 			
