@@ -52,10 +52,12 @@
 			
 		<script type="text/javascript">
 			// calc stats & display
-		   d3.csv("./Everything 1a.csv", function (data) {
-		  	 stats1(data);
-		  	 stats2(data);
-		  	 stats3(data);
+		   rodstat = stats();
+			
+			d3.csv("./Everything 1a.csv", function (data) {
+			 rodstat.cooccurrence(d3.select("#stats1"), data);
+		  	 rodstat.activitySummary(d3.select("#stats2"),data);
+		  	 rodstat.durationPerStream(d3.select("#stats3"),data);
 		   });
 		</script>
 		
