@@ -151,8 +151,11 @@
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
 			<label for="slider_left">Slider left</label>
 				<input type="range" name="slider_left" min="0" max="190" step="10" value="0" id="slider_left" />
+				<output name="slider_left_output" id="slider_left_output" for="slider_left">0</output> seconds
+			<br />
 			<label for="slider_right">Slider right</label>
-				<input type="range" name="slider_right" min="10" max="200" step="10" value="200" id="slider_right" />
+				<input type="range" name="slider_right" min="10" max="210" step="10" value="210" id="slider_right" />
+				<output name="slider_right_output" id="slider_right_output" for="slider_right">210</output> seconds
 		</div>
 	  <script type="text/javascript">
 		 var svg = dimple.newSvg("#chartContainer", 1100, 500);
@@ -247,6 +250,7 @@
 			
 		}
 
+		// Note to self - change is when the slider stops moving
 		d3.select("#slider_left").on("change", function() {
 			// this.value can be an int or a string
 			var newBound = parseInt(this.value);
@@ -271,6 +275,18 @@
 			applyBounds();
 		});
 
+		// Note to self - input happens all the time when the slider moves
+		d3.select("#slider_left").on("input", function() {
+			// this.value can be an int or a string
+			var newBound = parseInt(this.value);
+			d3.select("output#slider_left_output")[0][0].value = newBound;
+		});
+
+		d3.select("#slider_right").on("input", function() {
+			// this.value can be an int or a string
+			var newBound = parseInt(this.value);
+			d3.select("output#slider_right_output")[0][0].value = newBound;
+		});
 
 	  </script>
 		
