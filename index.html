@@ -72,7 +72,7 @@
 		<h1>Rodalytics v0.7 - Everything 1a</h1>
 		
 		<div id="waveform">
-			<div class="graph" data-format="binary" data-url="Everything 1a.mp3" data-layout="area">
+			<div class="graph" id="waveform-graph" data-format="binary" data-url="Everything 1a.mp3" data-layout="area">
 			  <!-- <div class="controls">
 			    <button data-navigate="previous">Previous</button><button data-navigate="next">Next</button><button data-navigate="zoom">Zoom In</button><button data-navigate="dezoom">Zoom Out</button>
 			  </div> -->
@@ -94,45 +94,35 @@
 
 
 			graphs.each(function(){
-			  var format = formats[this.getAttribute("data-format")];
-			  var programme = this.getAttribute("data-programme");
+				var format = formats[this.getAttribute("data-format")];
+				var programme = this.getAttribute("data-programme");
 
-			  var config = {
-			    event_identifier: ["load", programme, format.extension].join("."),
-			    format: format,
-			    size: size,
-			    programme: programme,
-			    layout: this.getAttribute("data-layout"),
-			    resample: true,
-			    data_url: this.getAttribute("data-url") || "./data-"+programme+"."+format.extension
-			  };
+				var config = {
+				  event_identifier: ["load", programme, format.extension].join("."),
+				  format: format,
+				  size: size,
+				  programme: programme,
+				  layout: this.getAttribute("data-layout"),
+				  resample: true,
+				  data_url: this.getAttribute("data-url") || "./data-"+programme+"."+format.extension
+				};
 
-			  var layout = layouts(d3.select(this).select("svg"), config);
-			  waveform_layout = layout;
+				var layout = layouts(d3.select(this).select("svg"), config);
+				waveform_layout = layout;
 
-			  var xhr = d3.xhr(config.data_url, format.mimeType);
-			  xhr.responseType(format.responseType);
+				var xhr = d3.xhr(config.data_url, format.mimeType);
+				xhr.responseType(format.responseType);
 
-			  xhr.on(config.event_identifier, layout.init.bind(layout));
-			  xhr.get();
-			  
-			  this.addEventListener("click", function(event){
-			      var target = event.target;
+				xhr.on(config.event_identifier, layout.init.bind(layout));
+				xhr.get();
 
-			      if (!target.hasAttribute("data-navigate")){
-			        return;
-			      }
-
-			      switch(target.getAttribute("data-navigate")){
-			        case "previous":    layout.previousOffset(); break;
-			        case "next":        layout.nextOffset(); break;
-			        case "zoom":        layout.zoomIn(); break;
-			        case "dezoom":      layout.zoomOut(); break;
-			      }
-			    });
-			  });
+				this.addEventListener("mouseover", function(event){
+					 console.log(event.x);
+				})
+				 
+			});
 			</script>
-			
+
 		</div>
 		<div class="chartControls">
 			<span class="chartTitle">Waveform</span>
