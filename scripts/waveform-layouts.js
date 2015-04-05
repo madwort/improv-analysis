@@ -11,6 +11,7 @@
     var scale = null;
     var waveform_data;
 	 var myRenderer = null;
+	 var current_waveform_data;
 
     function setup(xhr, done){
       var arrayBufferAdapter = WaveformData.adapters.arraybuffer;
@@ -91,23 +92,27 @@
 		 var renderer = myRenderer;
 		 var newScale = ((rightBound-leftBound)*waveform_data.adapter.sample_rate/config.size.width);
 		 // console.log("new scale",newScale);
-		 var data = waveform_data.resample({scale: newScale});
+		 current_waveform_data = waveform_data.resample({scale: newScale});
 
-		 var leftOffset = data.at_time(leftBound);
-		 var rightOffset = data.at_time(rightBound);
+		 var leftOffset = current_waveform_data.at_time(leftBound);
+		 var rightOffset = current_waveform_data.at_time(rightBound);
 		 // console.log("Offsets displayed", leftOffset, rightOffset);
 
-		 data.offset(leftOffset, rightOffset);
+		 current_waveform_data.offset(leftOffset, rightOffset);
 
         var values = {
-          min: data.min,
-          max: data.max
+          min: current_waveform_data.min,
+          max: current_waveform_data.max
         };
 		  
         y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
 		  
         renderer(values);
 		 
+	 }
+
+	 function time(index) {
+		 return current_waveform_data.time(index);
 	 }
 
     /**
@@ -191,7 +196,8 @@
 
         this.navigate(offsetX, scale);
       },
-		setBounds: setBounds
+		setBounds: setBounds,
+		time: time
     };
   };
 })(window, d3);
