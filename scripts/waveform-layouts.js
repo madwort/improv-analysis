@@ -10,6 +10,7 @@
     var offsetX = 0;
     var scale = null;
     var waveform_data;
+	 var myRenderer = null;
 
     function setup(xhr, done){
       var arrayBufferAdapter = WaveformData.adapters.arraybuffer;
@@ -25,18 +26,20 @@
         waveform_data = data;
 
         //clamping internal data
-        if (config.resample){
-          done(waveform_data.resample({width: config.size.width}));
-        }
-        else{
+		  // if we do this resample, we can't zoom in any further
+        // if (config.resample){
+        //   waveform_data = waveform_data.resample({width: config.size.width})
+        // }
+        // else{
           waveform_data.offset(offsetX, config.size.width);
-          done(waveform_data);
-        }
+        // }
+        done(waveform_data);
       }
     }
 
     function init(xhr){
       var renderer = this.renderers[config.layout];
+		myRenderer = renderer;
 
       setup(xhr, function onSetupDone(waveform_data){
         scale = waveform_data.adapter.scale;
@@ -47,11 +50,15 @@
         };
 
         //scaling
-		  // console.log(waveform_data.time(values.max.length));
+		  // console.log(values.max.length);
         x.domain([0, values.max.length]).rangeRound([0, config.size.width]);
         y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
 
         renderer(values);
+		  
+		  // redraw it showing the whole waveform
+		  setBounds(0,waveform_data.duration);
+
       });
     }
 
@@ -73,19 +80,32 @@
       renderer(values);
     }
 	 
+	 // bounds are in seconds
 	 function setBounds(leftBound,rightBound) {
-		 // console.log(leftBound,rightBound);
-		 var data = waveform_data;
-       var renderer = this.renderers[config.layout];
+		 // check these values!
+		 leftBound = parseInt(leftBound);
+		 rightBound = parseInt(rightBound);
+		 
+		 // console.log("bounds",leftBound,rightBound);
+       
+		 var renderer = myRenderer;
+		 var newScale = ((rightBound-leftBound)*waveform_data.adapter.sample_rate/config.size.width);
+		 // console.log("new scale",newScale);
+		 var data = waveform_data.resample({scale: newScale});
 
-		 data.offset(waveform_data.at_time(leftBound),
-		 				waveform_data.at_time(rightBound));
+		 var leftOffset = data.at_time(leftBound);
+		 var rightOffset = data.at_time(rightBound);
+		 // console.log("Offsets displayed", leftOffset, rightOffset);
+
+		 data.offset(leftOffset, rightOffset);
 
         var values = {
           min: data.min,
           max: data.max
         };
-
+		  
+        y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
+		  
         renderer(values);
 		 
 	 }

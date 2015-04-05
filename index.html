@@ -248,20 +248,26 @@
 		}
 
 		d3.select("#slider_left").on("change", function() {
-			if (this.value >= rightBound) {
-				rightBound = this.value+10;
+			// this.value can be an int or a string
+			var newBound = parseInt(this.value);
+
+			if (newBound >= rightBound) {
+				rightBound = newBound+10;
 				d3.select("#slider_right").property("value",rightBound);
 			}
-			leftBound = this.value;
+			leftBound = newBound;
 			applyBounds();
 		});
 
 		d3.select("#slider_right").on("change", function() {
-			if (this.value <= leftBound) {
-				leftBound = this.value-10;
+			// this.value can be an int or a string
+			var newBound = parseInt(this.value);
+
+			if (newBound <= leftBound) {
+				leftBound = newBound-10;
 				d3.select("#slider_left").property("value",leftBound);
 			}
-			rightBound = this.value;
+			rightBound = newBound;
 			applyBounds();
 		});
 
