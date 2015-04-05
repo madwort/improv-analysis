@@ -120,7 +120,7 @@
 				this.addEventListener("mousemove", function(event){
 					var timeMinsSecs = d3.time.format("%M:%S");
 					var timeInSeconds = waveform_layout.time(parseInt(event.x)-70);
-					var datecode = new Date(timeInSeconds*1000);
+					var datecode = new Date((timeInSeconds+parseInt(leftBound))*1000);
 					d3.select("#waveform_position")[0][0].value = timeMinsSecs(datecode);
 				});
 				 
