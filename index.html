@@ -240,6 +240,14 @@
 				return ((((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
 							((timeFormat.parse(d.time)-timeFormat.parse("00:00:00"))/1000) <= rightBound);
 			});
+
+			var x = myChart.axes[0];
+			// fix the scales on the graph
+			var dateMin = new Date(leftBound*1000);
+			var dateMax = new Date(rightBound*1000);
+			x.overrideMin = dateMin.setFullYear(1900);
+			x.overrideMax = dateMax.setFullYear(1900);
+
 		 	myChart.draw(1000);
 			// redo click handlers
 			bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
