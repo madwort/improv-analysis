@@ -44,11 +44,17 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	padding-bottom: 20px;
 }
 
+#trendChart {
+	padding-left: 70px;
+	padding-right: 5em;
+	float: left;
+}
 
 .streamSelection { 
 	width: 8em;
 	border: 1px solid black; 
-	margin: 0;
+	margin: 0.5em 1em 0 0 ;
+	float: left;
 }
 
 audio { width: 1000px;}
