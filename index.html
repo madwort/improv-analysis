@@ -55,8 +55,8 @@
 		</div>
 		<script type="text/javascript">
 
-		// min interval 12 seconds because less breaks our waveform display
-		// console.log(timeFormat.parse("00:00:00"));
+			// min interval 12 seconds because less breaks our waveform display
+			// console.log(timeFormat.parse("00:00:00"));
 			$("#range_slider").ionRangeSlider({
 				type: 'double',
 				min: 0,
@@ -317,7 +317,6 @@
 				 
 				 minTime = d3.min(myData2, function (d) {
 					 return d.time;
-					 
 				 });
 					 
 				 maxTime = d3.max(myData2, function (d) {
@@ -329,7 +328,7 @@
 				 })
 				 
 				 maxDuration = d3.max(myData2, function (d) {
-				       return d.duration_per_stream;
+					 return d.duration_per_stream;
 				 })
 
 				 myChart2 = new dimple.chart(svg2, myData2);
