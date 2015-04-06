@@ -8,6 +8,12 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 .chartContainer { float: left;}
 
+/* emulate h1 but inline element */
+#title { font-size: 2em; font-weight: bold;}
+
+/* emulate h2 but inline element */
+.chartTitle { font-size: 1.5em; font-weight: bold;}
+
 #waveform { 
 	float: left; 
 	height: 150px;
@@ -33,8 +39,6 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 .sliderContainer { width: 1030px; padding-left: 45px;}
 
-/* emulate h2 but inline element */
-.chartTitle { font-size: 1.5em; font-weight: bold;}
 
 .streamSelection { 
 	width: 8em;
@@ -42,6 +46,8 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	margin: 0;
 }
 
-audio { width: 200px;}
+audio { width: 500px;}
+
+#audioPlayer { padding-left: 100px;}
 
 .stats { float: left; padding-left: 1em; padding-right: 2em; padding-bottom: 2em;}
