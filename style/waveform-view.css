@@ -8,8 +8,8 @@
     fill: steelblue;
     stroke: none;
 }
-rect, path {
-    fill: steelblue;
+.graph rect, .graph path {
+    fill: grey;
     shape-rendering: auto;
 }
 
