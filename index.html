@@ -13,6 +13,8 @@
 			// need to load this before loading stats.js
 			var ra = rodalytics();
 			var audioUrl = "Everything 1a.mp3";
+			var dataUrl = "./Everything 1a.csv";
+			var analysisName = "Everything. Everything at once. Once. (1a)";
 		</script>
 		
 		<script src="./scripts/waveform-layouts.js"></script>
@@ -25,7 +27,7 @@
 		   rodstat = stats();
 			
 			// calc stats & display
-			d3.csv("./Everything 1a.csv", function (data) {
+			d3.csv(dataUrl, function (data) {
 			 rodstat.cooccurrence(d3.select("#stats1"), data);
 		  	 rodstat.activitySummary(d3.select("#stats2"),data);
 		  	 rodstat.durationPerStream(d3.select("#stats3"),data);
@@ -42,7 +44,11 @@
 	</head>
 	
 	<body>
-		<span id="title">Rodalytics v0.8 - Everything 1a</span>
+		<span id="title">Rodalytics v0.0.8</span>
+		<script type="text/javascript">
+		var titleObject = $("#title");
+		titleObject.text(titleObject.text()+" - "+analysisName);
+		</script>
 		
 		<div class="sliderContainer">
 			<input type="text" name="range_slider" value="" id="range_slider">
@@ -163,7 +169,7 @@
 		 	
 		 }
 
-		 d3.csv("./Everything 1a.csv", function (data) {
+		 d3.csv(dataUrl, function (data) {
 		  	 // data = dimple.filterData(data, "id", "3");
 		 	 // console.log(data);
 
@@ -295,7 +301,7 @@
 			 var minTime, maxTime, maxDuration = null;
 			 var x,y = null;
 			 
-			 d3.csv("./Everything 1a.csv", function (data) {
+			 d3.csv(dataUrl, function (data) {
 			  	 // data = dimple.filterData(data, "id", "3");
 			 	 // console.log(data);
 
