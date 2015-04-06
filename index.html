@@ -130,20 +130,24 @@
 				xhr.get();
 
 				this.addEventListener("mousemove", function(event){
-					var timeInSeconds = waveform_layout.time(parseInt(event.x)-70);
-					var datecode = new Date((timeInSeconds+parseInt(leftBound))*1000);
+					var timeInSeconds = waveform_layout.time(parseInt(event.x)-70)+parseInt(leftBound);
+					var datecode = new Date(timeInSeconds*1000);
 					d3.select("#waveform_position")[0][0].value = ra.timeMinsSecs(datecode);
 				});
-				 
+
+				this.addEventListener("click", function(event){
+					var timeInSeconds = waveform_layout.time(parseInt(event.x)-70)+parseInt(leftBound);
+					d3.select('audio')[0][0].currentTime = timeInSeconds;
+				});
+				
+
 			});
 
 			</script>
 
 		</div>
 
-		<div class="clear">
-		</div>
-
+		<div class="clear"></div>
 
 		<div id="chartContainer" class="chartContainer">
 		</div>
@@ -165,13 +169,9 @@
 			 series.shapes.on("click", function (e) {
 				audioPlayer.currentTime = (e.x.getMinutes()*60)+e.x.getSeconds();
 			 });
-		 	
 		 }
 
 		 d3.csv(dataUrl, function (data) {
-		  	 // data = dimple.filterData(data, "id", "3");
-		 	 // console.log(data);
-
  		    myData = data;
 			 
 			 // possibly change csv file format using this
@@ -181,19 +181,17 @@
 			 	d.duration = d.duration_all_streams;
 			 })
 			 ra.add_stream_name(myData);
-			 // console.log(myData);
+
 			 myChart = new dimple.chart(svg, myData);
  		    myChart.setBounds(60, 0, 1000, 430);
  		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 			 x.timePeriod = d3.time.seconds;
 			 x.timeInterval = 10;
-			 // x.overrideMax = timeFormat.parse(maxTime);
 			 
  		    var y = myChart.addCategoryAxis("y", "stream_name");
 			 y.addOrderRule(ra.stream_names, true);
 			 
 			 myChart.addMeasureAxis("z", "duration");
- 		    // myChart.addLegend(700, 10, 360, 50, "left");
 			 mySeries = myChart.addSeries("stream_name");
 
 			 // replace the tooltip with our custom handler
@@ -215,9 +213,6 @@
 				 return tooltip;
 			 }
 
-			 // this changes the colouring!
-			 // myChart.addSeries("comment", null);
-			  
 			 myChart.assignColor("Material", "#fea18d");
 			 myChart.assignColor("Formal", "#93d1ff");
 			 myChart.assignColor("Interface", "#b7e695");
@@ -227,8 +222,6 @@
 			 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
 		 });
-		 
-		 
 		 
 		d3.select("#btn_all_cat").on("click", function() {
 			myData.map(function (d) {
@@ -246,8 +239,7 @@
 			// don't need to redo the click handlers because bounds don't change 
 		});
 
-		// zooming controls
-
+		// Update everything when we change the zoom of waveform & chart 1
 		function applyBounds() {
 			// apply to chart 1
 			myChart.data = myData.filter(function (d, index) {
@@ -376,7 +368,6 @@
 					myChart2.data = dimple.filterData(myData2, "streamid", index.toString());
 					ra.calculate_regression(myChart2, myData2);
 					myChart2.draw(1000);
-
 				}
 			}
 		
