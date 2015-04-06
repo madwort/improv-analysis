@@ -32,8 +32,8 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 #chartControls { 
 	float: left;
-	position: relative;
-	left: -15em;
+	position: absolute;
+	left: 55em;
 }
 
 .chartControls input { 
