@@ -51,3 +51,15 @@ audio { width: 500px;}
 #audioPlayer { padding-left: 100px;}
 
 .stats { float: left; padding-left: 1em; padding-right: 2em; padding-bottom: 2em;}
+
+/* override colours for ionslider */
+.irs-bar {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background: black;
+	background: black;
+}
+
+.irs-from, .irs-to, .irs-single {
+	background: black;
+}
