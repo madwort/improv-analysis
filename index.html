@@ -4,6 +4,9 @@
 	   <script src="./bower_components/dimple/dist/dimple.v2.1.2.js"></script>
 	   <script src="./bower_components/regression-js/build/regression.min.js"></script>
 		<script src="./bower_components/waveform-data/dist/waveform-data.js"></script>
+		
+		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="./bower_components/ionrangeslider/js/ion.rangeSlider.js"></script>
 
 		<script src="./scripts/waveform-layouts.js"></script>
 		<script src="./scripts/stats.js"></script>
@@ -65,6 +68,9 @@
 		   });
 		</script>
 		
+		<link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.css" type="text/css" media="screen">
+		<link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.skinHTML5.css" type="text/css" media="screen">
+
 		<link rel="stylesheet" href="./style/rodalytics.css" type="text/css" media="screen">
 		<!-- this is from oncletom's d3 waveform-live -->
 		<link rel="stylesheet" href="./style/waveform-view.css" type="text/css" media="screen">
@@ -146,16 +152,6 @@
 			<span class="chartTitle">Chart 1</span>
 			<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
 			<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
-			<div>			
-				<label for="slider_left">Slider left</label>
-				<input type="range" name="slider_left" min="0" max="190" step="10" value="0" id="slider_left" />
-				<output name="slider_left_output" id="slider_left_output" for="slider_left">00:00</output>
-			</div>
-			<div>
-				<label for="slider_right">Slider right</label>
-				<input type="range" name="slider_right" min="10" max="210" step="10" value="210" id="slider_right" />
-				<output name="slider_right_output" id="slider_right_output" for="slider_right">03:30</output>
-			</div>
 		</div>
 	  <script type="text/javascript">
 		 var svg = dimple.newSvg("#chartContainer", 1100, 500);
@@ -277,55 +273,30 @@
 			
 		}
 
-		// Note to self - change is when the slider stops moving
-		d3.select("#slider_left").on("change", function() {
-			// this.value can be an int or a string
-			var newBound = parseInt(this.value);
-
-			if (newBound >= rightBound) {
-				rightBound = newBound+10;
-				d3.select("#slider_right").property("value",rightBound);
-			}
-			leftBound = newBound;
-			applyBounds();
-		});
-
-		d3.select("#slider_right").on("change", function() {
-			// this.value can be an int or a string
-			var newBound = parseInt(this.value);
-
-			if (newBound <= leftBound) {
-				leftBound = newBound-10;
-				d3.select("#slider_left").property("value",leftBound);
-			}
-			rightBound = newBound;
-			applyBounds();
-		});
-
-		// var timeMinsSecs = d3.time.format("%M:%S");
-
-		// Note to self - input happens all the time when the slider moves
-		d3.select("#slider_left").on("input", function() {
-			// this.value can be an int or a string
-			var newBound = parseInt(this.value);
-
-			// TODO: REUSE THIS
-			var datecode = new Date(newBound*1000);
-			d3.select("output#slider_left_output")[0][0].value = timeMinsSecs(datecode);
-		});
-
-		d3.select("#slider_right").on("input", function() {
-			// this.value can be an int or a string
-			var newBound = parseInt(this.value);
-
-			// TODO: REUSE THIS
-			var datecode = new Date(newBound*1000);
-			d3.select("output#slider_right_output")[0][0].value = timeMinsSecs(datecode);
-		});
-
 	  </script>
 		
 		<div class="clear"></div>
+		
+		<div class="sliderContainer">
+			<input type="text" name="range_slider" value="" id="range_slider">
+		</div>
+		<script type="text/javascript">
+
+		console.log(timeFormat.parse("00:00:00"));
+			$("#range_slider").ionRangeSlider({
+				type: 'double',
+				min: 0,
+				max: 209,
+				from: 0,
+				to: 209,
+				onFinish: function (data) {
+					leftBound = data.from;
+					rightBound = data.to;
+					applyBounds();
+				}
+			});
+			
+		</script>
 		
 		<div id="chartContainer2" class="chartContainer">
 		</div>
