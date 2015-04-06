@@ -79,7 +79,7 @@ audio { width: 1000px;}
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
 	background: black;
-	background: linear-gradient(to top, black 0%, grey 0%);;
+	background: linear-gradient(to top, black 0%, grey 0%);
 }
 
 .irs-from, .irs-to, .irs-single {
