@@ -21,7 +21,6 @@
 		
 		// Again this is 0-based...
 	 	var timeFormat = d3.time.format("%M:%S:%L");
-		var timeMinsSecs = d3.time.format("%M:%S");
 			
 						
 		</script>
@@ -67,7 +66,7 @@
 				min_interval: 12,
 				prettify_enabled: true,
 				prettify: function (num) {
-					return timeMinsSecs(new Date(num*1000));
+					return ra.timeMinsSecs(new Date(num*1000));
 				},
 				onFinish: function (data) {
 					leftBound = data.from;
@@ -127,7 +126,7 @@
 				this.addEventListener("mousemove", function(event){
 					var timeInSeconds = waveform_layout.time(parseInt(event.x)-70);
 					var datecode = new Date((timeInSeconds+parseInt(leftBound))*1000);
-					d3.select("#waveform_position")[0][0].value = timeMinsSecs(datecode);
+					d3.select("#waveform_position")[0][0].value = ra.timeMinsSecs(datecode);
 				});
 				 
 			});
@@ -202,7 +201,7 @@
 								(d.stream_name == seriesObject.cy));
 				 })
 
-				 var tooltip = [ "Time: "+timeMinsSecs(seriesObject.cx) ];
+				 var tooltip = [ "Time: "+ra.timeMinsSecs(seriesObject.cx) ];
 
 				 events.forEach(function (myevent) {
 					 tooltip.push("Event type: "+myevent.stream_name);

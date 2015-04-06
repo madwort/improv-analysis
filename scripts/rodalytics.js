@@ -4,6 +4,7 @@
    w["rodalytics"] = function(){
 
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
+		var timeMinsSecs = d3.time.format("%M:%S");
 		
 		// adds object value duration_all_streams to every element in data
 	   function calculate_durations(data) {
@@ -43,13 +44,13 @@
 				data[i].stream_name = stream_names[data[i].streamid];
 			}
 		}
-		
-	
+			
 		return {
 			calculate_durations: calculate_durations,
 			calculate_durations_per_stream: calculate_durations_per_stream,
 			add_stream_name: add_stream_name,
-			stream_names: stream_names
+			stream_names: stream_names,
+			timeMinsSecs: timeMinsSecs
 		}
 	};
 }(window, d3));
