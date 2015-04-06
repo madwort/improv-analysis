@@ -347,7 +347,7 @@
 				 // myChart2.addSeries("comment");
 				 myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
 				 
-				 calculate_regression(myChart2);
+				 ra.calculate_regression(myChart2, myData2);
 				 
 				 var y2 = myChart2.addMeasureAxis("y","stream_regression");
 				 // set second axis to match first one
@@ -367,43 +367,16 @@
 
  			d3.select("#btn2_cat_all").on("click", function() {
  				myChart2.data = myData2;
-				calculate_regression(myChart2);
+				ra.calculate_regression(myChart2, myData2);
  				myChart2.draw(1000);
  			});
 
 			function create_btn2(index) {
 				return function() {
 					myChart2.data = dimple.filterData(myData2, "streamid", index.toString());
-					calculate_regression(myChart2);
+					ra.calculate_regression(myChart2, myData2);
 					myChart2.draw(1000);
 
-				}
-			}
-
-			function calculate_regression(chart) {
-				myData2.map(function (d) {
-					d.time_offset = (timeFormat.parse(d.time)-timeFormat.parse(minTime))/1000;
-				});
-				var regressionData = chart.data.map(function (d) {
-					return [d.time_offset,d.duration_per_stream];
-				});
-				// console.log(regressionData);
-				var regression = window.regression('linear', regressionData );
-				// console.log(regression);
-				
-				// chart.data can arrive unsorted by time_offset in some casse
-				// therefore we have to check all time_offsets as our current graphing method
-				// will error if we have two entries at the same time_offset
-				// there's almost certainly a faster way to do this! 
-				var previous_time_offsets = [];
-				
-				for (var j = 0; j < chart.data.length; j++) {
-					if (previous_time_offsets.indexOf(chart.data[j].time_offset) == -1) { 
-						chart.data[j].stream_regression = regression.points[j][1];
-					} else {
-						delete chart.data[j].stream_regression;
-					} 
-					previous_time_offsets.push(chart.data[j].time_offset);
 				}
 			}
 		
