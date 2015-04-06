@@ -94,6 +94,10 @@
 				from: 0,
 				to: 209,
 				min_interval: 12,
+				prettify_enabled: true,
+				prettify: function (num) {
+					return timeMinsSecs(new Date(num*1000));
+				},
 				onFinish: function (data) {
 					leftBound = data.from;
 					rightBound = data.to;
