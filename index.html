@@ -80,6 +80,29 @@
 	<body>
 		<h1>Rodalytics v0.8 - Everything 1a</h1>
 		
+		<div class="sliderContainer">
+			<input type="text" name="range_slider" value="" id="range_slider">
+		</div>
+		<script type="text/javascript">
+
+		// min interval 12 seconds because less breaks our waveform display
+		// console.log(timeFormat.parse("00:00:00"));
+			$("#range_slider").ionRangeSlider({
+				type: 'double',
+				min: 0,
+				max: 209,
+				from: 0,
+				to: 209,
+				min_interval: 12,
+				onFinish: function (data) {
+					leftBound = data.from;
+					rightBound = data.to;
+					applyBounds();
+				}
+			});
+			
+		</script>
+
 		<div id="waveform">
 			<div class="graph" id="waveform-graph" data-format="binary" data-url="Everything 1a.mp3" data-layout="area">
 			  <!-- <div class="controls">
@@ -276,30 +299,7 @@
 	  </script>
 		
 		<div class="clear"></div>
-		
-		<div class="sliderContainer">
-			<input type="text" name="range_slider" value="" id="range_slider">
-		</div>
-		<script type="text/javascript">
-
-		// min interval 12 seconds because less breaks our waveform display
-		// console.log(timeFormat.parse("00:00:00"));
-			$("#range_slider").ionRangeSlider({
-				type: 'double',
-				min: 0,
-				max: 209,
-				from: 0,
-				to: 209,
-				min_interval: 12,
-				onFinish: function (data) {
-					leftBound = data.from;
-					rightBound = data.to;
-					applyBounds();
-				}
-			});
-			
-		</script>
-		
+				
 		<div id="chartContainer2" class="chartContainer">
 		</div>
 		<div id="chartControls2" class="chartControls">
@@ -371,7 +371,7 @@
 				 var y2 = myChart2.addMeasureAxis("y","stream_regression");
 				 // set second axis to match first one
 				 y2.overrideMax = maxDuration;
-
+				 
 				 var lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
 	 		    
 				 myChart2.assignColor("Material", "#fea18d");
