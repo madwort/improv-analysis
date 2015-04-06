@@ -30,10 +30,15 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	top:-1.3em;
 }
 
-.chartControls { float: left;}
+#chartControls { 
+	float: left;
+	position: relative;
+	left: -15em;
+}
 
 .chartControls input { 
-	display: block; 
+	display: inline; 
+	width: 9em;
 }
 
 .clear { clear: both;}
@@ -61,7 +66,12 @@ audio { width: 1000px;}
 
 #audioPlayer { padding-left: 60px;}
 
-.stats { float: left; padding-left: 1em; padding-right: 2em; padding-bottom: 2em;}
+.stats { 
+	float: left; 
+	padding-left: 1em; 
+	padding-right: 2em; 
+	padding-bottom: 2em;
+}
 
 /* override colours for ionslider */
 .irs-bar {
