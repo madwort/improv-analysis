@@ -21,6 +21,7 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 #waveform .graph { 
 	border-left: 1px solid black;
+	border-top: 1px solid black;
 }
 
 #waveform_position {
@@ -37,7 +38,11 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 .clear { clear: both;}
 
-.sliderContainer { width: 1030px; padding-left: 45px;}
+.sliderContainer { 
+	width: 1030px; 
+	padding-left: 45px;
+	padding-bottom: 20px;
+}
 
 
 .streamSelection { 
@@ -46,9 +51,9 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	margin: 0;
 }
 
-audio { width: 500px;}
+audio { width: 1000px;}
 
-#audioPlayer { padding-left: 100px;}
+#audioPlayer { padding-left: 60px;}
 
 .stats { float: left; padding-left: 1em; padding-right: 2em; padding-bottom: 2em;}
 
