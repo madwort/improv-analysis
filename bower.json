@@ -18,6 +18,7 @@
     "regression-js": "~1.2.0",
     "waveform-data": "~1.5.1",
     "d3": "~3.5.5",
-    "dimple": "~2.1.2"
+    "dimple": "~2.1.2",
+    "ionrangeslider": "~2.0.6"
   }
 }
