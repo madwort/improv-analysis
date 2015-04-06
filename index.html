@@ -8,51 +8,21 @@
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="./bower_components/ionrangeslider/js/ion.rangeSlider.js"></script>
 
+		<script src="./scripts/rodalytics.js"></script>
+		<script type="text/javascript">
+			// need to load this before loading stats.js
+			var ra = rodalytics();
+		</script>
+		
 		<script src="./scripts/waveform-layouts.js"></script>
 		<script src="./scripts/stats.js"></script>
 
 		<script type="text/javascript">
-			// Again this is 0-based...
-		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
+		
+		// Again this is 0-based...
 	 	var timeFormat = d3.time.format("%M:%S:%L");
 		var timeMinsSecs = d3.time.format("%M:%S");
-	 
-		   function calculate_durations(data) {
-				 var previous_time = null;
-				 var format = d3.time.format("%M:%S:%L");
-				 for (var i = 0; i < data.length; i++) {
-					 // console.log(stream_times[data[i].streamid]);
-					 if (previous_time != null) {
-						 data[i].duration_all_streams = (format.parse(data[i].time) - format.parse(previous_time))/1000;
-					 } else {
-						 data[i].duration_all_streams = 0;
-					 }
-					 previous_time = data[i].time;
-				 };
-			};
-		
-			function calculate_durations_per_stream(data) {
-				// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
-				 var stream_times = [null, null, null, null, null];
-				 var format = d3.time.format("%M:%S:%L");
-				 for (var i = 0; i < data.length; i++) {
-					 // console.log(stream_times[data[i].streamid]);
-					 if (stream_times[data[i].streamid] != null) {
-						 data[i].duration_per_stream = 
-						 	(format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
-					 } else {
-						 data[i].duration_per_stream = 0;
-					 }
-					 stream_times[data[i].streamid] = data[i].time;
-				 };
-			};
 			
-			function add_stream_name(data) {
-				for (var i = 0; i < data.length; i++) {
-					data[i].stream_name = stream_names[data[i].streamid];
-				}
-				// return data;
-			}
 						
 		</script>
 			
@@ -201,12 +171,12 @@
  		    myData = data;
 			 
 			 // possibly change csv file format using this
-			 calculate_durations(myData);
-			 calculate_durations_per_stream(myData);
+			 ra.calculate_durations(myData);
+			 ra.calculate_durations_per_stream(myData);
 			 myData.map(function (d) {
 			 	d.duration = d.duration_all_streams;
 			 })
-			 add_stream_name(myData);
+			 ra.add_stream_name(myData);
 			 // console.log(myData);
 			 myChart = new dimple.chart(svg, myData);
  		    myChart.setBounds(60, 0, 1000, 430);
@@ -216,7 +186,7 @@
 			 // x.overrideMax = timeFormat.parse(maxTime);
 			 
  		    var y = myChart.addCategoryAxis("y", "stream_name");
-			 y.addOrderRule(stream_names, true);
+			 y.addOrderRule(ra.stream_names, true);
 			 
 			 myChart.addMeasureAxis("z", "duration");
  		    // myChart.addLegend(700, 10, 360, 50, "left");
@@ -326,12 +296,12 @@
 	 		    myData2 = data;
 				 
 				 // possibly change csv file format using this
-				 calculate_durations(myData2);
-				 calculate_durations_per_stream(myData2);
+				 ra.calculate_durations(myData2);
+				 ra.calculate_durations_per_stream(myData2);
  				 myData2.map(function (d) {
  				 	d.duration = d.duration_all_streams;
  				 })
-				 add_stream_name(myData2);
+				 ra.add_stream_name(myData2);
 				 // console.log(myData2);
 				 
 				 minTime = d3.min(myData2, function (d) {

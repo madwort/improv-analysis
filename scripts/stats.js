@@ -1,6 +1,6 @@
 "use strict";
 
-(function(w, d3){
+(function(w, ra){
    w["stats"] = function(){
 
 	function cooccurrence(element, data) {
@@ -25,15 +25,15 @@
 		 heading_row.append("th").text("x");
 		 for (var i = 0; i < 4; i++) {
 			 var label = heading_row.append("th");
-			 label.text(stream_names[(i+1)]);
-			 label.classed(stream_names[(i+1)], "true");
+			 label.text(ra.stream_names[(i+1)]);
+			 label.classed(ra.stream_names[(i+1)], "true");
 		 };
 	
 		 for (var i = 0; i < stream_cooccurrence.length; i++) {
 			 var myrow = mytable.append("tr");
 			 var label = myrow.append("td");
-			 label.text(stream_names[i+1]);
-			 label.classed(stream_names[i+1], "true");
+			 label.text(ra.stream_names[i+1]);
+			 label.classed(ra.stream_names[i+1], "true");
 			 for (var j = 0; j < stream_cooccurrence[i].length; j++) {
 				 myrow.append("td").text(stream_cooccurrence[i][j]);
 			 }
@@ -50,8 +50,8 @@
 		 for (var i = 1; i < 5; i++) {
 			 var myrow = mytable.append("tr");
 			 var label = myrow.append("td");
-			 label.text(stream_names[i]);
-			 label.classed(stream_names[i], "true");
+			 label.text(ra.stream_names[i]);
+			 label.classed(ra.stream_names[i], "true");
 
 			 // filter is string not int
 			 var stream = dimple.filterData(data, "streamid", ""+i);
@@ -60,7 +60,7 @@
 	}
 
 	function durationPerStream(element, data) {
-		 calculate_durations_per_stream(data);
+		 ra.calculate_durations_per_stream(data);
  
 		 var mytable = element.append("table");
 		 // could refactor & do forEach on streamname list?
@@ -77,8 +77,8 @@
 		 for (var i = 1; i < 5; i++) {
 			 var myrow = mytable.append("tr");
 			 var label = myrow.append("td");
-			 label.text(stream_names[i]);
-			 label.classed(stream_names[i], "true");
+			 label.text(ra.stream_names[i]);
+			 label.classed(ra.stream_names[i], "true");
 
 			 // filter is string not int
 			 var stream = dimple.filterData(data, "streamid", ""+i);
@@ -102,4 +102,4 @@
 		
 	}
   };
-})(window, d3);
+})(window, ra);
