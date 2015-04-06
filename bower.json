@@ -7,7 +7,6 @@
   "moduleType": [
     "globals"
   ],
-  "license": "MIT",
   "ignore": [
     "**/.*",
     "node_modules",
