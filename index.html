@@ -12,6 +12,7 @@
 		<script type="text/javascript">
 			// need to load this before loading stats.js
 			var ra = rodalytics();
+			var audioUrl = "Everything 1a.mp3";
 		</script>
 		
 		<script src="./scripts/waveform-layouts.js"></script>
@@ -70,10 +71,13 @@
 			
 		</script>
 
-		<span id="audioPlayer"><audio src="Everything 1a.mp3" preload="auto" controls></audio></span>
+		<span id="audioPlayer"><audio src="" controls></audio></span>
+		<script type="text/javascript">
+		d3.select('audio')[0][0].src = audioUrl;
+		</script>
 
 		<div id="waveform">
-			<div class="graph" id="waveform-graph" data-format="binary" data-url="Everything 1a.mp3" data-layout="area">
+			<div class="graph" id="waveform-graph" data-format="binary" data-url="" data-layout="area">
 			  <!-- <div class="controls">
 			    <button data-navigate="previous">Previous</button><button data-navigate="next">Next</button><button data-navigate="zoom">Zoom In</button><button data-navigate="dezoom">Zoom Out</button>
 			  </div> -->
@@ -96,6 +100,7 @@
 
 
 			graphs.each(function(){
+				this.setAttribute("data-url",audioUrl);
 				var format = formats[this.getAttribute("data-format")];
 				var programme = this.getAttribute("data-programme");
 
@@ -258,7 +263,11 @@
 
 			// apply to waveform display
 			waveform_layout.setBounds(leftBound,parseInt(rightBound)+1);
-			
+
+			// apply to audio playback 
+			var audioPlayer = d3.select('audio')[0][0];
+			audioPlayer.pause();
+			audioPlayer.src = audioUrl+"#t="+leftBound+","+rightBound;
 		}
 
 	  </script>
