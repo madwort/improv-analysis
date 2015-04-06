@@ -32,3 +32,5 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 }
 
 audio { width: 200px;}
+
+.stats { float: left; padding-left: 1em; padding-right: 2em; padding-bottom: 2em;}
