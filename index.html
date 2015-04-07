@@ -184,7 +184,7 @@
 					 ra.calculate_durations(myData);
 					 ra.calculate_durations_per_stream(myData);
 					 myData.map(function (d) {
-					 	d.duration = d.duration_all_streams;
+					 	d.duration = 1;
 					 })
 					 ra.add_stream_name(myData);
 		
@@ -199,8 +199,8 @@
 
  					 z = myChart.addMeasureAxis("z", "duration");
 					 // default is equally sized bubbles
-					 z.overrideMin = 10;
-					 z.overrideMax = 10;
+					 z.overrideMin = 0;
+					 z.overrideMax = 5;
 					 
 					 
 					 mySeries = myChart.addSeries("stream_name");
@@ -234,18 +234,18 @@
 				 });
 				 
  				d3.select("#btn_no_cat").on("click", function() {
-					z.overrideMin = 10;
-					z.overrideMax = 10;
+					z.overrideMin = 0;
+					z.overrideMax = 5;
 					myData.map(function (d) {
-						d.duration = d.duration_all_streams;
+						d.duration = 1;
 					})
  					myChart.draw(1000);
  					// don't need to redo the click handlers because bounds don't change 
  				});
 				
 				d3.select("#btn_all_cat").on("click", function() {
-					z.overrideMin = 1;
-					z.overrideMax = 40;
+					z.overrideMin = null;
+					z.overrideMax = null;
 					myData.map(function (d) {
 						d.duration = d.duration_all_streams;
 					})
@@ -254,8 +254,8 @@
 				});
 		
 				d3.select("#btn_same_cat").on("click", function() {
-					z.overrideMin = 1;
-					z.overrideMax = 40;
+					z.overrideMin = null;
+					z.overrideMax = null;
 					myData.map(function (d) {
 						d.duration = d.duration_per_stream;
 					})
