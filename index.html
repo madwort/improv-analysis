@@ -1,5 +1,7 @@
+<!doctype html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 	   <script src="./bower_components/d3/d3.min.js"></script>
 	   <script src="./bower_components/dimple/dist/dimple.v2.1.2.js"></script>
 	   <script src="./bower_components/regression-js/build/regression.min.js"></script>
@@ -35,6 +37,7 @@
 		   });
 		</script>
 		
+		<link rel="stylesheet" href="bower_components/normalize.css/normalize.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.css" type="text/css" media="screen">
 		<link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.skinFlat.css" type="text/css" media="screen">
 
@@ -49,7 +52,7 @@
 				<span id="title">Rodalytics v0.0.9</span>
 				<script type="text/javascript">
 				var titleObject = $("#title");
-				titleObject.html(titleObject.text()+" - \<a href=\""+videoUrl+"\"\>"+analysisName+"\</a\>");
+				titleObject.html(titleObject.text()+" - \<a href=\""+videoUrl+"\" target=\"_blank\"\>"+analysisName+"\</a\>");
 				</script>
 				
 				<div class="sliderContainer">
@@ -86,11 +89,7 @@
 		</div>
 		<div id="content">		
 				<div id="waveform">
-					<div class="graph" id="waveform-graph" data-format="binary" data-url="" data-layout="area">
-					  <!-- <div class="controls">
-					    <button data-navigate="previous">Previous</button><button data-navigate="next">Next</button><button data-navigate="zoom">Zoom In</button><button data-navigate="dezoom">Zoom Out</button>
-					  </div> -->
-					</div>
+					<div class="graph" id="waveform-graph" data-format="binary" data-url="" data-layout="area"></div>
 					<output id="waveform_position">00:00</output>
 		
 					<script type="text/javascript">
@@ -152,11 +151,14 @@
 		
 				<div class="clear"></div>
 		
+				<!-- chart 1 -->
+		
 				<div id="chartContainer" class="chartContainer">
 				</div>
 				<div id="chartControls" class="chartControls">
-					<input type="button" name="btn_all_cat" value="All categories" id="btn_all_cat">
-					<input type="button" name="btn_same_cat" value="Same category" id="btn_same_cat">
+					<input type="button" name="btn_no_cat" value="No duration" id="btn_no_cat">
+					<input type="button" name="btn_all_cat" value="Duration all cats." id="btn_all_cat">
+					<input type="button" name="btn_same_cat" value="Duration same cat." id="btn_same_cat">
 				</div>
 			  <script type="text/javascript">
 				 var svg = dimple.newSvg("#chartContainer", 1100, 500);
@@ -165,6 +167,7 @@
 				 var mySeries = null;
 				 var leftBound = 0;
 				 var rightBound = 200;
+				 var z = null;
 				 
 				 function bubbleClickAudio(series, audioPlayer) {
 					 // this has to be after dimple.chart.draw() in order to work!
@@ -193,29 +196,33 @@
 					 
 		 		    var y = myChart.addCategoryAxis("y", "stream_name");
 					 y.addOrderRule(ra.stream_names, true);
+
+ 					 z = myChart.addMeasureAxis("z", "duration");
+					 // default is equally sized bubbles
+					 z.overrideMin = 10;
+					 z.overrideMax = 10;
 					 
-					 myChart.addMeasureAxis("z", "duration");
+					 
 					 mySeries = myChart.addSeries("stream_name");
 		
 					 // replace the tooltip with our custom handler
 					 // main job is to correctly get simultaneous events & 
 					 // to enrich display with comments without causing recolouring
-					 mySeries.getTooltipText = function (seriesObject) {
-						 var events = myData.filter(function (d) {
-							var searchTime = timeFormat(seriesObject.cx);
-							return (( d.time == searchTime.substring(0, searchTime.length - 1)) && 
-										(d.stream_name == seriesObject.cy));
-						 })
-		
-						 var tooltip = [ "Time: "+ra.timeMinsSecs(seriesObject.cx) ];
-		
-						 events.forEach(function (myevent) {
-							 tooltip.push("Event type: "+myevent.stream_name);
-		 					 tooltip.push("Comment: "+myevent.comment);
-						 });
-						 return tooltip;
-					 }
-		
+					 mySeries.getTooltipText = function (series) {
+						 var events = data.filter(function (d) {
+							 var searchTime = timeFormat(series.cx);
+							 return (( d.time == searchTime.substring(0, searchTime.length - 1)) && 
+								(d.stream_name == series.cy));
+							})
+							var tooltip = [ "Time: "+ra.timeMinsSecs(series.cx) ];
+
+							events.forEach(function (myevent) {
+								tooltip.push("Event type: "+myevent.stream_name);
+								tooltip.push("Comment: "+myevent.comment);
+							});
+							return tooltip;
+						};
+
 					 myChart.assignColor("Material", "#fea18d");
 					 myChart.assignColor("Formal", "#93d1ff");
 					 myChart.assignColor("Interface", "#b7e695");
@@ -226,7 +233,19 @@
 		
 				 });
 				 
+ 				d3.select("#btn_no_cat").on("click", function() {
+					z.overrideMin = 10;
+					z.overrideMax = 10;
+					myData.map(function (d) {
+						d.duration = d.duration_all_streams;
+					})
+ 					myChart.draw(1000);
+ 					// don't need to redo the click handlers because bounds don't change 
+ 				});
+				
 				d3.select("#btn_all_cat").on("click", function() {
+					z.overrideMin = 1;
+					z.overrideMax = 40;
 					myData.map(function (d) {
 						d.duration = d.duration_all_streams;
 					})
@@ -235,6 +254,8 @@
 				});
 		
 				d3.select("#btn_same_cat").on("click", function() {
+					z.overrideMin = 1;
+					z.overrideMax = 40;
 					myData.map(function (d) {
 						d.duration = d.duration_per_stream;
 					})
@@ -340,7 +361,21 @@
 						 y.overrideMax = maxDuration;
 						 
 						 // myChart2.addSeries("comment");
-						 myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
+						 var mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
+						 mySeries2.getTooltipText = function (series) {
+							 var events = data.filter(function (d) {
+								 var searchTime = timeFormat(series.cx);
+								 return (( d.time == searchTime.substring(0, searchTime.length - 1)) && 
+									(d.stream_name == series.aggField[0]));
+								})
+								var tooltip = [ "Time: "+ra.timeMinsSecs(series.cx) ];
+
+								events.forEach(function (myevent) {
+									tooltip.push("Event type: "+myevent.stream_name);
+									tooltip.push("Comment: "+myevent.comment);
+								});
+								return tooltip;
+							};
 						 
 						 ra.calculate_regression(myChart2, myData2);
 						 
@@ -380,26 +415,22 @@
 					}
 		
 				  </script>
-					
+
 				<div class="clear"></div>
-					
-					
+
 				<div class="stats">
 					<h2>Co-occurrence</h2>
-					<div id="stats1">
-					</div>
+					<div id="stats1"></div>
 				</div>		
 				
 				<div class="stats">
 					<h2>Activity Summary</h2>
-					<div id="stats2">
-					</div>		
+					<div id="stats2"></div>		
 				</div>
 							
 				<div class="stats">
 					<h2>Duration stats per stream</h2>
-					<div id="stats3">
-					</div>
+					<div id="stats3"></div>
 				</div>
 		</div>
 	</body>

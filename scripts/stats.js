@@ -22,7 +22,7 @@
 		 // Output the data that we've calculated
 		 var mytable = element.append("table");
 		 var heading_row = mytable.append("tr");
-		 heading_row.append("th").text("x");
+		 heading_row.append("th").text("Stream").classed("All", true);
 		 for (var i = 0; i < 4; i++) {
 			 var label = heading_row.append("th");
 			 label.text(ra.stream_names[(i+1)]);
@@ -44,7 +44,7 @@
 		 var mytable = element.append("table");
 		 // could refactor & do forEach on streamname list?
 		 var heading_row = mytable.append("tr");
-		 heading_row.append("th").text("Stream");
+		 heading_row.append("th").text("Stream").classed("All", true);
 		 heading_row.append("th").text("Instances");
 
 		 for (var i = 1; i < 5; i++) {
@@ -65,7 +65,7 @@
 		 var mytable = element.append("table");
 		 // could refactor & do forEach on streamname list?
 		 var heading_row = mytable.append("tr");
-		 heading_row.append("th").text("Stream");
+		 heading_row.append("th").text("Stream").classed("All", true);
 		 heading_row.append("th").text("Min");
 		 heading_row.append("th").text("Median");
 		 heading_row.append("th").text("Mean");

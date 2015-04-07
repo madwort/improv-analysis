@@ -1,28 +1,51 @@
 body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
-.All { background-color: grey;}
+.All { background-color: lightgrey;}
 .Formal { background-color: #93d1ff;}
 .Material { background-color: #fea18d;}
 .Interface { background-color: #b7e695;}
 .Interaction { background-color: #fefca2;}
 
+/* height should relate to #content */
 #topbar { 
 	position: fixed;
 	height: 140px;
-	background: grey;
+	background: lightgrey;
+	width: 100%;
+	padding-left: 60px;
 }
-
-#content {
-	padding-top: 140px;
-}
-
-.chartContainer { float: left;}
 
 /* emulate h1 but inline element */
 #title { font-size: 2em; font-weight: bold;}
 
-/* emulate h2 but inline element */
-.chartTitle { font-size: 1.5em; font-weight: bold;}
+#title a:link, #title a:visited, #title a:hover, #title a:active  { color: black;}
+
+.sliderContainer { 
+	width: 1000px; 
+	padding-bottom: 20px;
+}
+
+/* override colours for ionslider */
+.irs-bar {
+	border-top: 1px solid black;
+	border-bottom: 1px solid black;
+	background: black;
+	background: linear-gradient(to top, black 0%, grey 0%);
+}
+
+.irs-from, .irs-to, .irs-single {
+	background: darkgrey;
+}
+
+audio { width: 1000px; height: 25px;}
+
+#audioPlayer { padding-left: 0px;}
+
+
+#content {
+	padding-top: 150px;
+}
+
 
 #waveform { 
 	float: left; 
@@ -37,28 +60,29 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 #waveform_position {
 	position: relative;
 	left:1020px;
-	top:-1.3em;
+	top:-1.6em;
 }
+
+
+.chartContainer { float: left;}
+
+/* emulate h2 but inline element */
+.chartTitle { font-size: 1.5em; font-weight: bold;}
 
 #chartControls { 
 	float: left;
 	position: absolute;
-	left: 55em;
+	left: 45em;
 }
 
 .chartControls input { 
 	display: inline; 
-	width: 9em;
+	width: 10em;
 	border: 1px solid black;
+	font-size: 0.7em;
 }
 
 .clear { clear: both;}
-
-.sliderContainer { 
-	width: 1030px; 
-	padding-left: 45px;
-	padding-bottom: 20px;
-}
 
 #trendChart {
 	padding-left: 70px;
@@ -73,25 +97,13 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	float: left;
 }
 
-audio { width: 1000px;}
-
-#audioPlayer { padding-left: 60px;}
-
 .stats { 
 	float: left; 
 	padding-left: 1em; 
-	padding-right: 2em; 
+	padding-right: 1em; 
 	padding-bottom: 2em;
 }
 
-/* override colours for ionslider */
-.irs-bar {
-	border-top: 1px solid black;
-	border-bottom: 1px solid black;
-	background: black;
-	background: linear-gradient(to top, black 0%, grey 0%);
-}
-
-.irs-from, .irs-to, .irs-single {
-	background: darkgrey;
+.stats td, .stats th {
+	padding: 5px;
 }
