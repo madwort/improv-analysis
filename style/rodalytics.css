@@ -8,12 +8,12 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 
 #topbar { 
 	position: fixed;
-	height: 103px;
+	height: 140px;
 	background: grey;
 }
 
 #content {
-	padding-top: 103px;
+	padding-top: 140px;
 }
 
 .chartContainer { float: left;}
