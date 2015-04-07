@@ -6,6 +6,16 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 .Interface { background-color: #b7e695;}
 .Interaction { background-color: #fefca2;}
 
+#topbar { 
+	position: fixed;
+	height: 103px;
+	background: grey;
+}
+
+#content {
+	padding-top: 103px;
+}
+
 .chartContainer { float: left;}
 
 /* emulate h1 but inline element */
