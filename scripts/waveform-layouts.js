@@ -55,24 +55,6 @@
 
       });
     }
-
-    function navigate(offset, scale){
-      var data = waveform_data;
-      var renderer = this.renderers[config.layout];
-
-      if (scale > waveform_data.adapter.scale){
-        data = waveform_data.resample({scale: scale});
-      }
-
-      data.offset(offset, config.size.width);
-
-      var values = {
-        min: data.min,
-        max: data.max
-      };
-
-      renderer(values);
-    }
 	 
 	 // bounds are in seconds
 	 function setBounds(leftBound,rightBound) {
@@ -149,7 +131,6 @@
         area: areaLayoutRenderer,
         barchart: barchartLayoutRenderer
       },
-      // navigate: navigate,
       init: init,
 		setBounds: setBounds,
 		time: time
