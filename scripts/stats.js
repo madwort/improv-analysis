@@ -3,6 +3,13 @@
 (function(w, ra){
    w["stats"] = function(){
 
+	function sortDataByTime(data) {
+		return data.sort(function (a,b) {
+			return (ra.timeFormat.parse(a.time)-ra.timeFormat.parse(b.time));
+		});
+	}
+
+
 	// assumes the data is ordered firstly by time 
 	function cooccurrence(element, data) {
 		 // We're translating streamids 1-4 to be 0-3 for our purposes!
@@ -12,6 +19,8 @@
 		 // assume at least one piece of data!
 		 var previous_streamid = (data[0].streamid-1);
 		 var this_streamid = -1;
+		 
+		 data = sortDataByTime(data);
 		 for (var i = 1; i < data.length; i++) {
 			 this_streamid = (data[i].streamid-1);
 			 stream_cooccurrence[previous_streamid][this_streamid]++;

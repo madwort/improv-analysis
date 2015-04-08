@@ -224,7 +224,8 @@
 					 
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
-		
+
+					 createStats(data);
 				 });
 
 				 function disableAllChart1Btns() {
@@ -266,7 +267,13 @@
 				 	myChart.draw(1000);
 					// don't need to redo the click handlers because bounds don't change 
 				});
-		
+
+				function createStats(data) {
+					rodstat.activitySummary(d3.select("#stats1"),data);
+					rodstat.cooccurrence(d3.select("#stats2"), data);
+				  	rodstat.durationPerStream(d3.select("#stats3"),data);
+				}
+
 				// Update everything when we change the zoom of waveform & chart 1
 				function applyBounds() {
 					// apply to chart 1
@@ -293,6 +300,15 @@
 					var audioPlayer = d3.select('audio')[0][0];
 					audioPlayer.pause();
 					audioPlayer.src = audioUrl+"#t="+leftBound+","+rightBound;
+					
+					// apply to stats
+					// This is a bit inefficient - removing the whole table & re-rendering
+					// but it is simple & expendient!
+					d3.select('#stats1 table').remove();
+					d3.select('#stats2 table').remove();
+					d3.select('#stats3 table').remove();
+					createStats(myChart.data);
+					
 				}
 		
 			  </script>
@@ -436,15 +452,6 @@
 					<h2>Duration stats per stream</h2>
 					<div id="stats3"></div>
 				</div>
-				
-				<script type="text/javascript">
-					// calc stats & display
-					d3.csv(dataUrl, function (data) {
-		  		  	 rodstat.activitySummary(d3.select("#stats1"),data);
-					 rodstat.cooccurrence(d3.select("#stats2"), data);
-				  	 rodstat.durationPerStream(d3.select("#stats3"),data);
-				   });
-				</script>
 		</div>
 	</body>
 	
