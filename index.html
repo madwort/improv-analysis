@@ -195,7 +195,7 @@
  					 z = myChart.addMeasureAxis("z", "duration");
 					 // default is equally sized bubbles
 					 z.overrideMin = 0;
-					 z.overrideMax = 5;
+					 z.overrideMax = 10;
 					 
 					 
 					 mySeries = myChart.addSeries("stream_name");
@@ -230,7 +230,7 @@
 				 
  				d3.select("#btn_no_cat").on("click", function() {
 					z.overrideMin = 0;
-					z.overrideMax = 5;
+					z.overrideMax = 10;
 					myData.map(function (d) {
 						d.duration = 1;
 					})
