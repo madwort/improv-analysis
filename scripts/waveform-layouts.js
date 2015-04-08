@@ -26,14 +26,8 @@
         graph.append("path");
         waveform_data = data;
 
-        //clamping internal data
-		  // if we do this resample, we can't zoom in any further
-        // if (config.resample){
-        //   waveform_data = waveform_data.resample({width: config.size.width})
-        // }
-        // else{
-          waveform_data.offset(offsetX, config.size.width);
-        // }
+		  waveform_data.offset(offsetX, config.size.width);
+
         done(waveform_data);
       }
     }
@@ -51,7 +45,6 @@
         };
 
         //scaling
-		  // console.log(values.max.length);
         x.domain([0, values.max.length]).rangeRound([0, config.size.width]);
         y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
 
@@ -156,46 +149,8 @@
         area: areaLayoutRenderer,
         barchart: barchartLayoutRenderer
       },
-      navigate: navigate,
-      nextOffset: function nextOffset(){
-        offsetX = Math.floor(offsetX + config.size.width / 2);
-
-        if (offsetX + config.size.width > waveform_data.adapter.length){
-          offsetX = waveform_data.adapter.length - config.size.width;
-        }
-
-        if (config.size.width > waveform_data.adapter.length){
-          offsetX = 0;
-        }
-
-        this.navigate(offsetX, scale);
-      },
-      previousOffset: function previousOffset(){
-        offsetX = Math.floor(offsetX - config.size.width / 2);
-
-        if (offsetX < 0){
-          offsetX = 0;
-        }
-
-        this.navigate(offsetX, scale);
-      },
+      // navigate: navigate,
       init: init,
-      zoomIn: function zoomIn(){
-        scale = Math.floor(scale / 2);
-        offsetX = Math.floor(offsetX / 2);
-
-        if (scale < waveform_data.adapter.scale){
-          scale = waveform_data.adapter.scale;
-        }
-
-        this.navigate(offsetX, scale);
-      },
-      zoomOut: function zoomOut(){
-        scale = Math.floor(scale * 2);
-        offsetX = Math.floor(offsetX * 2);
-
-        this.navigate(offsetX, scale);
-      },
 		setBounds: setBounds,
 		time: time
     };
