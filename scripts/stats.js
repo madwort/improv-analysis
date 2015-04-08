@@ -30,6 +30,7 @@
 		 // console.log(stream_cooccurrence);
 	 
 		 // Output the data that we've calculated
+		 // Should really use a proper template system for this...
 		 var mytable = element.append("table");
 		 var heading_row = mytable.append("tr");
 		 heading_row.append("th").text("Stream").classed("All", true);

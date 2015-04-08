@@ -274,8 +274,7 @@
 				  	rodstat.durationPerStream(d3.select("#stats3"),data);
 				}
 
-				// Update everything when we change the zoom of waveform & chart 1
-				function applyBounds() {
+				function applyBoundsChart1() {
 					// apply to chart 1
 					myChart.data = myData.filter(function (d, index) {
 						return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
@@ -292,6 +291,12 @@
 				 	myChart.draw(1000);
 					// redo click handlers
 					bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
+				}
+
+				// Update everything when we change the zoom of waveform & chart 1
+				function applyBounds() {
+					applyBoundsChart1();
+					applyBoundsChart2();
 		
 					// apply to waveform display
 					waveform_layout.setBounds(leftBound,parseInt(rightBound)+1);
@@ -333,6 +338,7 @@
 					 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 					 var myChart2 = null;
 					 var myData2 = null;
+					 var mySeries2 = null;
 					 var minTime, maxTime, maxDuration = null;
 					 var x,y = null;
 					 
@@ -381,7 +387,7 @@
 						 y.overrideMax = maxDuration;
 						 
 						 // myChart2.addSeries("comment");
-						 var mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
+						 mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
 						 mySeries2.getTooltipText = function (series) {
 							 var events = data.filter(function (d) {
 								 var searchTime = ra.timeFormat(series.cx);
@@ -412,19 +418,44 @@
 						 
 						 // myChart2.addLegend(140, 10, 360, 20, "left");
 			 		    myChart2.draw();
+						 bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
 		
 			 		 });
 		
 		 			d3.select("#btn2_cat_all").on("click", function() {
 		 				myChart2.data = myData2;
 						ra.calculate_regression(myChart2, myData2);
+						applyBoundsChart2();
 		 				myChart2.draw(1000);
 		 			});
+
+					function applyBoundsChart2() {
+						// apply to chart 2
+						myChart2.data = myChart2.data.filter(function (d, index) {
+							return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
+										((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) <= rightBound);
+						});
+
+						ra.calculate_regression(myChart2, myData2);
+
+						var x = myChart2.axes[0];
+						// fix the scales on the graph
+						var dateMin = new Date(leftBound*1000);
+						var dateMax = new Date(rightBound*1000);
+						x.overrideMin = dateMin.setFullYear(1900);
+						x.overrideMax = dateMax.setFullYear(1900);
 		
+					 	myChart2.draw(1000);
+						// redo click handlers
+						bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
+					}
+					
+
 					function create_btn2(index) {
 						return function() {
 							myChart2.data = dimple.filterData(myData2, "streamid", index.toString());
 							ra.calculate_regression(myChart2, myData2);
+							applyBoundsChart2();
 							myChart2.draw(1000);
 						}
 					}
