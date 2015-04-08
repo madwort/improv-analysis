@@ -3,6 +3,7 @@
 (function(w, ra){
    w["stats"] = function(){
 
+	// assumes the data is ordered firstly by time 
 	function cooccurrence(element, data) {
 		 // We're translating streamids 1-4 to be 0-3 for our purposes!
 		 // Remember this when rendering!!!
