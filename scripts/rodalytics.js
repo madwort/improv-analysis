@@ -81,6 +81,7 @@
 		return {
 			stream_names: stream_names,
 			timeMinsSecs: timeMinsSecs,
+			timeFormat: timeFormat,
 			calculate_durations: calculate_durations,
 			calculate_durations_per_stream: calculate_durations_per_stream,
 			calculate_regression: calculate_regression,
