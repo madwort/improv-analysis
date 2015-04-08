@@ -13,7 +13,7 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 #topbar { 
 	position: fixed;
 	height: 140px;
-	background: #468285;
+	background: #7CAAAC;
 	width: 100%;
 	padding-left: 60px;
 }
@@ -39,11 +39,11 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	border-top: 1px solid black;
 	border-bottom: 1px solid black;
 	background: black;
-	background: linear-gradient(to top, black 0%, #7BAAAC 0%);
+	background: linear-gradient(to top, black 0%, #478285  0%);
 }
 
 .irs-from, .irs-to, .irs-single {
-	background: #0B4649;
+	background: #478285 ;
 }
 
 audio { width: 1000px; height: 25px;}
