@@ -87,8 +87,9 @@ audio { width: 1000px; height: 25px;}
 
 #chartControls { 
 	float: left;
-	position: absolute;
+	position: relative;
 	left: 45em;
+	top: -500px;
 }
 
 .chartControls input { 
