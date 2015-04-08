@@ -4,6 +4,10 @@
    w["rodalytics"] = function(){
 
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
+		// this is the time format in the CSV files
+		var timeFormat = d3.time.format("%M:%S:%L");
+		// this is the time format we often want to output
+		// perhaps we should use this format in the CSV in future?
 		var timeMinsSecs = d3.time.format("%M:%S");
 		
 		// adds object value duration_all_streams to every element in data
