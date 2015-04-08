@@ -101,6 +101,14 @@ audio { width: 1000px; height: 25px;}
 	font-size: 0.7em;
 }
 
+.chart1btn {
+}
+
+.chart1btn.enabled {
+	background: #236467;
+	color: white;
+}
+
 .clear { clear: both;}
 
 #trendChart {

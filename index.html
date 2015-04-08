@@ -151,9 +151,9 @@
 				<div id="chartContainer" class="chartContainer">
 				</div>
 				<div id="chartControls" class="chartControls">
-					<input type="button" name="btn_no_cat" value="No duration" id="btn_no_cat">
-					<input type="button" name="btn_all_cat" value="Duration all cats." id="btn_all_cat">
-					<input type="button" name="btn_same_cat" value="Duration same cat." id="btn_same_cat">
+					<input type="button" name="btn_no_cat" value="No duration" id="btn_no_cat" class="chart1btn enabled">
+					<input type="button" name="btn_all_cat" value="Duration all cats." id="btn_all_cat" class="chart1btn">
+					<input type="button" name="btn_same_cat" value="Duration same cat." id="btn_same_cat" class="chart1btn">
 				</div>
 			  <script type="text/javascript">
 				 var svg = dimple.newSvg("#chartContainer", 1100, 500);
@@ -227,13 +227,19 @@
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 		
 				 });
+
+				 function disableAllChart1Btns() {
+					 d3.selectAll('.chart1btn').classed("enabled", false);
+				 }
 				 
  				d3.select("#btn_no_cat").on("click", function() {
 					z.overrideMin = 0;
 					z.overrideMax = 10;
 					myData.map(function (d) {
 						d.duration = 1;
-					})
+					});
+					disableAllChart1Btns();
+					d3.select("#btn_no_cat").classed("enabled",true);
  					myChart.draw(1000);
  					// don't need to redo the click handlers because bounds don't change 
  				});
@@ -243,7 +249,9 @@
 					z.overrideMax = null;
 					myData.map(function (d) {
 						d.duration = d.duration_all_streams;
-					})
+					});
+					disableAllChart1Btns();
+					d3.select("#btn_all_cat").classed("enabled",true);
 					myChart.draw(1000);
 					// don't need to redo the click handlers because bounds don't change 
 				});
@@ -253,7 +261,9 @@
 					z.overrideMax = null;
 					myData.map(function (d) {
 						d.duration = d.duration_per_stream;
-					})
+					});
+					disableAllChart1Btns();
+					d3.select("#btn_same_cat").classed("enabled",true);
 				 	myChart.draw(1000);
 					// don't need to redo the click handlers because bounds don't change 
 				});
