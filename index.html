@@ -29,12 +29,6 @@
 			// load stats module
 		   rodstat = stats();
 			
-			// calc stats & display
-			d3.csv(dataUrl, function (data) {
-			 rodstat.cooccurrence(d3.select("#stats1"), data);
-		  	 rodstat.activitySummary(d3.select("#stats2"),data);
-		  	 rodstat.durationPerStream(d3.select("#stats3"),data);
-		   });
 		</script>
 		
 		<link rel="stylesheet" href="bower_components/normalize.css/normalize.css" type="text/css" media="screen">
@@ -433,6 +427,15 @@
 					<h2>Duration stats per stream</h2>
 					<div id="stats3"></div>
 				</div>
+				
+				<script type="text/javascript">
+					// calc stats & display
+					d3.csv(dataUrl, function (data) {
+		  		  	 rodstat.activitySummary(d3.select("#stats1"),data);
+					 rodstat.cooccurrence(d3.select("#stats2"), data);
+				  	 rodstat.durationPerStream(d3.select("#stats3"),data);
+				   });
+				</script>
 		</div>
 	</body>
 	
