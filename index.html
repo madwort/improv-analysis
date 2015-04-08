@@ -125,15 +125,15 @@
 		
 						xhr.on(config.event_identifier, layout.init.bind(layout));
 						xhr.get();
-		
-						this.addEventListener("mousemove", function(event){
-							var timeInSeconds = waveform_layout.time(parseInt(event.x)-70)+parseInt(leftBound);
+
+						d3.select(".graph svg").on("mousemove", function(){
+							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 							var datecode = new Date(timeInSeconds*1000);
 							d3.select("#waveform_position")[0][0].value = ra.timeMinsSecs(datecode);
 						});
 		
-						this.addEventListener("click", function(event){
-							var timeInSeconds = waveform_layout.time(parseInt(event.x)-70)+parseInt(leftBound);
+						d3.select(".graph svg").on("click", function(){
+							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 							d3.select('audio')[0][0].currentTime = timeInSeconds;
 						});
 						
