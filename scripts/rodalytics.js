@@ -11,7 +11,7 @@
 		var timeMinsSecs = d3.time.format("%M:%S");
 		
 		// adds object value duration_all_streams to every element in data
-	   function calculate_durations(data) {
+	   function calculateDurations(data) {
 			 var previous_time = null;
 			 var format = d3.time.format("%M:%S:%L");
 			 for (var i = 0; i < data.length; i++) {
@@ -26,7 +26,7 @@
 		};
 	
 		// adds object value duration_per_stream to every element in data
-		function calculate_durations_per_stream(data) {
+		function calculateDurationsPerStream(data) {
 			// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
 			 var stream_times = [null, null, null, null, null];
 			 var format = d3.time.format("%M:%S:%L");
@@ -82,8 +82,8 @@
 			stream_names: stream_names,
 			timeMinsSecs: timeMinsSecs,
 			timeFormat: timeFormat,
-			calculate_durations: calculate_durations,
-			calculate_durations_per_stream: calculate_durations_per_stream,
+			calculateDurations: calculateDurations,
+			calculateDurationsPerStream: calculateDurationsPerStream,
 			calculate_regression: calculate_regression,
 			add_stream_name: add_stream_name
 		}

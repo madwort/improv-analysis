@@ -164,6 +164,8 @@
 				 var leftBound = 0;
 				 var rightBound = 200;
 				 var z = null;
+				 var playheadTimer = null;
+				 var playheadPos = 0;
 				 
 				 function bubbleClickAudio(series, audioPlayer) {
 					 // this has to be after dimple.chart.draw() in order to work!
@@ -177,8 +179,8 @@
 		 		    myData = data;
 					 
 					 // possibly change csv file format using this
-					 ra.calculate_durations(myData);
-					 ra.calculate_durations_per_stream(myData);
+					 ra.calculateDurations(myData);
+					 ra.calculateDurationsPerStream(myData);
 					 myData.map(function (d) {
 					 	d.duration = 1;
 					 })
@@ -226,6 +228,19 @@
 					 
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
+
+					 d3.select('audio')[0][0].addEventListener("playing", function () {
+						 playheadTimer = setInterval(function() { 
+							 d3.selectAll(".playhead").remove();
+							 // post-increment playheadPos!
+							 d3.select(".graph svg").append("rect").attr("x",playheadPos++).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+						 }, waveform_layout.timePerPixel()*1000);
+					 })
+
+					 d3.select('audio')[0][0].addEventListener("pause", function () {
+						 clearInterval(playheadTimer);
+					 })
+					 
 
 					 createStats(data);
 				 });
@@ -355,8 +370,8 @@
 			 		    myData2 = data;
 						 
 						 // possibly change csv file format using this
-						 ra.calculate_durations(myData2);
-						 ra.calculate_durations_per_stream(myData2);
+						 ra.calculateDurations(myData2);
+						 ra.calculateDurationsPerStream(myData2);
 		 				 myData2.map(function (d) {
 		 				 	d.duration = d.duration_all_streams;
 		 				 })

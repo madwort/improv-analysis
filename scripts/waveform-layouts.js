@@ -90,6 +90,10 @@
 		 return current_waveform_data.time(index);
 	 }
 
+	 function timePerPixel() {
+		 return current_waveform_data.seconds_per_pixel;
+	 }
+
     /**
      * Displays data as area
      *
@@ -133,7 +137,8 @@
       },
       init: init,
 		setBounds: setBounds,
-		time: time
+		time: time,
+		timePerPixel: timePerPixel
     };
   };
 })(window, d3);
