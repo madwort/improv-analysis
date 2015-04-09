@@ -86,8 +86,18 @@
 		 
 	 }
 
+	 // might want to remove all these wrapper functions & replace with ref to object?
 	 function time(index) {
 		 return current_waveform_data.time(index);
+	 }
+
+	 function timePerPixel() {
+		 return current_waveform_data.seconds_per_pixel;
+	 }
+
+	 // param is seconds, returns pixel index
+	 function indexOfTime(time) {
+		 return current_waveform_data.at_time(time);
 	 }
 
     /**
@@ -133,7 +143,9 @@
       },
       init: init,
 		setBounds: setBounds,
-		time: time
+		time: time,
+		timePerPixel: timePerPixel,
+		indexOfTime: indexOfTime
     };
   };
 })(window, d3);

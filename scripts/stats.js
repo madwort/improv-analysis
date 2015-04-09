@@ -71,7 +71,7 @@
 	}
 
 	function durationPerStream(element, data) {
-		 ra.calculate_durations_per_stream(data);
+		 ra.calculateDurationsPerStream(data);
  
 		 var mytable = element.append("table");
 		 // could refactor & do forEach on streamname list?
