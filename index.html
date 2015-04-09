@@ -77,7 +77,9 @@
 				</script>
 				<span id="audioPlayer"><audio src="" controls></audio></span>
 				<script type="text/javascript">
-				d3.select('audio')[0][0].src = audioUrl;
+					// the sooner we do this, the sooner we get the remote file data loaded
+					// otherwise could just call applyBounds() now
+					d3.select('audio')[0][0].src = audioUrl;
 				</script>
 			</div>
 		</div>
@@ -341,7 +343,9 @@
 					 var myChart2 = null;
 					 var myData2 = null;
 					 var mySeries2 = null;
-					 var minTime, maxTime, maxDuration = null;
+					 // weirdly, this global is ref'd on rodalytics.js:50
+					 // refactor...
+					 var minTime = null;
 					 var x,y = null;
 					 
 					 d3.csv(dataUrl, function (data) {
@@ -363,18 +367,14 @@
 							 return d.time;
 						 });
 							 
-						 maxTime = d3.max(myData2, function (d) {
+						 var maxTime = d3.max(myData2, function (d) {
 							 return d.time;
 						 })
 		
 						 var maxDuration = d3.max(myData2, function (d) {
 							 return d.duration_per_stream;
 						 })
-						 
-						 maxDuration = d3.max(myData2, function (d) {
-							 return d.duration_per_stream;
-						 })
-		
+
 						 myChart2 = new dimple.chart(svg2, myData2);
 			 		    myChart2.setBounds(60, 30, 1000, 530);
 			 		    x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
