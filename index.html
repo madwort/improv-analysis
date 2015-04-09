@@ -174,7 +174,16 @@
 						audioPlayer.currentTime = (e.x.getMinutes()*60)+e.x.getSeconds();
 					 });
 				 }
-		
+
+				 function drawPlayhead(index) {
+					 d3.selectAll(".playhead").remove();
+					 // post-increment playheadPos!
+					 d3.select(".graph svg").append("rect")
+						 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+						 playheadPos = index+1;
+				 	
+				 }
+
 				 d3.csv(dataUrl, function (data) {
 		 		    myData = data;
 					 
@@ -229,17 +238,9 @@
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
-					 function drawPlayhead(index) {
-						 d3.selectAll(".playhead").remove();
-						 // post-increment playheadPos!
-						 d3.select(".graph svg").append("rect")
-							 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
-					 	
-					 }
-
 					 d3.select('audio')[0][0].addEventListener("playing", function () {
 						 playheadTimer = setInterval(function() { 
-							 drawPlayhead(playheadPos++);
+							 drawPlayhead(playheadPos);
 						 }, waveform_layout.timePerPixel()*1000);
 					 })
 
@@ -333,6 +334,9 @@
 					var audioPlayer = d3.select('audio')[0][0];
 					audioPlayer.pause();
 					audioPlayer.src = audioUrl+"#t="+leftBound+","+rightBound;
+					// this also resets the playback time to zero, so do that too...
+					drawPlayhead(0);
+					
 					
 					// apply to stats
 					// This is a bit inefficient - removing the whole table & re-rendering
