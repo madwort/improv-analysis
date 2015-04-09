@@ -106,11 +106,27 @@
 		 }
 	}
 	
+	function activityLog(element,data) {
+		 var mytable = element.append("table");
+		 var heading_row = mytable.append("tr");
+		 heading_row.append("th").text("Time");
+		 heading_row.append("th").text("Stream");
+		 heading_row.append("th").text("Comment");
+
+		 data.forEach(function(d) {
+			 var myrow = mytable.append("tr");
+			 myrow.append("td").text(d.time);
+			 myrow.append("td").text(d.stream_name).classed(ra.stream_names[d.streamid], "true");
+			 myrow.append("td").text(d.comment);
+		 })
+	}
+	
+	
 	return {
 		cooccurrence: cooccurrence,
 		activitySummary: activitySummary,
-		durationPerStream: durationPerStream
-		
+		durationPerStream: durationPerStream,
+		activityLog: activityLog
 	}
   };
 })(window, ra);

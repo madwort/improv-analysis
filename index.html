@@ -272,6 +272,7 @@
 					rodstat.activitySummary(d3.select("#stats1"),data);
 					rodstat.cooccurrence(d3.select("#stats2"), data);
 				  	rodstat.durationPerStream(d3.select("#stats3"),data);
+					rodstat.activityLog(d3.select("#stats4"),data);
 				}
 
 				function applyBoundsChart1() {
@@ -482,6 +483,11 @@
 				<div class="stats">
 					<h2>Duration stats per stream</h2>
 					<div id="stats3"></div>
+				</div>
+				
+				<div class="activityLog">
+					<h2>Activity log</h2>
+					<div id="stats4"></div>
 				</div>
 		</div>
 	</body>
