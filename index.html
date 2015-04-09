@@ -269,10 +269,10 @@
 				});
 
 				function createStats(data) {
-					rodstat.activitySummary(d3.select("#stats1"),data);
-					rodstat.cooccurrence(d3.select("#stats2"), data);
-				  	rodstat.durationPerStream(d3.select("#stats3"),data);
-					rodstat.activityLog(d3.select("#stats4"),data);
+					rodstat.activitySummary(d3.select("#activitySummary"),data);
+					rodstat.cooccurrence(d3.select("#cooccurrence"), data);
+				  	rodstat.durationPerStream(d3.select("#durationStats"),data);
+					rodstat.activityLog(d3.select("#activityLog"),data);
 				}
 
 				function applyBoundsChart1() {
@@ -310,10 +310,10 @@
 					// apply to stats
 					// This is a bit inefficient - removing the whole table & re-rendering
 					// but it is simple & expendient!
-					d3.select('#stats1 table').remove();
-					d3.select('#stats2 table').remove();
-					d3.select('#stats3 table').remove();
-					d3.select('#stats4 table').remove();
+					d3.select('#activitySummary table').remove();
+					d3.select('#cooccurrence table').remove();
+					d3.select('#durationStats table').remove();
+					d3.select('#activityLog table').remove();
 					createStats(myChart.data);
 					
 				}
@@ -473,22 +473,24 @@
 
 				<div class="stats">
 					<h2>Activity Summary</h2>
-					<div id="stats1"></div>
+					<div id="activitySummary"></div>
 				</div>		
 				
 				<div class="stats">
 					<h2>Co-occurrence</h2>
-					<div id="stats2"></div>		
+					<div id="cooccurrence"></div>		
 				</div>
 							
 				<div class="stats">
 					<h2>Duration stats per stream</h2>
-					<div id="stats3"></div>
+					<div id="durationStats"></div>
 				</div>
 				
-				<div class="activityLog">
+				<div class="clear"></div>
+				
+				<div class="stats">
 					<h2>Activity log</h2>
-					<div id="stats4"></div>
+					<div id="activityLog"></div>
 				</div>
 		</div>
 	</body>
