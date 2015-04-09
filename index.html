@@ -229,16 +229,26 @@
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
+					 function drawPlayhead(index) {
+						 d3.selectAll(".playhead").remove();
+						 // post-increment playheadPos!
+						 d3.select(".graph svg").append("rect")
+							 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+					 	
+					 }
+
 					 d3.select('audio')[0][0].addEventListener("playing", function () {
 						 playheadTimer = setInterval(function() { 
-							 d3.selectAll(".playhead").remove();
-							 // post-increment playheadPos!
-							 d3.select(".graph svg").append("rect").attr("x",playheadPos++).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+							 drawPlayhead(playheadPos++);
 						 }, waveform_layout.timePerPixel()*1000);
 					 })
 
 					 d3.select('audio')[0][0].addEventListener("pause", function () {
 						 clearInterval(playheadTimer);
+					 })
+					 
+					 d3.select('audio')[0][0].addEventListener("seeked", function () {
+						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
 					 })
 					 
 
