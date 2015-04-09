@@ -115,9 +115,9 @@
 
 		 data.forEach(function(d) {
 			 var myrow = mytable.append("tr");
-			 myrow.append("td").text(d.time);
+			 myrow.append("td").text(d.time).classed("time", "true");
 			 myrow.append("td").text(d.stream_name).classed(ra.stream_names[d.streamid], "true");
-			 myrow.append("td").text(d.comment);
+			 myrow.append("td").text(d.comment).classed("comment", "true");
 		 })
 	}
 	
