@@ -340,7 +340,7 @@
 					applyBoundsChart2();
 		
 					// apply to waveform display
-					waveform_layout.setBounds(leftBound,parseInt(rightBound)+1);
+					waveform_layout.setBounds(parseInt(leftBound),parseInt(rightBound));
 		
 					// apply to audio playback 
 					var audioPlayer = d3.select('audio')[0][0];
