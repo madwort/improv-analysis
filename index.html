@@ -89,7 +89,7 @@
 					<output id="waveform_position">00:00</output>
 		
 					<script type="text/javascript">
-					var size = { width: 1000, height: 150 };
+					var size = { width: 1000, height: 149 };
 					var formats = {
 					  json: { "extension": "json", "mimeType": "application/json", "responseType": "json" },
 					  binary: { "extension": "raw", "mimeType": "application/octet-stream", "responseType": "arraybuffer" }
@@ -178,9 +178,15 @@
 				 function drawPlayhead(index) {
 					 d3.selectAll(".playhead").remove();
 					 // post-increment playheadPos!
+					 // draw on waveform
 					 d3.select(".graph svg").append("rect")
 						 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
-						 playheadPos = index+1;
+					 // draw on chart 1, offset x by 60px because of axis
+					 d3.select("#chartContainer svg").append("rect")
+						 .attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
+
+					 playheadPos = index+1;
+						 
 				 	
 				 }
 
