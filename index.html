@@ -267,6 +267,10 @@
 					 d3.select('audio')[0][0].addEventListener("seeked", function () {
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
 					 })
+
+					 d3.select('audio')[0][0].addEventListener("timeupdate", function () {
+						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
+					 })
 					 
 					 createStats(data);
 					 
