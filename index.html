@@ -211,6 +211,7 @@
 		 		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
 					 x.timePeriod = d3.time.seconds;
 					 x.timeInterval = 10;
+					 x.overrideMin = ra.timeFormat.parse("00:00:00")
 					 
 		 		    var y = myChart.addCategoryAxis("y", "stream_name");
 					 y.addOrderRule(ra.stream_names, true);
