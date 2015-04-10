@@ -249,7 +249,7 @@
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
-					 d3.select('audio')[0][0].addEventListener("playing", function () {
+					 d3.select('audio')[0][0].addEventListener("play", function () {
 						 // We don't need to maintain our state in playheadPos, we can use
 						 // something like this & get it directly from the attribute instead...
 						 // console.log(d3.select(".playhead")[0][0].getAttribute("x"));
