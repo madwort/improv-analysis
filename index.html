@@ -456,7 +456,7 @@
 						 y2.overrideMax = maxDuration;
 						 
 						 var lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
-			 		    
+						 
 						 myChart2.assignColor("Material", "#fea18d");
 						 myChart2.assignColor("Formal", "#93d1ff");
 						 myChart2.assignColor("Interface", "#b7e695");
@@ -464,6 +464,8 @@
 						 
 						 // myChart2.addLegend(140, 10, 360, 20, "left");
 			 		    myChart2.draw();
+						 // this is a bit of a hack, but I couldn't get this to work through dimple
+						 lines.shapes[0][0].setAttribute("stroke","#00282A");
 						 bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
 		
 			 		 });
@@ -471,7 +473,6 @@
 		 			d3.select("#btn2_cat_all").on("click", function() {
 						currentStream = null;
 						applyBoundsChart2();
-		 				myChart2.draw(1000);
 		 			});
 
 					function applyBoundsChart2() {
@@ -508,7 +509,6 @@
 						return function() {
 							currentStream = index;
 							applyBoundsChart2();
-							myChart2.draw(1000);
 						}
 					}
 				
