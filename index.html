@@ -177,14 +177,17 @@
 
 				 function drawPlayhead(index) {
 					 d3.selectAll(".playhead").remove();
-					 // draw on waveform
-					 d3.select(".graph svg").append("rect")
-						 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
-					 // draw on charts, offset x because SVG is wider to contain chart's axis
-					 d3.select("#chartContainer svg").append("rect")
-						 .attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
-					 d3.select("#chartContainer2 svg").append("rect")
-						 .attr("x",index+61).attr("y",30).attr("width",2).attr("height",530).classed("playhead", true);
+					 // but don't draw if it's offscreen - this mostly affects charts with SVG offsets
+					 if (index>=0 || index <=1000) {
+						 // draw on waveform
+					 	d3.select(".graph svg").append("rect")
+							.attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+					 	// draw on charts, offset x because SVG is wider to contain chart's axis
+						d3.select("#chartContainer svg").append("rect")
+							.attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
+						d3.select("#chartContainer2 svg").append("rect")
+							.attr("x",index+61).attr("y",30).attr("width",2).attr("height",530).classed("playhead", true);
+					 }
 
 					 // post-increment playheadPos!
 					 playheadPos = index+1;
@@ -387,6 +390,7 @@
 					 // refactor...
 					 var minTime = null;
 					 var x,y = null;
+					 var currentStream = null;
 					 
 					 d3.csv(dataUrl, function (data) {
 					  	 // data = dimple.filterData(data, "id", "3");
@@ -465,14 +469,21 @@
 			 		 });
 		
 		 			d3.select("#btn2_cat_all").on("click", function() {
-		 				myChart2.data = myData2;
-						ra.calculate_regression(myChart2, myData2);
+						currentStream = null;
 						applyBoundsChart2();
 		 				myChart2.draw(1000);
 		 			});
 
 					function applyBoundsChart2() {
 						// apply to chart 2
+						
+						if (currentStream !== null) {
+							myChart2.data = dimple.filterData(myData2, "streamid", currentStream.toString());
+							ra.calculate_regression(myChart2, myData2);
+						} else { 
+							myChart2.data = myData2;
+						}
+						
 						myChart2.data = myChart2.data.filter(function (d, index) {
 							return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
 										((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) <= rightBound);
@@ -495,8 +506,7 @@
 
 					function create_btn2(index) {
 						return function() {
-							myChart2.data = dimple.filterData(myData2, "streamid", index.toString());
-							ra.calculate_regression(myChart2, myData2);
+							currentStream = index;
 							applyBoundsChart2();
 							myChart2.draw(1000);
 						}
