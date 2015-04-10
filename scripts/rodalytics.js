@@ -77,7 +77,12 @@
 				data[i].stream_name = stream_names[data[i].streamid];
 			}
 		}
-					
+		
+		function timeFromSeconds(seconds) {
+			// nb. does not support milliseconds!
+			return ra.timeFormat.parse(Math.floor(seconds/60)+":"+(Math.floor(seconds%60))+":"+(seconds-Math.floor(seconds)))
+		}
+		
 		return {
 			stream_names: stream_names,
 			timeMinsSecs: timeMinsSecs,
@@ -85,7 +90,8 @@
 			calculateDurations: calculateDurations,
 			calculateDurationsPerStream: calculateDurationsPerStream,
 			calculate_regression: calculate_regression,
-			add_stream_name: add_stream_name
+			add_stream_name: add_stream_name,
+			timeFromSeconds: timeFromSeconds
 		}
 	};
 }(window, d3));
