@@ -181,7 +181,7 @@
 					 // draw on waveform
 					 d3.select(".graph svg").append("rect")
 						 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
-					 // draw on chart 1, offset x by 60px because of axis
+					 // draw on chart 1, offset x because SVG is wider to contain chart's axis
 					 d3.select("#chartContainer svg").append("rect")
 						 .attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
 
