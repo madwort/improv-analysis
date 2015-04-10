@@ -162,7 +162,7 @@
 				 var myData = null;
 				 var mySeries = null;
 				 var leftBound = 0;
-				 var rightBound = 200;
+				 var rightBound = 209;
 				 var z = null;
 				 var playheadTimer = null;
 				 var playheadPos = 0;
@@ -248,6 +248,7 @@
 					 
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
+ 					 applyBoundsChart1();
 
 					 d3.select('audio')[0][0].addEventListener("play", function () {
 						 // We don't need to maintain our state in playheadPos, we can use
@@ -266,8 +267,8 @@
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
 					 })
 					 
-
 					 createStats(data);
+					 
 				 });
 
 				 function disableAllChart1Btns() {
@@ -465,7 +466,9 @@
 						 // this is a bit of a hack, but I couldn't get this to work through dimple
 						 lines.shapes[0][0].setAttribute("stroke","#00282A");
 						 bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
-		
+
+	 					 applyBoundsChart2();
+						 
 			 		 });
 		
 		 			d3.select("#btn2_cat_all").on("click", function() {
