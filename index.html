@@ -390,6 +390,7 @@
 					 var minTime = null;
 					 var x,y = null;
 					 var currentStream = null;
+					 var lines = null;
 					 
 					 d3.csv(dataUrl, function (data) {
 					  	 // data = dimple.filterData(data, "id", "3");
@@ -454,7 +455,7 @@
 						 // set second axis to match first one
 						 y2.overrideMax = maxDuration;
 						 
-						 var lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
+						 lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
 						 
 						 myChart2.assignColor("Material", "#fea18d");
 						 myChart2.assignColor("Formal", "#93d1ff");
@@ -473,6 +474,7 @@
 		
 		 			d3.select("#btn2_cat_all").on("click", function() {
 						currentStream = null;
+					 	lines.shapes[0][0].setAttribute("stroke","#00282A");
 						applyBoundsChart2();
 		 			});
 
@@ -507,6 +509,7 @@
 					function create_btn2(index) {
 						return function() {
 							currentStream = index;
+						 	lines.shapes[0][0].setAttribute("stroke",ra.stream_colours[index]);
 							applyBoundsChart2();
 						}
 					}

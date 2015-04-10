@@ -4,6 +4,7 @@
    w["rodalytics"] = function(){
 
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
+		var stream_colours = ["", "#fea18d","#93d1ff","#b7e695","#fefca2"];
 		// this is the time format in the CSV files
 		var timeFormat = d3.time.format("%M:%S:%L");
 		// this is the time format we often want to output
@@ -85,6 +86,7 @@
 		
 		return {
 			stream_names: stream_names,
+			stream_colours: stream_colours,
 			timeMinsSecs: timeMinsSecs,
 			timeFormat: timeFormat,
 			calculateDurations: calculateDurations,
