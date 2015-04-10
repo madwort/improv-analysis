@@ -177,7 +177,6 @@
 
 				 function drawPlayhead(index) {
 					 d3.selectAll(".playhead").remove();
-					 // post-increment playheadPos!
 					 // draw on waveform
 					 d3.select(".graph svg").append("rect")
 						 .attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
@@ -185,6 +184,7 @@
 					 d3.select("#chartContainer svg").append("rect")
 						 .attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
 
+					 // post-increment playheadPos!
 					 playheadPos = index+1;
 						 
 				 	
@@ -245,6 +245,9 @@
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
 
 					 d3.select('audio')[0][0].addEventListener("playing", function () {
+						 // We don't need to maintain our state in playheadPos, we can use
+						 // something like this & get it directly from the attribute instead...
+						 // console.log(d3.select(".playhead")[0][0].getAttribute("x"));
 						 playheadTimer = setInterval(function() { 
 							 drawPlayhead(playheadPos);
 						 }, waveform_layout.timePerPixel()*1000);
