@@ -97,7 +97,8 @@
 
 	 // param is seconds, returns pixel index
 	 function indexOfTime(time) {
-		 return current_waveform_data.at_time(time);
+		 // corrects for leftBound when viewing a portion of the waveform
+		 return current_waveform_data.at_time(time-leftBound);
 	 }
 
     /**
