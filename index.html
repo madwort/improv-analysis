@@ -123,13 +123,13 @@
 					xhr.get();
 
 					waveformSvg.on("mousemove", function(){
-						var timeInSeconds = waveform_layout.time(d3.mouse(waveform[0][0])[0])+parseInt(leftBound);
+						var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 						var datecode = new Date(timeInSeconds*1000);
 						d3.select("#waveform_position").property("value",ra.timeMinsSecs(datecode));
 					});
 	
 					waveformSvg.on("click", function(){
-						var timeInSeconds = waveform_layout.time(d3.mouse(waveform[0][0])[0])+parseInt(leftBound);
+						var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 						d3.select('audio').property("currentTime", timeInSeconds);
 					});
 					
