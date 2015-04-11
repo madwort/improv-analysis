@@ -197,9 +197,13 @@
 						 return 0;
 					 } else {
 						 // but don't draw if it's offscreen - this mostly affects charts with SVG offsets
-						 if (index>=0 || index <=1000) {
+						 if (index>=0) {
 							// use this as starting point for timer increment
 							 playheadPos = index;
+							 if (index > 999) { 
+								 // draw offscreen
+								 index = 2000; 
+							 }
 							 // draw on waveform
 							 d3.select(".graph svg .playhead").attr("x",Math.floor(index));
 						 	// draw on charts, offset x because SVG is wider to contain chart's axis
