@@ -41,9 +41,3 @@
 	border-top: 1px solid black;
 	height: 150px;
 }
-
-#waveform_position {
-	position: relative;
-	left:1020px;
-	top:-1.6em;
-}
