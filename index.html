@@ -55,7 +55,6 @@
 				<script type="text/javascript">
 		
 					// min interval 12 seconds because less breaks our waveform display
-					// console.log(ra.timeFormat.parse("00:00.000"));
 					$("#range_slider").ionRangeSlider({
 						type: 'double',
 						min: 0,
@@ -336,7 +335,6 @@
 		
 					var x = myChart.axes[0];
 					// fix the scales on the graph
-					console.log(ra.timeFromSeconds(0));
 					x.overrideMin = ra.timeFromSeconds(leftBound);
 					x.overrideMax = ra.timeFromSeconds(rightBound);
 		
@@ -356,6 +354,7 @@
 					// apply to audio playback 
 					var audioPlayer = d3.select('audio')[0][0];
 					audioPlayer.pause();
+					clearInterval(playheadTimer);
 					audioPlayer.src = audioUrl+"#t="+leftBound+","+rightBound;
 					// this also resets the playback time to zero, so do that too...
 					drawPlayhead(0, true);
