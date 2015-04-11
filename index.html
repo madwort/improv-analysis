@@ -96,52 +96,46 @@
 					
 					var waveform_layout = null;
 					
-					var graphs = d3.selectAll(".graph[data-format]");
-					graphs.append("svg")
-					    .attr("width", size.width)
-					    .attr("height", size.height)
+					var waveform = d3.select(".graph[data-format]");
+					var waveformSvg = waveform.append("svg")
+						.attr("width", size.width)
+						.attr("height", size.height)
 		
 		
-					graphs.each(function(){
-						this.setAttribute("data-url",audioUrl);
-						var format = formats[this.getAttribute("data-format")];
-		
-						var config = {
-						  event_identifier: ["load", format.extension].join("."),
-						  format: format,
-						  size: size,
-						  layout: this.getAttribute("data-layout"),
-						  resample: true,
-						  data_url: this.getAttribute("data-url")
-						};
-		
-						var layout = layouts(d3.select(this).select("svg"), config);
-						waveform_layout = layout;
-		
-						var xhr = d3.xhr(config.data_url, format.mimeType);
-						xhr.responseType(format.responseType);
-		
-						xhr.on(config.event_identifier, layout.init.bind(layout));
-						xhr.get();
+					waveform.attr("data-url",audioUrl);
+					var format = formats[waveform.attr("data-format")];
+					var config = {
+					  event_identifier: ["load", format.extension].join("."),
+					  format: format,
+					  size: size,
+					  layout: waveform.attr("data-layout"),
+					  resample: true,
+					  data_url: waveform.attr("data-url")
+					};
+	
+					var layout = layouts(waveformSvg, config);
+					waveform_layout = layout;
+	
+					var xhr = d3.xhr(config.data_url, format.mimeType);
+					xhr.responseType(format.responseType);
+	
+					xhr.on(config.event_identifier, layout.init.bind(layout));
+					xhr.get();
 
-						var waveformSvg = d3.select(".graph svg");
-
-						waveformSvg.on("mousemove", function(){
-							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
-							var datecode = new Date(timeInSeconds*1000);
-							d3.select("#waveform_position").property("value",ra.timeMinsSecs(datecode));
-						});
-		
-						waveformSvg.on("click", function(){
-							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
-							d3.select('audio').property("currentTime", timeInSeconds);
-						});
-						
-					 	waveformSvg.append("rect")
-							.attr("x",0).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
-		
+					waveformSvg.on("mousemove", function(){
+						var timeInSeconds = waveform_layout.time(d3.mouse(waveform[0][0])[0])+parseInt(leftBound);
+						var datecode = new Date(timeInSeconds*1000);
+						d3.select("#waveform_position").property("value",ra.timeMinsSecs(datecode));
 					});
-		
+	
+					waveformSvg.on("click", function(){
+						var timeInSeconds = waveform_layout.time(d3.mouse(waveform[0][0])[0])+parseInt(leftBound);
+						d3.select('audio').property("currentTime", timeInSeconds);
+					});
+					
+				 	waveformSvg.append("rect")
+						.attr("x",0).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+
 					</script>
 		
 				</div>
