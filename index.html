@@ -100,7 +100,7 @@
 					var waveformSvg = waveform.append("svg")
 						.attr("width", size.width)
 						.attr("height", size.height)
-					waveformSvg.append("text").attr("x",0).attr("y",15).attr("id","waveform_position").text("00:00").style("visibility","hidden");
+					waveformSvg.append("text").attr("x",0).attr("y",148).attr("id","waveform_position").text("00:00").style("visibility","hidden");
 		
 		
 					waveform.attr("data-url",audioUrl);
@@ -126,13 +126,16 @@
 					waveformSvg.on("mousemove", function(){
 						var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 						var datecode = new Date(timeInSeconds*1000);
-						var displayPosition = 0; 
-						if (d3.mouse(this)[0] > 960) { 
-							displayPosition = 960; 
-						} else { 
-							displayPosition = d3.mouse(this)[0];
-						};
-						d3.select("#waveform_position").attr("x",displayPosition).text(ra.timeMinsSecs(datecode));
+
+						var displayX = d3.mouse(this)[0]+5; 
+						if (displayX > 960) { displayX = 960; }; 
+
+						// var displayY = d3.mouse(this)[1];
+						// if ( displayY < 15) { displayY = 15; };
+						// if ( displayY > 148) { displayY = 148; };
+						var displayY = 145;
+
+						d3.select("#waveform_position").attr("x",displayX).attr("y",displayY).text(ra.timeMinsSecs(datecode));
 					});
 
 					waveformSvg.on("mouseover", function(){
