@@ -245,10 +245,7 @@
 							return tooltip;
 						};
 
-					 myChart.assignColor("Material", "#fea18d");
-					 myChart.assignColor("Formal", "#93d1ff");
-					 myChart.assignColor("Interface", "#b7e695");
-					 myChart.assignColor("Interaction", "#fefca2");
+					 ra.assignColours(myChart);
 					 
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio'));
@@ -469,10 +466,7 @@
 						 
 						 lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
 						 
-						 myChart2.assignColor("Material", "#fea18d");
-						 myChart2.assignColor("Formal", "#93d1ff");
-						 myChart2.assignColor("Interface", "#b7e695");
-						 myChart2.assignColor("Interaction", "#fefca2");
+						 ra.assignColours(myChart2);
 						 
 						 // myChart2.addLegend(140, 10, 360, 20, "left");
 			 		    myChart2.draw();

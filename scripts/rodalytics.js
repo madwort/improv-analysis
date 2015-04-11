@@ -81,6 +81,12 @@
 			return ra.timeFormat.parse(Math.floor(seconds/60)+":"+(Math.floor(seconds%60))+"."+(seconds-Math.floor(seconds)))
 		}
 		
+		function assignColours(chart) {
+			for (var i = 1; i < stream_names.length; i++) {
+				chart.assignColor(stream_names[i], stream_colours[i]);
+			}
+		}
+		
 		return {
 			stream_names: stream_names,
 			stream_colours: stream_colours,
@@ -90,7 +96,8 @@
 			calculateDurationsPerStream: calculateDurationsPerStream,
 			calculate_regression: calculate_regression,
 			add_stream_name: add_stream_name,
-			timeFromSeconds: timeFromSeconds
+			timeFromSeconds: timeFromSeconds,
+			assignColours: assignColours
 		}
 	};
 }(window, d3));
