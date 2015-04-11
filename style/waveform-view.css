@@ -15,7 +15,7 @@
 
 .graph{
 /*  margin-bottom: 2em;*/
-  margin-left: 60px;
+  margin-left: 59px;
   margin-right: 40px;
   width: 1000px;
 }
@@ -37,7 +37,7 @@
 }
 
 #waveform .graph { 
-	border-left: 1px solid black;
+	border-left: 2px solid black;
 	border-top: 1px solid black;
 	height: 150px;
 }
