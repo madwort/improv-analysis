@@ -109,32 +109,42 @@
 						}
 					}
 
+					document.documentElement.addEventListener('keydown', function (e) {
+					    if ( ( e.keycode || e.which ) == 32) {
+					        e.preventDefault();
+					    }
+					}, false);
+					
 					document.addEventListener('keyup',function(e) { 
 						var audioPlayer = d3.select('audio');
 						switch (e.keyCode) {
 							// the letter P
 							case 80:
+							// the space
+							case 32:
 								audioPlayPause();
 								break;
 							// the comma 
 							case 188:
+							// the left arrow
 							case 37:
 								audioPlayer[0][0].currentTime -= 10;
 								break;
 							// the full stop
 							case 190:
+							// the right arrow
 							case 39:
 								audioPlayer[0][0].currentTime += 10;
 								break;
 						}
 					});
-					
+
 					d3.select("#play").on("click",audioPlay);
 					d3.select("#pause").on("click",audioPause);
 					
 				</script>
-			</div>
-		</div>
+			</div> <!-- wrapper -->
+		</div> <!-- topbar -->
 		<div id="content">		
 				<div id="waveform">
 					<div class="graph" id="waveform-graph" data-format="binary" data-url="" data-layout="area"></div>
