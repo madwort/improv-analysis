@@ -492,7 +492,7 @@
 						 x.overrideMin = ra.timeFormat.parse(minTime);
 						 x.overrideMax = ra.timeFormat.parse(maxTime);
 						 
-						 y = myChart2.addMeasureAxis("y", "duration_per_stream");
+						 y = myChart2.addMeasureAxis("y", "duration");
 						 y.overrideMax = maxDuration;
 						 
 						 // myChart2.addSeries("comment");
@@ -547,9 +547,15 @@
 						// apply to chart 2
 						
 						if (currentStream !== null) {
+	  		 				 myData2.map(function (d) {
+	  		 				 	d.duration = d.duration_per_stream;
+	  		 				 })
 							myChart2.data = dimple.filterData(myData2, "streamid", currentStream.toString());
 							ra.calculate_regression(myChart2, myData2);
 						} else { 
+	  		 				 myData2.map(function (d) {
+	  		 				 	d.duration = d.duration_all_streams;
+	  		 				 })
 							myChart2.data = myData2;
 						}
 						

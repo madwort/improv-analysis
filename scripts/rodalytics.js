@@ -49,7 +49,7 @@
 				d.time_offset = (timeFormat.parse(d.time)-timeFormat.parse(minTime))/1000;
 			});
 			var regressionData = chart.data.map(function (d) {
-				return [d.time_offset,d.duration_per_stream];
+				return [d.time_offset,d.duration];
 			});
 
 			var regression = window.regression('linear', regressionData );
