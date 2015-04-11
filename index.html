@@ -78,7 +78,7 @@
 				<script type="text/javascript">
 					// the sooner we do this, the sooner we get the remote file data loaded
 					// otherwise could just call applyBounds() now
-					d3.select('audio')[0][0].src = audioUrl;
+					d3.select('audio').property("src",audioUrl);
 				</script>
 			</div>
 		</div>
@@ -131,12 +131,12 @@
 						waveformSvg.on("mousemove", function(){
 							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 							var datecode = new Date(timeInSeconds*1000);
-							d3.select("#waveform_position")[0][0].value = ra.timeMinsSecs(datecode);
+							d3.select("#waveform_position").property("value",ra.timeMinsSecs(datecode));
 						});
 		
 						waveformSvg.on("click", function(){
 							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
-							d3.select('audio')[0][0].currentTime = timeInSeconds;
+							d3.select('audio').property("currentTime", timeInSeconds);
 						});
 						
 					 	waveformSvg.append("rect")
@@ -168,12 +168,13 @@
 				 var rightBound = 209;
 				 var z = null;
 				 var playheadPos = leftBound;
+				 var playheadTimer = null;
 				 
 				 function bubbleClickAudio(series, audioPlayer) {
 					 // this has to be after dimple.chart.draw() in order to work!
 					 // no need to remove the old listeners as d3 automatically replaces them
 					 series.shapes.on("click", function (e) {
-						audioPlayer.currentTime = (e.x.getMinutes()*60)+e.x.getSeconds();
+						audioPlayer.property("currentTime",(e.x.getMinutes()*60)+e.x.getSeconds());
 					 });
 				 }
 
@@ -181,7 +182,7 @@
 				 // index - x pixel value to display
 				 // jump - whether to jump straight there or wait to catch-up
 				 function drawPlayhead(index, jump) {
-					 if (d3.select(".playhead")[0][0]!=null && (!jump && index < d3.select(".playhead")[0][0].getAttribute("x"))) {
+					 if (!jump && index < d3.select(".playhead").attr("x")) {
 						 playheadPos = index;
 						 return 0;
 					 } else {
@@ -250,28 +251,28 @@
 					 myChart.assignColor("Interaction", "#fefca2");
 					 
 		 		    myChart.draw();
-					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
+					 bubbleClickAudio(mySeries,d3.select('audio'));
  					 applyBoundsChart1();
 
-					 d3.select('audio')[0][0].addEventListener("play", function () {
+					 d3.select('audio').on("play", function () {
 						 // We don't need to maintain our state in playheadPos, we can use
 						 // something like this & get it directly from the attribute instead...
-						 // console.log(d3.select(".playhead")[0][0].getAttribute("x"));
+						 // console.log(d3.select(".playhead").attr("x"));
 						 playheadTimer = setInterval(function() { 
 							 playheadPos++;
 							 drawPlayhead(playheadPos, false);
 						 }, waveform_layout.timePerPixel()*1000);
 					 })
 
-					 d3.select('audio')[0][0].addEventListener("pause", function () {
+					 d3.select('audio').on("pause", function () {
 						 clearInterval(playheadTimer);
 					 })
 					 
-					 d3.select('audio')[0][0].addEventListener("seeked", function () {
+					 d3.select('audio').on("seeked", function () {
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), true);
 					 })
 
-					 d3.select('audio')[0][0].addEventListener("timeupdate", function () {
+					 d3.select('audio').on("timeupdate", function () {
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), false);
 					 })
 
@@ -343,7 +344,7 @@
 		
 				 	myChart.draw(1000);
 					// redo click handlers
-					bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
+					bubbleClickAudio(mySeries,d3.select('audio'));
 				}
 
 				// Update everything when we change the zoom of waveform & chart 1
@@ -355,10 +356,10 @@
 					waveform_layout.setBounds(parseInt(leftBound),parseInt(rightBound));
 		
 					// apply to audio playback 
-					var audioPlayer = d3.select('audio')[0][0];
-					audioPlayer.pause();
+					var audioPlayer = d3.select('audio');
+					audioPlayer[0][0].pause();
 					clearInterval(playheadTimer);
-					audioPlayer.src = audioUrl+"#t="+leftBound+","+rightBound;
+					audioPlayer.property("src", audioUrl+"#t="+leftBound+","+rightBound);
 					// this also resets the playback time to zero, so do that too...
 					drawPlayhead(0, true);
 					
@@ -476,8 +477,8 @@
 						 // myChart2.addLegend(140, 10, 360, 20, "left");
 			 		    myChart2.draw();
 						 // this is a bit of a hack, but I couldn't get this to work through dimple
-						 lines.shapes[0][0].setAttribute("stroke","#00282A");
-						 bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
+						 lines.shapes.attr("stroke","#00282A");
+						 bubbleClickAudio(mySeries2,d3.select('audio'));
 
 						 svg2.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",530)
 						 	.classed("playhead", true);
@@ -488,7 +489,7 @@
 		
 		 			d3.select("#btn2_cat_all").on("click", function() {
 						currentStream = null;
-					 	lines.shapes[0][0].setAttribute("stroke","#00282A");
+					 	lines.shapes.attr("stroke","#00282A");
 						applyBoundsChart2();
 		 			});
 
@@ -516,14 +517,14 @@
 						
 					 	myChart2.draw(1000);
 						// redo click handlers
-						bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
+						bubbleClickAudio(mySeries2,d3.select('audio'));
 					}
 					
 
 					function create_btn2(index) {
 						return function() {
 							currentStream = index;
-						 	lines.shapes[0][0].setAttribute("stroke",ra.stream_colours[index]);
+						 	lines.shapes.attr("stroke",ra.stream_colours[index]);
 							applyBoundsChart2();
 						}
 					}
