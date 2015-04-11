@@ -105,16 +105,14 @@
 					graphs.each(function(){
 						this.setAttribute("data-url",audioUrl);
 						var format = formats[this.getAttribute("data-format")];
-						var programme = this.getAttribute("data-programme");
 		
 						var config = {
-						  event_identifier: ["load", programme, format.extension].join("."),
+						  event_identifier: ["load", format.extension].join("."),
 						  format: format,
 						  size: size,
-						  programme: programme,
 						  layout: this.getAttribute("data-layout"),
 						  resample: true,
-						  data_url: this.getAttribute("data-url") || "./data-"+programme+"."+format.extension
+						  data_url: this.getAttribute("data-url")
 						};
 		
 						var layout = layouts(d3.select(this).select("svg"), config);

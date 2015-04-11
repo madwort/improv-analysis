@@ -17,9 +17,7 @@
       var arrayBufferAdapter = WaveformData.adapters.arraybuffer;
 
       // Asynchronous parsing
-      (config.data_url && !config.programme)
-        ? WaveformData.builders.webaudio(xhr.response, onDataProcessed)
-        : onDataProcessed(WaveformData.create(xhr));
+		WaveformData.builders.webaudio(xhr.response, onDataProcessed);
 
       // Processing parsed data
       function onDataProcessed(data){
