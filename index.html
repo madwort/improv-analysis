@@ -280,46 +280,22 @@
 					 
 				 });
 
-				 function disableAllChart1Btns() {
-					 d3.selectAll('.chart1btn').classed("enabled", false);
+				 function createChart1Btn(selector,min,max,durationFunction) {
+	  				d3.select(selector).on("click", function() {
+	 					z.overrideMin = min;
+	 					z.overrideMax = max;
+	 					myData.map(durationFunction);
+  					 	d3.selectAll('.chart1btn').classed("enabled", false);
+	 					d3.select(selector).classed("enabled",true);
+	  					myChart.draw(1000);
+	  					// don't need to redo the click handlers because bounds don't change 
+	  				});
 				 }
-				 
- 				d3.select("#btn_no_cat").on("click", function() {
-					z.overrideMin = 0;
-					z.overrideMax = 10;
-					myData.map(function (d) {
-						d.duration = 1;
-					});
-					disableAllChart1Btns();
-					d3.select("#btn_no_cat").classed("enabled",true);
- 					myChart.draw(1000);
- 					// don't need to redo the click handlers because bounds don't change 
- 				});
 				
-				d3.select("#btn_all_cat").on("click", function() {
-					z.overrideMin = null;
-					z.overrideMax = null;
-					myData.map(function (d) {
-						d.duration = d.duration_all_streams;
-					});
-					disableAllChart1Btns();
-					d3.select("#btn_all_cat").classed("enabled",true);
-					myChart.draw(1000);
-					// don't need to redo the click handlers because bounds don't change 
-				});
-		
-				d3.select("#btn_same_cat").on("click", function() {
-					z.overrideMin = null;
-					z.overrideMax = null;
-					myData.map(function (d) {
-						d.duration = d.duration_per_stream;
-					});
-					disableAllChart1Btns();
-					d3.select("#btn_same_cat").classed("enabled",true);
-				 	myChart.draw(1000);
-					// don't need to redo the click handlers because bounds don't change 
-				});
-
+ 				createChart1Btn("#btn_no_cat",0,10,function (d) { d.duration = 1; });
+				createChart1Btn("#btn_all_cat",null,null,function (d) { d.duration = d.duration_all_streams; });
+				createChart1Btn("#btn_same_cat",null,null,function (d) { d.duration = d.duration_per_stream; });
+				 				
 				function createStats(data) {
 					rodstat.activitySummary(d3.select("#activitySummary"),data);
 					rodstat.cooccurrence(d3.select("#cooccurrence"), data);
