@@ -173,18 +173,28 @@
 					 });
 				 }
 
-				 function drawPlayhead(index) {
-					 d3.selectAll(".playhead").remove();
-					 // but don't draw if it's offscreen - this mostly affects charts with SVG offsets
-					 if (index>=0 || index <=1000) {
-						 // draw on waveform
-					 	d3.select(".graph svg").append("rect")
-							.attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
-					 	// draw on charts, offset x because SVG is wider to contain chart's axis
-						d3.select("#chartContainer svg").append("rect")
-							.attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
-						d3.select("#chartContainer2 svg").append("rect")
-							.attr("x",index+61).attr("y",30).attr("width",2).attr("height",530).classed("playhead", true);
+				 // params:
+				 // index - x pixel value to display
+				 // jump - whether to jump straight there or wait to catch-up
+				 function drawPlayhead(index, jump) {
+					 if (d3.select(".playhead")[0][0]!=null && (!jump && index < d3.select(".playhead")[0][0].getAttribute("x"))) {
+						 playheadPos = index;
+						 return 0;
+					 } else {
+						 d3.selectAll(".playhead").remove();
+						 // but don't draw if it's offscreen - this mostly affects charts with SVG offsets
+						 if (index>=0 || index <=1000) {
+							// use this as starting point for timer increment
+							 playheadPos = index;
+							 // draw on waveform
+						 	d3.select(".graph svg").append("rect")
+								.attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+						 	// draw on charts, offset x because SVG is wider to contain chart's axis
+							d3.select("#chartContainer svg").append("rect")
+								.attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
+							d3.select("#chartContainer2 svg").append("rect")
+								.attr("x",index+61).attr("y",30).attr("width",2).attr("height",530).classed("playhead", true);
+						 }
 					 }
 				 }
 
@@ -244,8 +254,26 @@
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
  					 applyBoundsChart1();
 
+					 d3.select('audio')[0][0].addEventListener("play", function () {
+						 // We don't need to maintain our state in playheadPos, we can use
+						 // something like this & get it directly from the attribute instead...
+						 // console.log(d3.select(".playhead")[0][0].getAttribute("x"));
+						 playheadTimer = setInterval(function() { 
+							 playheadPos++;
+							 drawPlayhead(playheadPos, false);
+						 }, waveform_layout.timePerPixel()*1000);
+					 })
+
+					 d3.select('audio')[0][0].addEventListener("pause", function () {
+						 clearInterval(playheadTimer);
+					 })
+					 
+					 d3.select('audio')[0][0].addEventListener("seeked", function () {
+						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), true);
+					 })
+
 					 d3.select('audio')[0][0].addEventListener("timeupdate", function () {
-						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
+						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), false);
 					 })
 					 
 					 createStats(data);
