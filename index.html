@@ -75,24 +75,37 @@
 					
 				</script>
 				<span id="audioPlayer">
-					<audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause, or use this button: 
-					<button id="playPause">Play/Pause</button>
+					<audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause, or use these buttons: 
+					<button id="play" class="playPause">Play</button><button id="pause" class="playPause highlight">Pause</button>
 				</span>
 				<script type="text/javascript">
 					// the sooner we do this, the sooner we get the remote file data loaded
 					// otherwise could just call applyBounds() now
 					d3.select('audio').property("src",audioUrl);
 
-					function playPause() {
+					function audioPlay() {
+						var audioPlayer = d3.select('audio');
+						if (audioPlayer[0][0].currentTime < leftBound || 
+							 audioPlayer[0][0].currentTime > rightBound) {
+								 audioPlayer[0][0].currentTime = leftBound;
+						} 
+						audioPlayer[0][0].play();
+						d3.select("#pause").classed("highlight",false);
+						d3.select("#play").classed("highlight",true);
+					}
+
+					function audioPause() {
+						d3.select('audio')[0][0].pause();
+						d3.select("#pause").classed("highlight",true);
+						d3.select("#play").classed("highlight",false);
+					}
+
+					function audioPlayPause() {
 						var audioPlayer = d3.select('audio');
 						if(audioPlayer[0][0].paused) {
-							if (audioPlayer[0][0].currentTime < leftBound || 
-								 audioPlayer[0][0].currentTime > rightBound) {
-									 audioPlayer[0][0].currentTime = leftBound;
-							} 
-							audioPlayer[0][0].play();
+							audioPlay();
 						} else {
-							audioPlayer[0][0].pause();
+							audioPause();
 						}
 					}
 
@@ -101,7 +114,7 @@
 						switch (e.keyCode) {
 							// the letter P
 							case 80:
-								playPause(audioPlayer);
+								audioPlayPause();
 								break;
 							// the comma 
 							case 188:
@@ -114,7 +127,8 @@
 						}
 					});
 					
-					d3.select("#playPause").on("click",playPause);
+					d3.select("#play").on("click",audioPlay);
+					d3.select("#pause").on("click",audioPause);
 					
 				</script>
 			</div>
@@ -323,7 +337,7 @@
 						 // audio element might automatically stop if it has url set correctly
 						 // but seemingly not always, so ensure in JS
 						 if (this.currentTime > rightBound) {
-							 this.pause();
+							 audioPause();
 						 }
 					 })
 
@@ -381,7 +395,7 @@
 		
 					// apply to audio playback 
 					var audioPlayer = d3.select('audio');
-					audioPlayer[0][0].pause();
+					audioPause();
 					clearInterval(playheadTimer);
 					audioPlayer.property("src", audioUrl+"#t="+leftBound+","+rightBound);
 					// this also resets the playback time to zero, so do that too...

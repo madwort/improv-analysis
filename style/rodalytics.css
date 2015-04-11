@@ -54,7 +54,9 @@ audio { width: 1000px; height: 25px;}
 
 #audioPlayer { padding-left: 0px;}
 
-button#playPause { border: 1px solid black; }
+button.playPause { border: 1px solid black; font-size: 0.7em; margin-right: 0.5em;}
+
+button.playPause.highlight { background: #236467; color: white;}
 
 #content {
 /* don't overlap with the topbar */
