@@ -85,7 +85,10 @@
 							// the letter P
 							case 80:
 								if(audioPlayer[0][0].paused) {
-									audioPlayer[0][0].play();
+									if (audioPlayer[0][0].currentTime >= leftBound && 
+										 audioPlayer[0][0].currentTime <= rightBound) {
+										audioPlayer[0][0].play();
+									}
 								} else {
 									audioPlayer[0][0].pause();
 								}
@@ -305,6 +308,11 @@
 
 					 d3.select('audio').on("timeupdate", function () {
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), false);
+						 // audio element might automatically stop if it has url set correctly
+						 // but seemingly not always, so ensure in JS
+						 if (this.currentTime > rightBound) {
+							 this.pause();
+						 }
 					 })
 
 					 svg.append("rect").attr("x",61).attr("y",0).attr("width",2).attr("height",430)
