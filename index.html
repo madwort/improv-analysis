@@ -183,8 +183,7 @@
 					});
 	
 					waveformSvg.on("click", function(){
-						var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
-						d3.select('audio').property("currentTime", timeInSeconds);
+						d3.select('audio').property("currentTime", waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound));
 					});
 					
 				 	waveformSvg.append("rect")
