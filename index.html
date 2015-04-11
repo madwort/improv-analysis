@@ -81,20 +81,24 @@
 					d3.select('audio').property("src",audioUrl);
 					document.addEventListener('keyup',function(e) { 
 						var audioPlayer = d3.select('audio');
-						console.log(audioPlayer[0][0].paused);
-						if (e.keyCode == 80) {
-							if(audioPlayer[0][0].paused) {
-								audioPlayer[0][0].play();
-							} else {
-								audioPlayer[0][0].pause();
-							}
-						};
-						if (e.keyCode == 188){
-							audioPlayer[0][0].currentTime -= 10;
-						};
-						if (e.keyCode == 190){
-							audioPlayer[0][0].currentTime += 10;
-						};
+						switch (e.keyCode) {
+							// the letter P
+							case 80:
+								if(audioPlayer[0][0].paused) {
+									audioPlayer[0][0].play();
+								} else {
+									audioPlayer[0][0].pause();
+								}
+								break;
+							// the comma 
+							case 188:
+								audioPlayer[0][0].currentTime -= 10;
+								break;
+							// the full stop
+							case 190:
+								audioPlayer[0][0].currentTime += 10;
+								break;
+						}
 					});
 				</script>
 			</div>
