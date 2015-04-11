@@ -74,25 +74,34 @@
 					});
 					
 				</script>
-				<span id="audioPlayer"><audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause.</span>
+				<span id="audioPlayer">
+					<audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause, or use this button: 
+					<button id="playPause">Play/Pause</button>
+				</span>
 				<script type="text/javascript">
 					// the sooner we do this, the sooner we get the remote file data loaded
 					// otherwise could just call applyBounds() now
 					d3.select('audio').property("src",audioUrl);
+
+					function playPause() {
+						var audioPlayer = d3.select('audio');
+						if(audioPlayer[0][0].paused) {
+							if (audioPlayer[0][0].currentTime < leftBound || 
+								 audioPlayer[0][0].currentTime > rightBound) {
+									 audioPlayer[0][0].currentTime = leftBound;
+							} 
+							audioPlayer[0][0].play();
+						} else {
+							audioPlayer[0][0].pause();
+						}
+					}
+
 					document.addEventListener('keyup',function(e) { 
 						var audioPlayer = d3.select('audio');
 						switch (e.keyCode) {
 							// the letter P
 							case 80:
-								if(audioPlayer[0][0].paused) {
-									if (audioPlayer[0][0].currentTime < leftBound || 
-										 audioPlayer[0][0].currentTime > rightBound) {
-											 audioPlayer[0][0].currentTime = leftBound;
-									} 
-									audioPlayer[0][0].play();
-								} else {
-									audioPlayer[0][0].pause();
-								}
+								playPause(audioPlayer);
 								break;
 							// the comma 
 							case 188:
@@ -104,6 +113,9 @@
 								break;
 						}
 					});
+					
+					d3.select("#playPause").on("click",playPause);
+					
 				</script>
 			</div>
 		</div>
