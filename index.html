@@ -164,6 +164,7 @@
 				 var leftBound = 0;
 				 var rightBound = 209;
 				 var z = null;
+				 var playheadPos = leftBound;
 				 
 				 function bubbleClickAudio(series, audioPlayer) {
 					 // this has to be after dimple.chart.draw() in order to work!
@@ -357,7 +358,7 @@
 					audioPlayer.pause();
 					audioPlayer.src = audioUrl+"#t="+leftBound+","+rightBound;
 					// this also resets the playback time to zero, so do that too...
-					drawPlayhead(0);
+					drawPlayhead(0, true);
 					
 					
 					// apply to stats
