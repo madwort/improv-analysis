@@ -329,10 +329,7 @@
 
 				function applyBoundsChart1() {
 					// apply to chart 1
-					myChart.data = myData.filter(function (d, index) {
-						return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) >= leftBound ) &&
-									((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) <= rightBound);
-					});
+					myChart.data = myData.filter(ra.timeFilter);
 		
 					var x = myChart.axes[0];
 					// fix the scales on the graph
@@ -497,10 +494,7 @@
 							myChart2.data = myData2;
 						}
 						
-						myChart2.data = myChart2.data.filter(function (d, index) {
-							return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) >= leftBound ) &&
-										((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) <= rightBound);
-						});
+						myChart2.data = myChart2.data.filter(ra.timeFilter);
 
 						ra.calculate_regression(myChart2, myData2);
 

@@ -86,6 +86,11 @@
 				chart.assignColor(stream_names[i], stream_colours[i]);
 			}
 		}
+
+		function timeFilter(d, index) {
+			return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) >= leftBound ) &&
+						((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) <= rightBound);
+		}
 		
 		return {
 			stream_names: stream_names,
@@ -97,7 +102,8 @@
 			calculate_regression: calculate_regression,
 			add_stream_name: add_stream_name,
 			timeFromSeconds: timeFromSeconds,
-			assignColours: assignColours
+			assignColours: assignColours,
+			timeFilter: timeFilter
 		}
 	};
 }(window, d3));
