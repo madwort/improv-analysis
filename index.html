@@ -126,17 +126,21 @@
 						xhr.on(config.event_identifier, layout.init.bind(layout));
 						xhr.get();
 
-						d3.select(".graph svg").on("mousemove", function(){
+						var waveformSvg = d3.select(".graph svg");
+
+						waveformSvg.on("mousemove", function(){
 							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 							var datecode = new Date(timeInSeconds*1000);
 							d3.select("#waveform_position")[0][0].value = ra.timeMinsSecs(datecode);
 						});
 		
-						d3.select(".graph svg").on("click", function(){
+						waveformSvg.on("click", function(){
 							var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
 							d3.select('audio')[0][0].currentTime = timeInSeconds;
 						});
 						
+					 	waveformSvg.append("rect")
+							.attr("x",0).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
 		
 					});
 		
@@ -181,19 +185,15 @@
 						 playheadPos = index;
 						 return 0;
 					 } else {
-						 d3.selectAll(".playhead").remove();
 						 // but don't draw if it's offscreen - this mostly affects charts with SVG offsets
 						 if (index>=0 || index <=1000) {
 							// use this as starting point for timer increment
 							 playheadPos = index;
 							 // draw on waveform
-						 	d3.select(".graph svg").append("rect")
-								.attr("x",index).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
+							 d3.select(".graph svg .playhead").attr("x",Math.floor(index));
 						 	// draw on charts, offset x because SVG is wider to contain chart's axis
-							d3.select("#chartContainer svg").append("rect")
-								.attr("x",index+61).attr("y",0).attr("width",2).attr("height",430).classed("playhead", true);
-							d3.select("#chartContainer2 svg").append("rect")
-								.attr("x",index+61).attr("y",30).attr("width",2).attr("height",530).classed("playhead", true);
+							 d3.select("#chartContainer svg .playhead").attr("x",Math.floor(index)+61);
+							 d3.select("#chartContainer2 svg .playhead").attr("x",Math.floor(index)+61);
 						 }
 					 }
 				 }
@@ -274,7 +274,10 @@
 					 d3.select('audio')[0][0].addEventListener("timeupdate", function () {
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), false);
 					 })
-					 
+
+					 svg.append("rect").attr("x",61).attr("y",0).attr("width",2).attr("height",430)
+					 	.classed("playhead", true);
+
 					 createStats(data);
 					 
 				 });
@@ -475,6 +478,9 @@
 						 // this is a bit of a hack, but I couldn't get this to work through dimple
 						 lines.shapes[0][0].setAttribute("stroke","#00282A");
 						 bubbleClickAudio(mySeries2,d3.select('audio')[0][0]);
+
+						 svg2.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",530)
+						 	.classed("playhead", true);
 
 	 					 applyBoundsChart2();
 						 
