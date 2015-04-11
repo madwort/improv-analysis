@@ -164,8 +164,6 @@
 				 var leftBound = 0;
 				 var rightBound = 209;
 				 var z = null;
-				 var playheadTimer = null;
-				 var playheadPos = 0;
 				 
 				 function bubbleClickAudio(series, audioPlayer) {
 					 // this has to be after dimple.chart.draw() in order to work!
@@ -188,11 +186,6 @@
 						d3.select("#chartContainer2 svg").append("rect")
 							.attr("x",index+61).attr("y",30).attr("width",2).attr("height",530).classed("playhead", true);
 					 }
-
-					 // post-increment playheadPos!
-					 playheadPos = index+1;
-						 
-				 	
 				 }
 
 				 d3.csv(dataUrl, function (data) {
@@ -250,23 +243,6 @@
 		 		    myChart.draw();
 					 bubbleClickAudio(mySeries,d3.select('audio')[0][0]);
  					 applyBoundsChart1();
-
-					 d3.select('audio')[0][0].addEventListener("play", function () {
-						 // We don't need to maintain our state in playheadPos, we can use
-						 // something like this & get it directly from the attribute instead...
-						 // console.log(d3.select(".playhead")[0][0].getAttribute("x"));
-						 playheadTimer = setInterval(function() { 
-							 drawPlayhead(playheadPos);
-						 }, waveform_layout.timePerPixel()*1000);
-					 })
-
-					 d3.select('audio')[0][0].addEventListener("pause", function () {
-						 clearInterval(playheadTimer);
-					 })
-					 
-					 d3.select('audio')[0][0].addEventListener("seeked", function () {
-						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
-					 })
 
 					 d3.select('audio')[0][0].addEventListener("timeupdate", function () {
 						 drawPlayhead(waveform_layout.indexOfTime(this.currentTime));
