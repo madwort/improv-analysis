@@ -179,7 +179,8 @@
 				 // index - x pixel value to display
 				 // jump - whether to jump straight there or wait to catch-up
 				 function drawPlayhead(index, jump) {
-					 if (!jump && index < playheadPos) {
+					 if (d3.select(".playhead")[0][0]!=null && (!jump && index < d3.select(".playhead")[0][0].getAttribute("x"))) {
+						 playheadPos = index;
 						 return 0;
 					 } else {
 						 d3.selectAll(".playhead").remove();
