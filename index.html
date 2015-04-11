@@ -79,6 +79,17 @@
 					// the sooner we do this, the sooner we get the remote file data loaded
 					// otherwise could just call applyBounds() now
 					d3.select('audio').property("src",audioUrl);
+					document.addEventListener('keyup',function(e) { 
+						var audioPlayer = d3.select('audio');
+						console.log(audioPlayer[0][0].paused);
+						if (e.keyCode == 80) {
+							if(audioPlayer[0][0].paused) {
+								audioPlayer[0][0].play();
+							} else {
+								audioPlayer[0][0].pause();
+							}
+						};
+					});
 				</script>
 			</div>
 		</div>
