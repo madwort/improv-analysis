@@ -126,6 +126,10 @@ button.playPause.highlight { background: #236467; color: white;}
 	padding: 5px;
 }
 
-td.comment {
+#activityLog td.comment {
 	width: 40em;
+}
+
+#activityLog tr:nth-child(even) {
+	background: #efefef;
 }
