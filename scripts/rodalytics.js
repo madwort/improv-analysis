@@ -6,7 +6,7 @@
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
 		var stream_colours = ["", "#fea18d","#93d1ff","#b7e695","#fefca2"];
 		// this is the time format in the CSV files
-		var timeFormat = d3.time.format("%M:%S:%L");
+		var timeFormat = d3.time.format("%M:%S.%L");
 		// this is the time format we often want to output
 		// perhaps we should use this format in the CSV in future?
 		var timeMinsSecs = d3.time.format("%M:%S");
@@ -14,11 +14,10 @@
 		// adds object value duration_all_streams to every element in data
 	   function calculateDurations(data) {
 			 var previous_time = null;
-			 var format = d3.time.format("%M:%S:%L");
 			 for (var i = 0; i < data.length; i++) {
 				 // console.log(stream_times[data[i].streamid]);
 				 if (previous_time != null) {
-					 data[i].duration_all_streams = (format.parse(data[i].time) - format.parse(previous_time))/1000;
+					 data[i].duration_all_streams = (timeFormat.parse(data[i].time) - timeFormat.parse(previous_time))/1000;
 				 } else {
 					 data[i].duration_all_streams = 0;
 				 }
@@ -30,12 +29,11 @@
 		function calculateDurationsPerStream(data) {
 			// stream_ids are actually 1-4 so initializing 0-4 but won't use 0.
 			 var stream_times = [null, null, null, null, null];
-			 var format = d3.time.format("%M:%S:%L");
 			 for (var i = 0; i < data.length; i++) {
 				 // console.log(stream_times[data[i].streamid]);
 				 if (stream_times[data[i].streamid] != null) {
 					 data[i].duration_per_stream = 
-					 	(format.parse(data[i].time) - format.parse(stream_times[data[i].streamid]))/1000;
+					 	(timeFormat.parse(data[i].time) - timeFormat.parse(stream_times[data[i].streamid]))/1000;
 				 } else {
 					 data[i].duration_per_stream = 0;
 				 }
@@ -80,8 +78,7 @@
 		}
 		
 		function timeFromSeconds(seconds) {
-			// nb. does not support milliseconds!
-			return ra.timeFormat.parse(Math.floor(seconds/60)+":"+(Math.floor(seconds%60))+":"+(seconds-Math.floor(seconds)))
+			return ra.timeFormat.parse(Math.floor(seconds/60)+":"+(Math.floor(seconds%60))+"."+(seconds-Math.floor(seconds)))
 		}
 		
 		return {

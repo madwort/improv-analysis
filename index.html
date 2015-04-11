@@ -55,7 +55,7 @@
 				<script type="text/javascript">
 		
 					// min interval 12 seconds because less breaks our waveform display
-					// console.log(ra.timeFormat.parse("00:00:00"));
+					// console.log(ra.timeFormat.parse("00:00.000"));
 					$("#range_slider").ionRangeSlider({
 						type: 'double',
 						min: 0,
@@ -212,10 +212,10 @@
 		
 					 myChart = new dimple.chart(svg, myData);
 		 		    myChart.setBounds(60, 0, 1000, 430);
-		 		    var x = myChart.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+		 		    var x = myChart.addTimeAxis("x", "time", "%M:%S.%L", "%M:%S");
 					 x.timePeriod = d3.time.seconds;
 					 x.timeInterval = 10;
-					 x.overrideMin = ra.timeFormat.parse("00:00:00")
+					 x.overrideMin = ra.timeFormat.parse("00:00.000");
 					 
 		 		    var y = myChart.addCategoryAxis("y", "stream_name");
 					 y.addOrderRule(ra.stream_names, true);
@@ -233,8 +233,7 @@
 					 // to enrich display with comments without causing recolouring
 					 mySeries.getTooltipText = function (series) {
 						 var events = data.filter(function (d) {
-							 var searchTime = ra.timeFormat(series.cx);
-							 return (( d.time == searchTime.substring(0, searchTime.length - 1)) && 
+							 return (( d.time == ra.timeFormat(series.cx)) && 
 								(d.stream_name == series.cy));
 							})
 							var tooltip = [ "Time: "+ra.timeMinsSecs(series.cx) ];
@@ -331,12 +330,13 @@
 				function applyBoundsChart1() {
 					// apply to chart 1
 					myChart.data = myData.filter(function (d, index) {
-						return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
-									((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) <= rightBound);
+						return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) >= leftBound ) &&
+									((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) <= rightBound);
 					});
 		
 					var x = myChart.axes[0];
 					// fix the scales on the graph
+					console.log(ra.timeFromSeconds(0));
 					x.overrideMin = ra.timeFromSeconds(leftBound);
 					x.overrideMax = ra.timeFromSeconds(rightBound);
 		
@@ -431,7 +431,7 @@
 
 						 myChart2 = new dimple.chart(svg2, myData2);
 			 		    myChart2.setBounds(60, 30, 1000, 530);
-			 		    x = myChart2.addTimeAxis("x", "time", "%M:%S:%L", "%M:%S");
+			 		    x = myChart2.addTimeAxis("x", "time", "%M:%S.%L", "%M:%S");
 						 // x.addOrderRule("Date");
 						 x.timePeriod = d3.time.seconds;
 						 x.timeInterval = 10;
@@ -446,8 +446,7 @@
 						 mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
 						 mySeries2.getTooltipText = function (series) {
 							 var events = data.filter(function (d) {
-								 var searchTime = ra.timeFormat(series.cx);
-								 return (( d.time == searchTime.substring(0, searchTime.length - 1)) && 
+								 return (( d.time == ra.timeFormat(series.cx)) && 
 									(d.stream_name == series.aggField[0]));
 								})
 								var tooltip = [ "Time: "+ra.timeMinsSecs(series.cx) ];
@@ -499,8 +498,8 @@
 						}
 						
 						myChart2.data = myChart2.data.filter(function (d, index) {
-							return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) >= leftBound ) &&
-										((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00:00"))/1000) <= rightBound);
+							return ((((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) >= leftBound ) &&
+										((ra.timeFormat.parse(d.time)-ra.timeFormat.parse("00:00.000"))/1000) <= rightBound);
 						});
 
 						ra.calculate_regression(myChart2, myData2);
