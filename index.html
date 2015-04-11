@@ -443,6 +443,9 @@
 			 		    myChart2.draw();
 						 // this is a bit of a hack, but I couldn't get this to work through dimple
 						 lines.shapes.attr("stroke","#00282A");
+						 lines.getTooltipText = function () {
+							 return null;
+						 };
 						 bubbleClickAudio(mySeries2,d3.select('audio'));
 
 						 svg2.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",530)
