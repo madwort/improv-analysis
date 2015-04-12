@@ -29,6 +29,7 @@
 		
 		<script src="./scripts/waveform-layouts.js"></script>
 		<script src="./scripts/stats.js"></script>
+		<script src="./scripts/audioEvents.js"></script>
 		
 		<script type="text/javascript">
 			// load stats module
@@ -87,65 +88,8 @@
 					// the sooner we do this, the sooner we get the remote file data loaded
 					// otherwise could just call applyBounds() now
 					d3.select('audio').property("src",audioUrl);
-
-					function audioPlay() {
-						var audioPlayer = d3.select('audio');
-						if (audioPlayer[0][0].currentTime < leftBound || 
-							 audioPlayer[0][0].currentTime > rightBound) {
-								 audioPlayer[0][0].currentTime = leftBound;
-						} 
-						audioPlayer[0][0].play();
-						d3.select("#pause").classed("highlight",false);
-						d3.select("#play").classed("highlight",true);
-					}
-
-					function audioPause() {
-						d3.select('audio')[0][0].pause();
-						d3.select("#pause").classed("highlight",true);
-						d3.select("#play").classed("highlight",false);
-					}
-
-					function audioPlayPause() {
-						var audioPlayer = d3.select('audio');
-						if(audioPlayer[0][0].paused) {
-							audioPlay();
-						} else {
-							audioPause();
-						}
-					}
-
-					document.documentElement.addEventListener('keydown', function (e) {
-					    if ( ( e.keycode || e.which ) == 32) {
-					        e.preventDefault();
-					    }
-					}, false);
-					
-					document.addEventListener('keyup',function(e) { 
-						var audioPlayer = d3.select('audio');
-						switch (e.keyCode) {
-							// the letter P
-							case 80:
-							// the space
-							case 32:
-								audioPlayPause();
-								break;
-							// the comma 
-							case 188:
-							// the left arrow
-							case 37:
-								audioPlayer[0][0].currentTime -= 10;
-								break;
-							// the full stop
-							case 190:
-							// the right arrow
-							case 39:
-								audioPlayer[0][0].currentTime += 10;
-								break;
-						}
-					});
-
-					d3.select("#play").on("click",audioPlay);
-					d3.select("#pause").on("click",audioPause);
+					// setup event handlers
+					audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
 					
 				</script>
 			</div> <!-- wrapper -->
