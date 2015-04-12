@@ -89,7 +89,7 @@
 					// otherwise could just call applyBounds() now
 					d3.select('audio').property("src",audioUrl);
 					// setup event handlers
-					audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
+					var raAudioEvents = audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
 					
 				</script>
 			</div> <!-- wrapper -->
@@ -318,7 +318,7 @@
 						 // audio element might automatically stop if it has url set correctly
 						 // but seemingly not always, so ensure in JS
 						 if (this.currentTime > rightBound) {
-							 audioPause();
+							 raAudioEvents.audioPause();
 						 }
 					 })
 
@@ -376,7 +376,7 @@
 		
 					// apply to audio playback 
 					var audioPlayer = d3.select('audio');
-					audioPause();
+					raAudioEvents.audioPause();
 					clearInterval(playheadTimer);
 					audioPlayer.property("src", audioUrl+"#t="+leftBound+","+rightBound);
 					// this also resets the playback time to zero, so do that too...
