@@ -235,7 +235,27 @@
 					<input type="button" name="btn_all_cat" value="Duration all cats." id="btn_all_cat" class="chart1btn">
 					<input type="button" name="btn_same_cat" value="Duration same cat." id="btn_same_cat" class="chart1btn">
 				</div>
+				
+				<div class="clear"></div>
+		
+				<div id="chartControls2" class="">
+					<span class="chartTitle" id="trendChart">Trend chart</span>
+					<input type="button" name="btn2_cat_all" value="All streams" id="btn2_cat_all" class="All streamSelection">
+					<input type="button" name="btn2_cat_1" value="Material" id="btn2_cat_1" class="Material streamSelection">
+					<input type="button" name="btn2_cat_2" value="Formal" id="btn2_cat_2" class="Formal streamSelection">
+					<input type="button" name="btn2_cat_3" value="Interface" id="btn2_cat_3" class="Interface streamSelection">
+					<input type="button" name="btn2_cat_4" value="Interaction" id="btn2_cat_4" class="Interaction streamSelection"> 
+				</div>
+				
+				<div class="clear"></div>
+				
+				<div id="chartContainer2" class="chartContainer">
+				</div>
+
 			  <script type="text/javascript">
+				
+				// chart1 stuff starts here
+				
 				 var svg = dimple.newSvg("#chartContainer", 1100, 500);
 				 var myChart = null;
 				 var myData = null;
@@ -430,25 +450,8 @@
 					
 				}
 		
-			  </script>
-				
-				<div class="clear"></div>
-		
-				<div id="chartControls2" class="">
-					<span class="chartTitle" id="trendChart">Trend chart</span>
-					<input type="button" name="btn2_cat_all" value="All streams" id="btn2_cat_all" class="All streamSelection">
-					<input type="button" name="btn2_cat_1" value="Material" id="btn2_cat_1" class="Material streamSelection">
-					<input type="button" name="btn2_cat_2" value="Formal" id="btn2_cat_2" class="Formal streamSelection">
-					<input type="button" name="btn2_cat_3" value="Interface" id="btn2_cat_3" class="Interface streamSelection">
-					<input type="button" name="btn2_cat_4" value="Interaction" id="btn2_cat_4" class="Interaction streamSelection"> 
-				</div>
-				
-				<div class="clear"></div>
-				
-				<div id="chartContainer2" class="chartContainer">
-				</div>
-				
-				  <script type="text/javascript">
+				// chart2 stuff starts here
+
 					 var svg2 = dimple.newSvg("#chartContainer2", 1100, 600);
 					 var myChart2 = null;
 					 var myData2 = null;
