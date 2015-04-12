@@ -9,6 +9,15 @@
 		var playheadPos = leftBound;
 		var playheadTimer = null;
 		
+		// setup audio element
+
+		// the sooner we do this, the sooner we get the remote file data loaded
+		// otherwise could just call applyBounds() now
+		d3.select('audio').property("src",audioUrl);
+		// setup event handlers
+		var raAudioEvents = audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
+
+
 		// title
 		
 		var titleObject = $("#title");

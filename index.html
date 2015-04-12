@@ -28,14 +28,12 @@
 		</script>
 		
 		<script src="./scripts/waveform-layouts.js"></script>
-		<script src="./scripts/stats.js"></script>
 		<script src="./scripts/audioEvents.js"></script>
-		
+		<script src="./scripts/stats.js"></script>
 		<script type="text/javascript">
 			// load stats module
 			rodstat = stats();
 		</script>
-		
 		<script src="./scripts/client.js"></script>
 
 		<link rel="stylesheet" href="bower_components/normalize.css/normalize.css" type="text/css" media="screen">
@@ -61,14 +59,6 @@
 					<audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause, or use these buttons: 
 					<button id="play" class="playPause">Play</button><button id="pause" class="playPause highlight">Pause</button>
 				</span>
-				<script type="text/javascript">
-					// the sooner we do this, the sooner we get the remote file data loaded
-					// otherwise could just call applyBounds() now
-					d3.select('audio').property("src",audioUrl);
-					// setup event handlers
-					var raAudioEvents = audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
-					
-				</script>
 			</div> <!-- wrapper -->
 		</div> <!-- topbar -->
 		<div id="content">
