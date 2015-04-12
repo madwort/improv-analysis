@@ -12,94 +12,91 @@
 		 var currentStream = null;
 		 var lines = null;
 		 
-		 function init(lowerBound, upperBound) {
-			 d3.csv(dataUrl, function (data) {
-			  	 // data = dimple.filterData(data, "id", "3");
-			 	 // console.log(data);
+		 function init(data, lowerBound, upperBound) {
+		  	 // data = dimple.filterData(data, "id", "3");
+		 	 // console.log(data);
 
-			    myData2 = data;
- 
-				 // possibly change csv file format using this
-				 ra.calculateDurations(myData2);
-				 ra.calculateDurationsPerStream(myData2);
-				 myData2.map(function (d) {
-				 	d.duration = d.duration_all_streams;
-				 })
-				 ra.add_stream_name(myData2);
-				 // console.log(myData2);
+		    myData2 = data;
 
-				 myChart2 = new dimple.chart(svg2, myData2);
-			    myChart2.setBounds(60, 30, 1000, 530);
-			    x = myChart2.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
-				 // x.addOrderRule("Date");
-				 x.timePeriod = d3.time.seconds;
-				 x.timeInterval = 10;
+			 // possibly change csv file format using this
+			 ra.calculateDurations(myData2);
+			 ra.calculateDurationsPerStream(myData2);
+			 myData2.map(function (d) {
+			 	d.duration = d.duration_all_streams;
+			 })
+			 ra.add_stream_name(myData2);
+			 // console.log(myData2);
 
-				 x.overrideMin = raTime.zeroTime;
-				 var maxTime = d3.max(myData2, function (d) {
-					 return d.time;
-				 })
-				 x.overrideMax = raTime.timeFormatCSV.parse(maxTime);
+			 myChart2 = new dimple.chart(svg2, myData2);
+		    myChart2.setBounds(60, 30, 1000, 530);
+		    x = myChart2.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
+			 // x.addOrderRule("Date");
+			 x.timePeriod = d3.time.seconds;
+			 x.timeInterval = 10;
 
-				 y = myChart2.addMeasureAxis("y", "duration");
-				 var maxDuration = d3.max(myData2, function (d) {
-					 return d.duration_per_stream;
-				 })
-				 y.overrideMax = maxDuration;
- 
-				 // myChart2.addSeries("comment");
-				 mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
-				 mySeries2.getTooltipText = function (series) {
-					 var events = data.filter(function (d) {
-						 return (( d.time == raTime.timeFormatCSV(series.cx)) && 
-							(d.stream_name == series.aggField[0]));
-						})
-						var tooltip = [ "Time: "+raTime.timeFormatDisplay(series.cx) ];
+			 x.overrideMin = raTime.zeroTime;
+			 var maxTime = d3.max(myData2, function (d) {
+				 return d.time;
+			 })
+			 x.overrideMax = raTime.timeFormatCSV.parse(maxTime);
 
-						events.forEach(function (myevent) {
-							tooltip.push("Event type: "+myevent.stream_name);
-							tooltip.push("Comment: "+myevent.comment);
-						});
-						return tooltip;
-					};
- 
-				 ra.calculate_regression(myChart2, myData2);
- 
-				 var y2 = myChart2.addMeasureAxis("y","stream_regression");
-				 // set second axis to match first one
-				 y2.overrideMax = maxDuration;
- 
-				 lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
- 
-				 ra.assignColours(myChart2);
- 
-				 // myChart2.addLegend(140, 10, 360, 20, "left");
-			    myChart2.draw();
-				 // this is a bit of a hack, but I couldn't get this to work through dimple
-				 lines.shapes.attr("stroke","#00282A");
-				 lines.getTooltipText = function () {
-					 return null;
-				 };
-				 ra.bubbleClickAudio(mySeries2,d3.select('audio'));
+			 y = myChart2.addMeasureAxis("y", "duration");
+			 var maxDuration = d3.max(myData2, function (d) {
+				 return d.duration_per_stream;
+			 })
+			 y.overrideMax = maxDuration;
 
-				 svg2.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",530)
-				 	.classed("playhead", true);
+			 // myChart2.addSeries("comment");
+			 mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
+			 mySeries2.getTooltipText = function (series) {
+				 var events = myChart2.data.filter(function (d) {
+					 return (( d.time == raTime.timeFormatCSV(series.cx)) && 
+						(d.stream_name == series.aggField[0]));
+					})
+					var tooltip = [ "Time: "+raTime.timeFormatDisplay(series.cx) ];
 
-				 applyBoundsChart2(lowerBound, upperBound);
- 
-			 });
+					events.forEach(function (myevent) {
+						tooltip.push("Event type: "+myevent.stream_name);
+						tooltip.push("Comment: "+myevent.comment);
+					});
+					return tooltip;
+				};
+
+			 ra.calculate_regression(myChart2, myData2);
+
+			 var y2 = myChart2.addMeasureAxis("y","stream_regression");
+			 // set second axis to match first one
+			 y2.overrideMax = maxDuration;
+
+			 lines = myChart2.addSeries(null, dimple.plot.line, [x,y2]);
+
+			 ra.assignColours(myChart2);
+
+			 // myChart2.addLegend(140, 10, 360, 20, "left");
+		    myChart2.draw();
+			 // this is a bit of a hack, but I couldn't get this to work through dimple
+			 lines.shapes.attr("stroke","#00282A");
+			 lines.getTooltipText = function () {
+				 return null;
+			 };
+			 ra.bubbleClickAudio(mySeries2,d3.select('audio'));
+
+			 svg2.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",530)
+			 	.classed("playhead", true);
+
+			 applyBoundsChart2(lowerBound, upperBound);
 
 			d3.select("#btn2_cat_all").on("click", function() {
 				currentStream = null;
 			 	lines.shapes.attr("stroke","#00282A");
-				applyBoundsChart2();
+				applyBoundsChart2(lowerBound, upperBound);
 			});
 
 			function create_btn2(index) {
 				return function() {
 					currentStream = index;
 				 	lines.shapes.attr("stroke",ra.stream_colours[index]);
-					applyBoundsChart2();
+					applyBoundsChart2(lowerBound, upperBound);
 				}
 			}
 

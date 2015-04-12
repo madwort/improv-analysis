@@ -7,6 +7,8 @@
 		var timeFormatCSVString = "%M:%S.%L";
 		var timeFormatCSV = d3.time.format(timeFormatCSVString);
 
+		var zeroTime = timeFormatCSV.parse("00:00.000");
+
 		function timeFormatCSVComparison(a,b) {
 			return (timeFormatCSV.parse(a.time)-timeFormatCSV.parse(b.time));
 		}
@@ -22,23 +24,23 @@
 		var timeFormatDisplayString = "%M:%S";
 		var timeFormatDisplay = d3.time.format(timeFormatDisplayString);
 				
-		var zeroTime = timeFormatCSV.parse("00:00.000");
-
 		function timeFromSeconds(seconds) {
-			return timeFormatCSV.parse(Math.floor(seconds/60)+":"+(Math.floor(seconds%60))+"."+(seconds-Math.floor(seconds)))
+			var remainder = (seconds%60).toFixed(3);
+			return timeFormatCSV.parse(Math.floor(seconds/60)+":"+remainder);
 		}
 
 		return {
 			timeFormatCSVString: timeFormatCSVString,
 			timeFormatCSV: timeFormatCSV,
+
+			zeroTime: zeroTime,
+
 			timeFormatCSVComparison: timeFormatCSVComparison,
 			timeFormatCSVFilter: timeFormatCSVFilter,
 
 			timeFormatDisplayString: timeFormatDisplayString,
 			timeFormatDisplay: timeFormatDisplay,
 
-			zeroTime: zeroTime,
-			
 			timeFromSeconds: timeFromSeconds
 
 		}

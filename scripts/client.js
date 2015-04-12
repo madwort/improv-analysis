@@ -204,25 +204,25 @@
 			 svg.append("rect").attr("x",61).attr("y",0).attr("width",2).attr("height",430)
 			 	.classed("playhead", true);
 
+			 function createChart1Btn(selector,min,max,durationFunction) {
+				d3.select(selector).on("click", function() {
+					z.overrideMin = min;
+					z.overrideMax = max;
+					myData.map(durationFunction);
+				 	d3.selectAll('.chart1btn').classed("enabled", false);
+					d3.select(selector).classed("enabled",true);
+					myChart.draw(1000);
+					// don't need to redo the click handlers because bounds don't change 
+				});
+
+			 }
+			 createChart1Btn("#btn_no_cat",0,10,function (d) { d.duration = 1; });
+			 createChart1Btn("#btn_all_cat",null,null,function (d) { d.duration = d.duration_all_streams; });
+			 createChart1Btn("#btn_same_cat",null,null,function (d) { d.duration = d.duration_per_stream; });
+
 			 createStats(data);
 	 
 		});
-
-		function createChart1Btn(selector,min,max,durationFunction) {
-			d3.select(selector).on("click", function() {
-				z.overrideMin = min;
-				z.overrideMax = max;
-				myData.map(durationFunction);
-			 	d3.selectAll('.chart1btn').classed("enabled", false);
-				d3.select(selector).classed("enabled",true);
-				myChart.draw(1000);
-				// don't need to redo the click handlers because bounds don't change 
-			});
-		}
-
-		createChart1Btn("#btn_no_cat",0,10,function (d) { d.duration = 1; });
-		createChart1Btn("#btn_all_cat",null,null,function (d) { d.duration = d.duration_all_streams; });
-		createChart1Btn("#btn_same_cat",null,null,function (d) { d.duration = d.duration_per_stream; });
 
 		function applyBoundsChart1() {
 			// apply to chart 1
@@ -238,8 +238,13 @@
 			ra.bubbleClickAudio(mySeries,d3.select('audio'));
 		}
 
-		var chart2 = trendChart();
-		chart2.init(leftBound,rightBound);
+		// do chart 2
+		var chart2 = null;
+
+	 	d3.csv(dataUrl, function (data) {
+			chart2 = trendChart();
+			chart2.init(data,leftBound,rightBound);
+	 	});
 
 		// load stats module
 		var rodstat = stats();
@@ -280,6 +285,7 @@
 
 		// Update everything when we change the zoom of waveform & chart 1
 		function applyBounds() {
+			
 			applyBoundsChart1();
 			chart2.applyBounds(leftBound, rightBound);
 
