@@ -10,11 +10,16 @@
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="./bower_components/ionrangeslider/js/ion.rangeSlider.js"></script>
 
+		<script src="./scripts/time.js"></script>
+		<script type="text/javascript">
+			var raTime = rodalyticsTime();
+		</script>
+
 		<script src="./scripts/rodalytics.js"></script>
 		<script type="text/javascript">
 			// load our helper functions
 			// need to load this before loading stats.js
-			var ra = rodalytics();
+			var ra = rodalytics(raTime);
 
 			var audioUrl = "./Everything 1a.mp3";
 			var dataUrl = "./Everything 1a.csv";
@@ -64,7 +69,7 @@
 						min_interval: 12,
 						prettify_enabled: true,
 						prettify: function (num) {
-							return ra.timeMinsSecs(new Date(num*1000));
+							return raTime.timeFormatDisplay(new Date(num*1000));
 						},
 						onFinish: function (data) {
 							leftBound = data.from;
@@ -197,7 +202,7 @@
 						// if ( displayY > 148) { displayY = 148; };
 						var displayY = 145;
 
-						d3.select("#waveform_position").attr("x",displayX).attr("y",displayY).text(ra.timeMinsSecs(datecode));
+						d3.select("#waveform_position").attr("x",displayX).attr("y",displayY).text(raTime.timeFormatDisplay(datecode));
 					});
 
 					waveformSvg.on("mouseover", function(){
@@ -287,10 +292,10 @@
 		
 					 myChart = new dimple.chart(svg, myData);
 		 		    myChart.setBounds(60, 0, 1000, 430);
-		 		    var x = myChart.addTimeAxis("x", "time", "%M:%S.%L", "%M:%S");
+		 		    var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 					 x.timePeriod = d3.time.seconds;
 					 x.timeInterval = 10;
-					 x.overrideMin = ra.timeFormat.parse("00:00.000");
+					 x.overrideMin = raTime.zeroTime;
 					 
 		 		    var y = myChart.addCategoryAxis("y", "stream_name");
 					 y.addOrderRule(ra.stream_names, true);
@@ -308,10 +313,10 @@
 					 // to enrich display with comments without causing recolouring
 					 mySeries.getTooltipText = function (series) {
 						 var events = data.filter(function (d) {
-							 return (( d.time == ra.timeFormat(series.cx)) && 
+							 return (( d.time == raTime.timeFormatCSV(series.cx)) && 
 								(d.stream_name == series.cy));
 							})
-							var tooltip = [ "Time: "+ra.timeMinsSecs(series.cx) ];
+							var tooltip = [ "Time: "+raTime.timeFormatDisplay(series.cx) ];
 
 							events.forEach(function (myevent) {
 								tooltip.push("Event type: "+myevent.stream_name);
@@ -385,12 +390,12 @@
 
 				function applyBoundsChart1() {
 					// apply to chart 1
-					myChart.data = myData.filter(ra.timeFilter);
+					myChart.data = myData.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
 		
 					var x = myChart.axes[0];
 					// fix the scales on the graph
-					x.overrideMin = ra.timeFromSeconds(leftBound);
-					x.overrideMax = ra.timeFromSeconds(rightBound);
+					x.overrideMin = raTime.timeFromSeconds(leftBound);
+					x.overrideMax = raTime.timeFromSeconds(rightBound);
 		
 				 	myChart.draw(1000);
 					// redo click handlers
@@ -484,13 +489,13 @@
 
 						 myChart2 = new dimple.chart(svg2, myData2);
 			 		    myChart2.setBounds(60, 30, 1000, 530);
-			 		    x = myChart2.addTimeAxis("x", "time", "%M:%S.%L", "%M:%S");
+			 		    x = myChart2.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 						 // x.addOrderRule("Date");
 						 x.timePeriod = d3.time.seconds;
 						 x.timeInterval = 10;
 						 
-						 x.overrideMin = ra.timeFormat.parse(minTime);
-						 x.overrideMax = ra.timeFormat.parse(maxTime);
+						 x.overrideMin = raTime.zeroTime;
+						 x.overrideMax = raTime.timeFormatCSV.parse(maxTime);
 						 
 						 y = myChart2.addMeasureAxis("y", "duration");
 						 y.overrideMax = maxDuration;
@@ -499,10 +504,10 @@
 						 mySeries2 = myChart2.addSeries("stream_name", dimple.plot.bubble, [x,y]);
 						 mySeries2.getTooltipText = function (series) {
 							 var events = data.filter(function (d) {
-								 return (( d.time == ra.timeFormat(series.cx)) && 
+								 return (( d.time == raTime.timeFormatCSV(series.cx)) && 
 									(d.stream_name == series.aggField[0]));
 								})
-								var tooltip = [ "Time: "+ra.timeMinsSecs(series.cx) ];
+								var tooltip = [ "Time: "+raTime.timeFormatDisplay(series.cx) ];
 
 								events.forEach(function (myevent) {
 									tooltip.push("Event type: "+myevent.stream_name);
@@ -559,14 +564,14 @@
 							myChart2.data = myData2;
 						}
 						
-						myChart2.data = myChart2.data.filter(ra.timeFilter);
+						myChart2.data = myChart2.data.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
 
 						ra.calculate_regression(myChart2, myData2);
 
 						var x = myChart2.axes[0];
 						// fix the scales on the graph
-						x.overrideMin = ra.timeFromSeconds(leftBound);
-						x.overrideMax = ra.timeFromSeconds(rightBound);
+						x.overrideMin = raTime.timeFromSeconds(leftBound);
+						x.overrideMax = raTime.timeFromSeconds(rightBound);
 						
 					 	myChart2.draw(1000);
 						// redo click handlers
