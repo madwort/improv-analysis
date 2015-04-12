@@ -1,4 +1,4 @@
-(function (w, d3) {
+(function (w, d3, ra) {
 	"use strict";
 
 	w["client"] = function(){
@@ -446,4 +446,4 @@
 		}
 		};
 
-}(window, d3));
+}(window, d3, ra));
