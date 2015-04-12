@@ -1,8 +1,7 @@
 // based on demo by oncletom http://bl.ocks.org/oncletom/5822102  
 // developed by madwort
-"use strict";
-
 (function(w, d3){
+	"use strict";
   w["layouts"] = function(graph, config){
     var x = d3.scale.linear();
     var y = d3.scale.linear();
