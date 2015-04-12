@@ -81,7 +81,15 @@
 				chart.assignColor(stream_names[i], stream_colours[i]);
 			}
 		}
-		
+
+		function bubbleClickAudio(series, audioPlayer) {
+			 // this has to be after dimple.chart.draw() in order to work!
+			 // no need to remove the old listeners as d3 automatically replaces them
+			 series.shapes.on("click", function (e) {
+				audioPlayer.property("currentTime",(e.x.getMinutes()*60)+e.x.getSeconds());
+			 });
+		}
+
 		return {
 			stream_names: stream_names,
 			stream_colours: stream_colours,
@@ -89,7 +97,8 @@
 			calculateDurationsPerStream: calculateDurationsPerStream,
 			calculate_regression: calculate_regression,
 			add_stream_name: add_stream_name,
-			assignColours: assignColours
+			assignColours: assignColours,
+			bubbleClickAudio: bubbleClickAudio
 		}
 	};
 }(window, d3, raTime));
