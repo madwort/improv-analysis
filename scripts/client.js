@@ -255,7 +255,10 @@
 		createChart1Btn("#btn_no_cat",0,10,function (d) { d.duration = 1; });
 		createChart1Btn("#btn_all_cat",null,null,function (d) { d.duration = d.duration_all_streams; });
 		createChart1Btn("#btn_same_cat",null,null,function (d) { d.duration = d.duration_per_stream; });
- 				
+
+		// load stats module
+		var rodstat = stats();
+		
 		function createStats(data) {
 			rodstat.activitySummary(d3.select("#activitySummary"),data);
 			rodstat.cooccurrence(d3.select("#cooccurrence"), data);

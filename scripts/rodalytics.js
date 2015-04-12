@@ -1,12 +1,10 @@
-(function (w, d3) {
+(function (w, d3,myTime) {
 	"use strict";
 
-   w["rodalytics"] = function(raTime){
+   w["rodalytics"] = function(){
 
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
 		var stream_colours = ["", "#fea18d","#93d1ff","#b7e695","#fefca2"];
-
-		var myTime = raTime;
 		
 		// adds object value duration_all_streams to every element in data
 	   function calculateDurations(data) {
@@ -94,4 +92,4 @@
 			assignColours: assignColours
 		}
 	};
-}(window, d3));
+}(window, d3, raTime));
