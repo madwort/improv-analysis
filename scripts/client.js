@@ -134,8 +134,8 @@
 			 ra.add_stream_name(myData);
 
 			 myChart = new dimple.chart(svg, myData);
-		   myChart.setBounds(60, 0, 1000, 430);
-		   var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
+			 myChart.setBounds(60, 0, 1000, 430);
+			 var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			 x.timePeriod = d3.time.seconds;
 			 x.timeInterval = 10;
 			 x.overrideMin = raTime.zeroTime;
