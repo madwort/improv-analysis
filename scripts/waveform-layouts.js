@@ -96,6 +96,8 @@
 	 // param is seconds, returns pixel index
 	 function indexOfTime(time) {
 		 // corrects for leftBound when viewing a portion of the waveform
+		 // hacky way to get the bound though!
+		 var leftBound = $('#range_slider').data().from;
 		 return current_waveform_data.at_time(time-leftBound);
 	 }
 

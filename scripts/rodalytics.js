@@ -42,6 +42,10 @@
 		// Instead, it adds the appropriate data to the chart
 		// This is done to ensure duplicates graph correctly using dimple
 		function calculate_regression(chart, data) {
+  			var minTime = d3.min(data, function (d) {
+  			 return d.time;
+  		 	});
+			
 			data.map(function (d) {
 				d.time_offset = (myTime.timeFormatCSV.parse(d.time)-myTime.timeFormatCSV.parse(minTime))/1000;
 			});

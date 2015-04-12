@@ -4,10 +4,14 @@
 	w["audioEvents"] = function(audioPlayer, playButton, pauseButton){
 
 			function audioPlay() {
-				if (audioPlayer[0][0].currentTime < leftBound || 
+				// HACK...!
+				var leftBound = $('#range_slider').data().from;
+				var rightBound = $('#range_slider').data().to;
+				
+				if (audioPlayer[0][0].currentTime < leftBound ||
 					 audioPlayer[0][0].currentTime > rightBound) {
 						 audioPlayer[0][0].currentTime = leftBound;
-				} 
+				}
 				audioPlayer[0][0].play();
 				playButton.classed("highlight",true);
 				pauseButton.classed("highlight",false);
