@@ -17,7 +17,6 @@
 		// setup event handlers
 		var raAudioEvents = audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
 
-
 		// title
 		
 		var titleObject = $("#title");
@@ -28,10 +27,10 @@
 		// min interval 12 seconds because less breaks our waveform display
 		$("#range_slider").ionRangeSlider({
 			type: 'double',
-			min: 0,
-			max: 209,
-			from: 0,
-			to: 209,
+			min: leftBound,
+			max: rightBound,
+			from: leftBound,
+			to: rightBound,
 			min_interval: 12,
 			prettify_enabled: true,
 			prettify: function (num) {
