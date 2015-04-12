@@ -212,11 +212,11 @@
 			 })
 	 
 			 d3.select('audio').on("seeked", function () {
-				 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), true);
+				 drawPlayhead(waveform_layout.indexOfTime(this.currentTime-leftBound), true);
 			 })
 
 			 d3.select('audio').on("timeupdate", function () {
-				 drawPlayhead(waveform_layout.indexOfTime(this.currentTime), false);
+				 drawPlayhead(waveform_layout.indexOfTime(this.currentTime-leftBound), false);
 				 // audio element might automatically stop if it has url set correctly
 				 // but seemingly not always, so ensure in JS
 				 if (this.currentTime > rightBound) {
