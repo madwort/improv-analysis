@@ -170,6 +170,33 @@
 			 }
 		}
 
+		d3.select('audio').on("play", function () {
+			// We don't need to maintain our state in playheadPos, we can use
+			// something like this & get it directly from the attribute instead...
+			// console.log(d3.select(".playhead").attr("x"));
+			playheadTimer = setInterval(function() { 
+				playheadPos++;
+				drawPlayhead(playheadPos, false);
+			}, waveform_layout.timePerPixel()*1000);
+		})
+
+		d3.select('audio').on("pause", function () {
+			clearInterval(playheadTimer);
+		})
+ 
+		 d3.select('audio').on("seeked", function () {
+			 drawPlayhead(waveform_layout.indexOfTime(this.currentTime-leftBound), true);
+		 })
+
+		 d3.select('audio').on("timeupdate", function () {
+			 drawPlayhead(waveform_layout.indexOfTime(this.currentTime-leftBound), false);
+			 // audio element might automatically stop if it has url set correctly
+			 // but seemingly not always, so ensure in JS
+			 if (this.currentTime > rightBound) {
+				 raAudioEvents.audioPause();
+			 }
+		 })
+
 		// Update everything when we change the zoom of waveform & chart 1
 		function applyBounds() {
 			
