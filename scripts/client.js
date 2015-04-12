@@ -114,129 +114,16 @@
 	 	waveformSvg.append("rect")
 		.attr("x",0).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
 
-		// chart1 stuff starts here
-
-		var svg = dimple.newSvg("#chartContainer", 1100, 500);
-		var myChart = null;
-		var myData = null;
-		var mySeries = null;
-		var z = null;
-
+		// do chart 1
+		var chart1 = null;
+		
 		d3.csv(dataUrl, function (data) {
-		   myData = data;
-	 
-			 // possibly change csv file format using this
-			 ra.calculateDurations(myData);
-			 ra.calculateDurationsPerStream(myData);
-			 myData.map(function (d) {
-			 	d.duration = 1;
-			 })
-			 ra.add_stream_name(myData);
+			chart1 = bubbleChart();
+			chart1.init(data,leftBound,rightBound);
 
-			 myChart = new dimple.chart(svg, myData);
-			 myChart.setBounds(60, 0, 1000, 430);
-			 var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
-			 x.timePeriod = d3.time.seconds;
-			 x.timeInterval = 10;
-			 x.overrideMin = raTime.zeroTime;
-	 
-		   var y = myChart.addCategoryAxis("y", "stream_name");
-			 y.addOrderRule(ra.stream_names, true);
-
-			 z = myChart.addMeasureAxis("z", "duration");
-			 // default is equally sized bubbles
-			 z.overrideMin = 0;
-			 z.overrideMax = 10;
-	 
-	 
-			 mySeries = myChart.addSeries("stream_name");
-
-			 // replace the tooltip with our custom handler
-			 // main job is to correctly get simultaneous events & 
-			 // to enrich display with comments without causing recolouring
-			 mySeries.getTooltipText = function (series) {
-				 var events = data.filter(function (d) {
-					 return (( d.time == raTime.timeFormatCSV(series.cx)) && 
-						(d.stream_name == series.cy));
-					})
-					var tooltip = [ "Time: "+raTime.timeFormatDisplay(series.cx) ];
-
-					events.forEach(function (myevent) {
-						tooltip.push("Event type: "+myevent.stream_name);
-						tooltip.push("Comment: "+myevent.comment);
-					});
-					return tooltip;
-				};
-
-			 ra.assignColours(myChart);
-	 
-		    myChart.draw();
-			 ra.bubbleClickAudio(mySeries,d3.select('audio'));
-			 applyBoundsChart1();
-
-			 d3.select('audio').on("play", function () {
-				 // We don't need to maintain our state in playheadPos, we can use
-				 // something like this & get it directly from the attribute instead...
-				 // console.log(d3.select(".playhead").attr("x"));
-				 playheadTimer = setInterval(function() { 
-					 playheadPos++;
-					 drawPlayhead(playheadPos, false);
-				 }, waveform_layout.timePerPixel()*1000);
-			 })
-
-			 d3.select('audio').on("pause", function () {
-				 clearInterval(playheadTimer);
-			 })
-	 
-			 d3.select('audio').on("seeked", function () {
-				 drawPlayhead(waveform_layout.indexOfTime(this.currentTime-leftBound), true);
-			 })
-
-			 d3.select('audio').on("timeupdate", function () {
-				 drawPlayhead(waveform_layout.indexOfTime(this.currentTime-leftBound), false);
-				 // audio element might automatically stop if it has url set correctly
-				 // but seemingly not always, so ensure in JS
-				 if (this.currentTime > rightBound) {
-					 raAudioEvents.audioPause();
-				 }
-			 })
-
-			 svg.append("rect").attr("x",61).attr("y",0).attr("width",2).attr("height",430)
-			 	.classed("playhead", true);
-
-			 function createChart1Btn(selector,min,max,durationFunction) {
-				d3.select(selector).on("click", function() {
-					z.overrideMin = min;
-					z.overrideMax = max;
-					myData.map(durationFunction);
-				 	d3.selectAll('.chart1btn').classed("enabled", false);
-					d3.select(selector).classed("enabled",true);
-					myChart.draw(1000);
-					// don't need to redo the click handlers because bounds don't change 
-				});
-
-			 }
-			 createChart1Btn("#btn_no_cat",0,10,function (d) { d.duration = 1; });
-			 createChart1Btn("#btn_all_cat",null,null,function (d) { d.duration = d.duration_all_streams; });
-			 createChart1Btn("#btn_same_cat",null,null,function (d) { d.duration = d.duration_per_stream; });
-
-			 createStats(data);
-	 
+			// also do stats at the same time!
+			createStats(data);
 		});
-
-		function applyBoundsChart1() {
-			// apply to chart 1
-			myChart.data = myData.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
-
-			var x = myChart.axes[0];
-			// fix the scales on the graph
-			x.overrideMin = raTime.timeFromSeconds(leftBound);
-			x.overrideMax = raTime.timeFromSeconds(rightBound);
-
-		 	myChart.draw(1000);
-			// redo click handlers
-			ra.bubbleClickAudio(mySeries,d3.select('audio'));
-		}
 
 		// do chart 2
 		var chart2 = null;
@@ -286,7 +173,7 @@
 		// Update everything when we change the zoom of waveform & chart 1
 		function applyBounds() {
 			
-			applyBoundsChart1();
+			chart1.applyBounds(leftBound, rightBound);
 			chart2.applyBounds(leftBound, rightBound);
 
 			// apply to waveform display
@@ -308,7 +195,7 @@
 			d3.select('#cooccurrence table').remove();
 			d3.select('#durationStats table').remove();
 			d3.select('#activityLog table').remove();
-			createStats(myChart.data);
+			createStats(chart1.currentData());
 	
 		}
 
