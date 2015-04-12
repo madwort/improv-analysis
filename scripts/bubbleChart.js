@@ -14,7 +14,7 @@
 		 
 		function init(data, leftBound, rightBound) {
 			myData = data;
-			console.log(myData);
+
 			// possibly change csv file format using this
 			ra.calculateDurations(myData);
 			ra.calculateDurationsPerStream(myData);
