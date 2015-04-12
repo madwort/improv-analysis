@@ -35,6 +35,8 @@
 			min_interval: 12,
 			prettify_enabled: true,
 			prettify: function (num) {
+				// suspect this is inconsistent between Safari / Firefox (1900/1970) 
+				// but as we're not comparing/displaying years we can get away with it?
 				return raTime.timeFormatDisplay(new Date(num*1000));
 			},
 			onFinish: function (data) {
