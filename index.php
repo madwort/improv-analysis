@@ -12,11 +12,19 @@
 
 		<script type="text/javascript">
 			// Configuration
-			var audioUrl = "./Everything 1b.mp3";
-			var dataUrl = "./Everything 1b.csv";
-			var videoUrl = "https://vimeo.com/77930437";
-			var analysisName = "Everything. Everything at once. Once. (1b)";
-			var audioLength = 164;
+			<?php if ($_GET['q']==1) { ?>
+				var audioUrl = "./Everything 1a.mp3";
+				var dataUrl = "./Everything 1a.csv";
+				var videoUrl = "https://vimeo.com/77930437";
+				var analysisName = "Everything. Everything at once. Once. (1a)";
+				var audioLength = 209.62975056689342;
+			<?php } else { ?>
+				var audioUrl = "./Everything 1b.mp3";
+				var dataUrl = "./Everything 1b.csv";
+				var videoUrl = "https://vimeo.com/77930437";
+				var analysisName = "Everything. Everything at once. Once. (1b)";
+				var audioLength = 164;
+			<?php } ?>
 		</script>
 
 		<script src="./scripts/time.js"></script>
