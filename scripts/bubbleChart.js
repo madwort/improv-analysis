@@ -2,8 +2,6 @@
 	"use strict";
 
 	w["bubbleChart"] = function(){
-		// chart2 stuff starts here
-
 		// chart1 stuff starts here
 
 		var svg = dimple.newSvg("#chartContainer", 1100, 500);
@@ -15,7 +13,6 @@
 		function init(data, leftBound, rightBound) {
 			myData = data;
 
-			// possibly change csv file format using this
 			ra.calculateDurations(myData);
 			ra.calculateDurationsPerStream(myData);
 			myData.map(function (d) {
@@ -60,8 +57,7 @@
 			ra.assignColours(myChart);
 	 
 		   myChart.draw();
-			ra.bubbleClickAudio(mySeries,d3.select('audio'));
-			applyBoundsChart1(leftBound, rightBound);
+			applyBounds(leftBound, rightBound);
 
 			 svg.append("rect").attr("x",61).attr("y",0).attr("width",2).attr("height",430)
 			 	.classed("playhead", true);
@@ -83,8 +79,7 @@
 			 createChart1Btn("#btn_same_cat",null,null,function (d) { d.duration = d.duration_per_stream; });
 		} // init
 		
-		function applyBoundsChart1(leftBound, rightBound) {
-			// apply to chart 1
+		function applyBounds(leftBound, rightBound) {
 			myChart.data = myData.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
 
 			var x = myChart.axes[0];
@@ -103,7 +98,7 @@
 		
  		return {
  			init: init,
- 			applyBounds: applyBoundsChart1,
+ 			applyBounds: applyBounds,
 			currentData: currentData
  		}
 
