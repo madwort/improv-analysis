@@ -89,14 +89,16 @@
 			d3.select("#btn2_cat_all").on("click", function() {
 				currentStream = null;
 			 	lines.shapes.attr("stroke","#00282A");
-				applyBoundsChart2(lowerBound, upperBound);
+				// access leftBound & rightBound via the range slider...
+				applyBoundsChart2($('#range_slider').data().from, $('#range_slider').data().to);
 			});
 
 			function create_btn2(index) {
 				return function() {
 					currentStream = index;
 				 	lines.shapes.attr("stroke",ra.stream_colours[index]);
-					applyBoundsChart2(lowerBound, upperBound);
+					// access leftBound & rightBound via the range slider...
+					applyBoundsChart2($('#range_slider').data().from, $('#range_slider').data().to);
 				}
 			}
 
