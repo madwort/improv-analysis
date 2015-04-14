@@ -89,6 +89,57 @@
 				audioPlayer.property("currentTime",(e.x.getMinutes()*60)+e.x.getSeconds());
 			 });
 		}
+		
+		// assumes the data is ordered firstly by time 
+		function cooccurrence(data) {
+  			// We're translating streamids 1-4 to be 0-3 for our purposes!
+  			// Remember this when rendering!!!
+  			// stream_cooccurrence[from][to]
+  			var stream_cooccurrence = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+  			// assume at least one piece of data!
+  			var previous_streamid = (data[0].streamid-1);
+  			var this_streamid = -1;
+			
+  			data = data.sort(raTime.timeFormatCSVComparison);
+  			for (var i = 1; i < data.length; i++) {
+  				 this_streamid = (data[i].streamid-1);
+  				 stream_cooccurrence[previous_streamid][this_streamid]++;
+  				 previous_streamid = this_streamid;
+  			}
+			return stream_cooccurrence;
+		}
+		
+		function activitySummary(data) {
+  			var activitySummary = [];
+			for (var i = 1; i < 5; i++) {
+				// filter is string not int
+				activitySummary.push({"stream_name":stream_names[i],"count":dimple.filterData(data, "streamid", ""+i).length});
+			}
+			return activitySummary;
+		}
+		
+		function durationPerStream(data) {
+			// this might not be needed if it's already been done
+			ra.calculateDurationsPerStream(data);
+			var durationPerStream = [];
+
+			for (var i = 1; i < 5; i++) {
+  				// filter is string not int
+  				var stream = dimple.filterData(data, "streamid", ""+i);
+  				var get_duration_per_stream = function (d) {
+  					 return d.duration_per_stream;
+  				};
+				durationPerStream.push({
+					"stream_name":ra.stream_names[i],
+	  				"min":(d3.min(stream, get_duration_per_stream)),
+	  				"median":(d3.median(stream, get_duration_per_stream)),
+	  				"mean":(d3.mean(stream, get_duration_per_stream)),
+	  				"deviation":(d3.deviation(stream, get_duration_per_stream)),
+	  				"max":(d3.max(stream, get_duration_per_stream))
+				});
+			}		
+			return durationPerStream;
+		}
 
 		return {
 			stream_names: stream_names,
@@ -98,7 +149,10 @@
 			calculate_regression: calculate_regression,
 			add_stream_name: add_stream_name,
 			assignColours: assignColours,
-			bubbleClickAudio: bubbleClickAudio
+			bubbleClickAudio: bubbleClickAudio,
+			cooccurrence: cooccurrence,
+			activitySummary: activitySummary,
+			durationPerStream: durationPerStream
 		}
 	};
 }(window, d3, raTime));

@@ -137,9 +137,9 @@
 		var rodstat = stats();
 		
 		function createStats(data) {
-			rodstat.activitySummary(d3.select("#activitySummary"),data);
-			rodstat.cooccurrence(d3.select("#cooccurrence"), data);
-		  	rodstat.durationPerStream(d3.select("#durationStats"),data);
+			rodstat.activitySummary(d3.select("#activitySummary"),ra.activitySummary(data));
+			rodstat.cooccurrence(d3.select("#cooccurrence"), ra.cooccurrence(data));
+		  	rodstat.durationPerStream(d3.select("#durationStats"),ra.durationPerStream(data));
 			rodstat.activityLog(d3.select("#activityLog"),data);
 		}
 

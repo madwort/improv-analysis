@@ -1,30 +1,12 @@
-"use strict";
-
+// these functions create HTML elements from functions in rodalytics.js
+// they should be replaced by a proper templating system!
 (function(w, ra){
+	"use strict";
    w["stats"] = function(){
 
 	// assumes the data is ordered firstly by time 
-	function cooccurrence(element, data) {
-		 // We're translating streamids 1-4 to be 0-3 for our purposes!
-		 // Remember this when rendering!!!
-		 // stream_cooccurrence[from][to]
-		 var stream_cooccurrence = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
-		 // assume at least one piece of data!
-		 var previous_streamid = (data[0].streamid-1);
-		 var this_streamid = -1;
-		 
-		 data = data.sort(raTime.timeFormatCSVComparison);
-		 for (var i = 1; i < data.length; i++) {
-			 this_streamid = (data[i].streamid-1);
-			 stream_cooccurrence[previous_streamid][this_streamid]++;
-			 previous_streamid = this_streamid;
-		 }
-	 
-		 // console.log(stream_cooccurrence);
-	 
-		 // Output the data that we've calculated
-		 // Should really use a proper template system for this...
-		 var mytable = element.append("table");
+	function cooccurrence(element, stream_cooccurrence) {
+		var mytable = element.append("table");
 		 var heading_row = mytable.append("tr");
 		 heading_row.append("th").text("Stream").classed("All", true);
 		 for (var i = 0; i < 4; i++) {
@@ -44,30 +26,25 @@
 		 }
 	}
 
-	function activitySummary(element,data) {
-		 var mytable = element.append("table");
-		 // could refactor & do forEach on streamname list?
-		 var heading_row = mytable.append("tr");
-		 heading_row.append("th").text("Stream").classed("All", true);
-		 heading_row.append("th").text("Instances");
+	function activitySummary(element,activitySummary) {
+		var mytable = element.append("table");
+		// could refactor & do forEach on streamname list?
+		var heading_row = mytable.append("tr");
+		heading_row.append("th").text("Stream").classed("All", true);
+		heading_row.append("th").text("Instances");
 
-		 for (var i = 1; i < 5; i++) {
-			 var myrow = mytable.append("tr");
-			 var label = myrow.append("td");
-			 label.text(ra.stream_names[i]);
-			 label.classed(ra.stream_names[i], "true");
+		activitySummary.forEach(function(e){
+			var myrow = mytable.append("tr");
+			var label = myrow.append("td");
+			label.text(e.stream_name);
+			label.classed(e.stream_name, "true");
 
-			 // filter is string not int
-			 var stream = dimple.filterData(data, "streamid", ""+i);
-			 myrow.append("td").text(stream.length);
-		 }
+			myrow.append("td").text(e.count);
+		})
 	}
 
-	function durationPerStream(element, data) {
-		 ra.calculateDurationsPerStream(data);
- 
+	function durationPerStream(element, durationStats) {
 		 var mytable = element.append("table");
-		 // could refactor & do forEach on streamname list?
 		 var heading_row = mytable.append("tr");
 		 heading_row.append("th").text("Stream").classed("All", true);
 		 heading_row.append("th").text("Min");
@@ -78,25 +55,17 @@
 
 		 var three_sf = d3.format(".3g");
 
-		 for (var i = 1; i < 5; i++) {
+		 durationStats.forEach(function(e){
 			 var myrow = mytable.append("tr");
 			 var label = myrow.append("td");
-			 label.text(ra.stream_names[i]);
-			 label.classed(ra.stream_names[i], "true");
-
-			 // filter is string not int
-			 var stream = dimple.filterData(data, "streamid", ""+i);
-			 var get_duration_per_stream = function (d) {
-				 return d.duration_per_stream;
-			 };
-	 
-			 myrow.append("td").text(three_sf(d3.min(stream, get_duration_per_stream)));
-			 myrow.append("td").text(three_sf(d3.median(stream, get_duration_per_stream)));
-			 myrow.append("td").text(three_sf(d3.mean(stream, get_duration_per_stream)));
-			 myrow.append("td").text(three_sf(d3.deviation(stream, get_duration_per_stream)));
-			 myrow.append("td").text(three_sf(d3.max(stream, get_duration_per_stream)));
-
-		 }
+			 label.text(e.stream_name);
+			 label.classed(e.stream_name, "true");
+ 			 myrow.append("td").text(three_sf(e.min));
+ 			 myrow.append("td").text(three_sf(e.median));
+ 			 myrow.append("td").text(three_sf(e.mean));
+ 			 myrow.append("td").text(three_sf(e.deviation));
+ 			 myrow.append("td").text(three_sf(e.max));
+		 });
 	}
 	
 	function activityLog(element,data) {
