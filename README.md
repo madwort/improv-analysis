@@ -28,7 +28,8 @@
 
 ##Licence
 
-Not known... 
+* New code: Not known... 
+* Portions written by oncletom under unknown licence
 
 ##References
 
