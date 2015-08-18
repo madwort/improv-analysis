@@ -4,7 +4,7 @@
 	w["bubbleChart"] = function(){
 		// chart1 stuff starts here
 
-		var svg = dimple.newSvg("#chartContainer", 1100, 500);
+		var svg = dimple.newSvg("#chartContainer", 650, 500);
 		var myChart = null;
 		var myData = null;
 		var mySeries = null;
@@ -21,7 +21,7 @@
 			ra.add_stream_name(myData);
 
 			myChart = new dimple.chart(svg, myData);
-			myChart.setBounds(60, 0, 1000, 430);
+			myChart.setBounds(60, 0, 550, 430);
 			var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			x.timePeriod = d3.time.seconds;
 			x.timeInterval = 10;
@@ -69,7 +69,7 @@
 					myData.map(durationFunction);
 				 	d3.selectAll('.chart1btn').classed("enabled", false);
 					d3.select(selector).classed("enabled",true);
-					myChart.draw(1000);
+					myChart.draw(550);
 					// don't need to redo the click handlers because bounds don't change 
 				});
 
@@ -87,7 +87,7 @@
 			x.overrideMin = raTime.timeFromSeconds(leftBound);
 			x.overrideMax = raTime.timeFromSeconds(rightBound);
 
-		 	myChart.draw(1000);
+		 	myChart.draw(550);
 			// redo click handlers
 			ra.bubbleClickAudio(mySeries,d3.select('audio'));
 		}

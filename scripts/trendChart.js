@@ -4,7 +4,7 @@
 	w["trendChart"] = function(){
 		// chart2 stuff starts here
 
-		 var svg = dimple.newSvg("#chartContainer2", 1100, 600);
+		 var svg = dimple.newSvg("#chartContainer2", 650, 600);
 		 var myChart = null;
 		 var myData = null;
 		 var mySeries = null;
@@ -24,7 +24,7 @@
 			 // console.log(myData);
 
 			 myChart = new dimple.chart(svg, myData);
-		    myChart.setBounds(60, 30, 1000, 530);
+		    myChart.setBounds(60, 30, 550, 530);
 		    x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			 // x.addOrderRule("Date");
 			 x.timePeriod = d3.time.seconds;
@@ -127,7 +127,7 @@
 			x.overrideMin = raTime.timeFromSeconds(lowerBound);
 			x.overrideMax = raTime.timeFromSeconds(upperBound);
 
-		 	myChart.draw(1000);
+		 	myChart.draw(550);
 			// redo click handlers
 			ra.bubbleClickAudio(mySeries,d3.select('audio'));
 		}

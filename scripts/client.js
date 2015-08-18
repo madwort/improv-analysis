@@ -36,7 +36,7 @@
 			prettify: function (num) {
 				// suspect this is inconsistent between Safari / Firefox (1900/1970)
 				// but as we're not comparing/displaying years we can get away with it?
-				return raTime.timeFormatDisplay(new Date(num*1000));
+				return raTime.timeFormatDisplay(new Date(num*550));
 			},
 			onFinish: function (data) {
 				leftBound = data.from;
@@ -48,7 +48,7 @@
 
 		// waveform display stuff starts here
 
-		var size = { width: 1000, height: 149 };
+		var size = { width: 550, height: 149 };
 		var formats = {
 		  json: { "extension": "json", "mimeType": "application/json", "responseType": "json" },
 		  binary: { "extension": "raw", "mimeType": "application/octet-stream", "responseType": "arraybuffer" }
@@ -86,7 +86,7 @@
 		waveformSvg.on("mousemove", function(){
 
 			var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
-			var datecode = new Date(timeInSeconds*1000);
+			var datecode = new Date(timeInSeconds*550);
 
 			var displayX = d3.mouse(this)[0]+5; 
 			if (displayX > 960) { displayX = 960; }; 
@@ -177,7 +177,7 @@
 			playheadTimer = setInterval(function() { 
 				playheadPos++;
 				drawPlayhead(playheadPos, false);
-			}, waveform_layout.timePerPixel()*1000);
+			}, waveform_layout.timePerPixel()*550);
 		})
 
 		d3.select('audio').on("pause", function () {

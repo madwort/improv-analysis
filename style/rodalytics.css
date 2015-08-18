@@ -12,7 +12,7 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 /* height should relate to #content */
 #topbar { 
 	position: fixed;
-	height: 140px;
+	height: 200px;
 	background: #7CAAAC;
 	width: 100%;
 	/* ensure this draws above any charts/labels */
@@ -23,7 +23,7 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 /* center */
 	margin-left: auto;
 	margin-right: auto;
-	width: 1000px;
+	width: 550px;
 /* and nudge content so it lines up with other content */
 	padding-left: 20px;
 }
@@ -34,7 +34,7 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 #title a:link, #title a:visited, #title a:hover, #title a:active  { color: #00282A;}
 
 .sliderContainer { 
-	width: 1000px; 
+	width: 550px; 
 	padding-bottom: 20px;
 }
 
@@ -50,7 +50,7 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 	background: #478285 ;
 }
 
-audio { width: 1000px; height: 25px;}
+audio { width: 550px; height: 25px;}
 
 #audioPlayer { padding-left: 0px;}
 
@@ -60,12 +60,13 @@ button.playPause.highlight { background: #236467; color: white;}
 
 #content {
 /* don't overlap with the topbar */
-	padding-top: 150px;
+/* this should be #topbar.height + 10 ! */
+	padding-top: 210px;
 
 /* centre the content */
 	margin-left: auto;
 	margin-right: auto;
-	width: 1100px;
+	width: 650px;
 	
 }
 
@@ -82,7 +83,7 @@ button.playPause.highlight { background: #236467; color: white;}
 #chartControls { 
 	float: left;
 	position: relative;
-	left: 45em;
+	left: 18em;
 	top: -500px;
 }
 
@@ -107,6 +108,10 @@ button.playPause.highlight { background: #236467; color: white;}
 	padding-left: 70px;
 	padding-right: 5em;
 	float: left;
+}
+
+#trendChart + input {
+  clear: left;
 }
 
 .streamSelection { 
