@@ -1,11 +1,11 @@
 (function (w, d3, ra, raTime) {
 	"use strict";
 
-	w["client"] = function(){
+	w["client"] = function(config){
 		// glob vars for everyone
-		
+
 		var leftBound = 0;
-		var rightBound = audioLength;
+		var rightBound = config.audioLength;
 		var playheadPos = leftBound;
 		var playheadTimer = null;
 		
@@ -13,14 +13,14 @@
 
 		// the sooner we do this, the sooner we get the remote file data loaded
 		// otherwise could just call applyBounds() now
-		d3.select('audio').property("src",audioUrl);
+		d3.select('audio').property("src",config.audioUrl);
 		// setup event handlers
 		var raAudioEvents = audioEvents(d3.select('audio'),d3.select("#play"),d3.select("#pause")); 
 
 		// title
 		
 		var titleObject = $("#title");
-		titleObject.html(titleObject.text()+" - \<a href=\""+videoUrl+"\" target=\"_blank\"\>"+analysisName+"\</a\>");
+		titleObject.html(titleObject.text()+" - \<a href=\""+config.videoUrl+"\" target=\"_blank\"\>"+config.analysisName+"\</a\>");
 
 		// create rangeslider
 		
@@ -63,9 +63,9 @@
 		waveformSvg.append("text").attr("x",0).attr("y",148).attr("id","waveform_position").text("00:00").style("visibility","hidden");
 
 
-		waveform.attr("data-url",audioUrl);
+		waveform.attr("data-url",config.audioUrl);
 		var format = formats[waveform.attr("data-format")];
-		var config = {
+		var audio_config = {
 		  event_identifier: ["load", format.extension].join("."),
 		  format: format,
 		  size: size,
@@ -74,13 +74,13 @@
 		  data_url: waveform.attr("data-url")
 		};
 
-		var layout = layouts(waveformSvg, config);
+		var layout = layouts(waveformSvg, audio_config);
 		waveform_layout = layout;
 
-		var xhr = d3.xhr(config.data_url, format.mimeType);
+		var xhr = d3.xhr(audio_config.data_url, format.mimeType);
 		xhr.responseType(format.responseType);
 
-		xhr.on(config.event_identifier, layout.init.bind(layout));
+		xhr.on(audio_config.event_identifier, layout.init.bind(layout));
 		xhr.get();
 
 		waveformSvg.on("mousemove", function(){
@@ -117,7 +117,7 @@
 		// do chart 1
 		var chart1 = null;
 		
-		d3.csv(dataUrl, function (data) {
+		d3.csv(config.dataUrl, function (data) {
 			chart1 = bubbleChart();
 			chart1.init(data,leftBound,rightBound);
 
@@ -128,7 +128,7 @@
 		// do chart 2
 		var chart2 = null;
 
-	 	d3.csv(dataUrl, function (data) {
+	 	d3.csv(config.dataUrl, function (data) {
 			chart2 = trendChart();
 			chart2.init(data,leftBound,rightBound);
 	 	});
@@ -210,7 +210,7 @@
 			var audioPlayer = d3.select('audio');
 			raAudioEvents.audioPause();
 			clearInterval(playheadTimer);
-			audioPlayer.property("src", audioUrl+"#t="+leftBound+","+rightBound);
+			audioPlayer.property("src", config.audioUrl+"#t="+leftBound+","+rightBound);
 			// this also resets the playback time to zero, so do that too...
 			drawPlayhead(0, true);
 	
