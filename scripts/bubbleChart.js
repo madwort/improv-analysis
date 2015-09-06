@@ -1,4 +1,4 @@
-(function (w, d3, ra) {
+(function (w, d3, ra, raTime) {
 	"use strict";
 
 	w["bubbleChart"] = function(){
@@ -104,4 +104,4 @@
 
  	}
 	
- }(window, d3, ra));
+ }(window, d3, ra, window.rodalyticsTime));

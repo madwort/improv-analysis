@@ -100,7 +100,7 @@
   			var previous_streamid = (data[0].streamid-1);
   			var this_streamid = -1;
 			
-  			data = data.sort(raTime.timeFormatCSVComparison);
+  			data = data.sort(myTime.timeFormatCSVComparison);
   			for (var i = 1; i < data.length; i++) {
   				 this_streamid = (data[i].streamid-1);
   				 stream_cooccurrence[previous_streamid][this_streamid]++;
@@ -155,4 +155,4 @@
 			durationPerStream: durationPerStream
 		}
 	};
-}(window, d3, raTime));
+}(window, d3, window.rodalyticsTime));

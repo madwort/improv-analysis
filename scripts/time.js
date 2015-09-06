@@ -1,7 +1,7 @@
 (function (w, d3) {
 	"use strict";
 
-   w["rodalyticsTime"] = function(){
+   w["rodalyticsTime"] = (function(){
 
 		// this is the time format in the CSV files
 		var timeFormatCSVString = "%M:%S.%L";
@@ -45,6 +45,6 @@
 
 		}
 
-	};
+	})();
 
 }(window, d3));
