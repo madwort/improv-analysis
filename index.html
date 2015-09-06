@@ -11,7 +11,7 @@
     <script src="./bower_components/ionrangeslider/js/ion.rangeSlider.min.js"></script>
 
     <script type="text/javascript">
-    var config = {
+    var config1 = {
       "audioUrl": "./assets/Everything 1a.mp3",
       "dataUrl": "./assets/Everything 1a.csv",
       "videoUrl": "https://vimeo.com/77930437",
@@ -39,39 +39,44 @@
   
   </head>
 
-  <body onload="client(config);">
-    <div id="topbar">
+  <body>
+    <!-- <div id="topbar">
       <div id="wrapper">
         <span id="title">Rodalytics v1.0.0</span>
-        
+
         <div class="sliderContainer">
           <input type="text" name="range_slider" value="" id="range_slider">
         </div>
 
         <span id="audioPlayer">
-          <audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause, or use these buttons: 
+          <audio src=""></audio>Use keyboard shortcuts to control playback: , &amp; . to skip ±10sec, p to play/pause, or use these buttons:
           <button id="play" class="playPause">Play</button><button id="pause" class="playPause highlight">Pause</button>
         </span>
       </div>
-    </div>
+    </div> -->
 
     <div id="content">
       <!-- waveform -->
       <div id="waveform">
         <div class="graph" id="waveform-graph" data-format="binary" data-url="" data-layout="area"></div>
       </div>
-  
+
       <div class="clear"></div>
   
-      <!-- chart 1 -->
-      <div id="chartContainer" class="chartContainer">
+      <div id="datafile1">
+        <!-- chart 1 -->
+        <div id="chartContainer" class="chartContainer">
+        </div>
+        <div id="chartControls" class="chartControls">
+          <input type="button" name="btn_no_cat" value="No duration" id="btn_no_cat" class="chart1btn enabled">
+          <input type="button" name="btn_all_cat" value="Duration all cats." id="btn_all_cat" class="chart1btn">
+          <input type="button" name="btn_same_cat" value="Duration same cat." id="btn_same_cat" class="chart1btn">
+        </div>
+        <script type="text/javascript">
+          document.addEventListener('DOMContentLoaded',function(){client("#datafile1", config1);});
+        </script>
       </div>
-      <div id="chartControls" class="chartControls">
-        <input type="button" name="btn_no_cat" value="No duration" id="btn_no_cat" class="chart1btn enabled">
-        <input type="button" name="btn_all_cat" value="Duration all cats." id="btn_all_cat" class="chart1btn">
-        <input type="button" name="btn_same_cat" value="Duration same cat." id="btn_same_cat" class="chart1btn">
-      </div>
-      
+
       <div class="clear"></div>
   
       <!-- chart2  -->
