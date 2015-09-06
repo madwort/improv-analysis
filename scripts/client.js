@@ -130,9 +130,6 @@
       d3.csv(config.dataUrl, function (data) {
         chart1 = ra.bubbleChart(container);
         chart1.init(data,leftBound,rightBound);
-
-        // also do stats at the same time!
-        createStats(data);
       });
 
     });
@@ -148,6 +145,16 @@
        chart2 = ra.trendChart(container);
        chart2.init(data,leftBound,rightBound);
       });
+    });
+
+    parent.select(".stats").each(function(d, i){
+      // retain this reference for the inner function
+      var container = this;
+
+      d3.csv(config.dataUrl, function (data) {
+        createStats(data);
+      });
+
     });
 
     function createStats(data) {
