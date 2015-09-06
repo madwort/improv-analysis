@@ -1,7 +1,9 @@
-(function (w, d3,myTime) {
+(function (w, d3, raTime) {
 	"use strict";
 
-   w["rodalytics"] = function(){
+  // static functions that process data objects
+
+  w["rodalytics"] = (function(){
 
 		var stream_names = ["", "Material", "Formal", "Interface", "Interaction"];
 		var stream_colours = ["", "#fea18d","#93d1ff","#b7e695","#fefca2"];
@@ -12,7 +14,7 @@
 			 for (var i = 0; i < data.length; i++) {
 				 // console.log(stream_times[data[i].streamid]);
 				 if (previous_time != null) {
-					 data[i].duration_all_streams = (myTime.timeFormatCSV.parse(data[i].time) - myTime.timeFormatCSV.parse(previous_time))/1000;
+					 data[i].duration_all_streams = (raTime.timeFormatCSV.parse(data[i].time) - raTime.timeFormatCSV.parse(previous_time))/1000;
 				 } else {
 					 data[i].duration_all_streams = 0;
 				 }
@@ -28,7 +30,7 @@
 				 // console.log(stream_times[data[i].streamid]);
 				 if (stream_times[data[i].streamid] != null) {
 					 data[i].duration_per_stream = 
-					 	(myTime.timeFormatCSV.parse(data[i].time) - myTime.timeFormatCSV.parse(stream_times[data[i].streamid]))/1000;
+					 	(raTime.timeFormatCSV.parse(data[i].time) - raTime.timeFormatCSV.parse(stream_times[data[i].streamid]))/1000;
 				 } else {
 					 data[i].duration_per_stream = 0;
 				 }
@@ -45,7 +47,7 @@
   		 	});
 			
 			data.map(function (d) {
-				d.time_offset = (myTime.timeFormatCSV.parse(d.time)-myTime.timeFormatCSV.parse(minTime))/1000;
+				d.time_offset = (raTime.timeFormatCSV.parse(d.time)-raTime.timeFormatCSV.parse(minTime))/1000;
 			});
 			var regressionData = chart.data.map(function (d) {
 				return [d.time_offset,d.duration];
@@ -100,7 +102,7 @@
   			var previous_streamid = (data[0].streamid-1);
   			var this_streamid = -1;
 			
-  			data = data.sort(myTime.timeFormatCSVComparison);
+  			data = data.sort(raTime.timeFormatCSVComparison);
   			for (var i = 1; i < data.length; i++) {
   				 this_streamid = (data[i].streamid-1);
   				 stream_cooccurrence[previous_streamid][this_streamid]++;
@@ -120,7 +122,7 @@
 		
 		function durationPerStream(data) {
 			// this might not be needed if it's already been done
-			ra.calculateDurationsPerStream(data);
+			this.calculateDurationsPerStream(data);
 			var durationPerStream = [];
 
 			for (var i = 1; i < 5; i++) {
@@ -130,7 +132,7 @@
   					 return d.duration_per_stream;
   				};
 				durationPerStream.push({
-					"stream_name":ra.stream_names[i],
+					"stream_name":this.stream_names[i],
 	  				"min":(d3.min(stream, get_duration_per_stream)),
 	  				"median":(d3.median(stream, get_duration_per_stream)),
 	  				"mean":(d3.mean(stream, get_duration_per_stream)),
@@ -154,5 +156,5 @@
 			activitySummary: activitySummary,
 			durationPerStream: durationPerStream
 		}
-	};
+	})();
 }(window, d3, window.rodalyticsTime));

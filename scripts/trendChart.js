@@ -139,4 +139,4 @@
 
 	}
 	
-}(window, d3, ra, window.rodalyticsTime));
+}(window, d3, window.rodalytics, window.rodalyticsTime));

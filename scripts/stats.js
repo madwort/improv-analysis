@@ -91,4 +91,4 @@
 		activityLog: activityLog
 	}
   };
-})(window, ra);
+})(window, rodalytics);
