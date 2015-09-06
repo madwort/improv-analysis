@@ -118,7 +118,7 @@
 		var chart1 = null;
 		
 		d3.csv(config.dataUrl, function (data) {
-			chart1 = bubbleChart();
+			chart1 = ra.bubbleChart("#chartContainer");
 			chart1.init(data,leftBound,rightBound);
 
 			// also do stats at the same time!
@@ -129,7 +129,7 @@
 		var chart2 = null;
 
 	 	d3.csv(config.dataUrl, function (data) {
-			chart2 = trendChart();
+			chart2 = ra.trendChart("#chartContainer2");
 			chart2.init(data,leftBound,rightBound);
 	 	});
 

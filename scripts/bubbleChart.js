@@ -1,10 +1,10 @@
 (function (w, d3, ra, raTime) {
 	"use strict";
 
-	w["bubbleChart"] = function(){
+	ra["bubbleChart"] = function(parent){
 		// chart1 stuff starts here
 
-		var svg = dimple.newSvg("#chartContainer", 650, 500);
+		var svg = dimple.newSvg(parent, 650, 500);
 		var myChart = null;
 		var myData = null;
 		var mySeries = null;

@@ -1,10 +1,10 @@
 (function (w, d3, ra, raTime) {
 	"use strict";
 
-	w["trendChart"] = function(){
+	ra["trendChart"] = function(parent){
 		// chart2 stuff starts here
 
-		 var svg = dimple.newSvg("#chartContainer2", 650, 600);
+		 var svg = dimple.newSvg(parent, 650, 600);
 		 var myChart = null;
 		 var myData = null;
 		 var mySeries = null;
