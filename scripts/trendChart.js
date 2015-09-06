@@ -27,7 +27,7 @@
 			 // console.log(myData);
 
 			 myChart = new dimple.chart(svg, myData);
-		   myChart.setBounds(60, 30, 550, 530);
+		   myChart.setBounds(60, 30, 550, 430);
 		   x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			 // x.addOrderRule("Date");
 			 x.timePeriod = d3.time.seconds;
@@ -80,7 +80,7 @@
 				 return null;
 			 };
 
-			 svg.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",530)
+			 svg.append("rect").attr("x",61).attr("y",30).attr("width",2).attr("height",430)
 			 	.classed("playhead", true);
 
 
