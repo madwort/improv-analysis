@@ -52,7 +52,7 @@
 
     // waveform display stuff starts here
     parent.select(".graph[data-format]").each(function(d, i){
-      var waveform = this;
+      var waveform = d3.select(this);
       var size = { width: 550, height: 149 };
       var formats = {
         json: { "extension": "json", "mimeType": "application/json", "responseType": "json" },
@@ -140,10 +140,15 @@
     // do chart 2
     var chart2 = null;
 
-     d3.csv(config.dataUrl, function (data) {
-      chart2 = ra.trendChart("#chartContainer2");
-      chart2.init(data,leftBound,rightBound);
-     });
+    parent.select("#chartContainer2").each(function(d, i){
+      // retain this reference for the inner function
+      var container = this;
+      
+      d3.csv(config.dataUrl, function (data) {
+       chart2 = ra.trendChart(container);
+       chart2.init(data,leftBound,rightBound);
+      });
+    });
 
     function createStats(data) {
       ra.stats.activitySummary(parent.select("#activitySummary"),ra.activitySummary(data));

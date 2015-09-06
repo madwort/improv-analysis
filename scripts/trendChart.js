@@ -1,10 +1,13 @@
 (function (w, d3, ra, raTime) {
 	"use strict";
 
-	ra["trendChart"] = function(parent){
+	ra["trendChart"] = function(container){
 		// chart2 stuff starts here
 
-		 var svg = dimple.newSvg(parent, 650, 600);
+    var svg = d3.select(container)
+                .append('svg')
+                .attr("width", 650)
+                .attr("height", 500);
 		 var myChart = null;
 		 var myData = null;
 		 var mySeries = null;
@@ -24,8 +27,8 @@
 			 // console.log(myData);
 
 			 myChart = new dimple.chart(svg, myData);
-		    myChart.setBounds(60, 30, 550, 530);
-		    x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
+		   myChart.setBounds(60, 30, 550, 530);
+		   x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			 // x.addOrderRule("Date");
 			 x.timePeriod = d3.time.seconds;
 			 x.timeInterval = 10;
