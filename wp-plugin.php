@@ -64,30 +64,53 @@ add_shortcode('improv-analysis', 'improv_analysis_handler');
 
 function improv_analysis_handler($atts)
 {
-	$unique_name = "datafile1";
-	
-	return "
-	      <div id=\"".$unique_name."\">
+  $a = shortcode_atts( array(
+			'unique_name' => 'analysis1',
+      'audio_url' => plugins_url( '/assets/Everything 1a.mp3', __FILE__ ),
+      'data_url' => plugins_url( '/assets/Everything 1a.csv', __FILE__ ),
+			'audio_length' => "209.6",
+			'waveform' => 'false',
+			'trend_chart' => 'false',
+			'bubble_chart' => 'false',
+			'stats' => 'false',
+			'activity_log' => 'false'
+  ), $atts );
 
-        <!-- waveform -->
-        <div id=\"waveform\">
-          <div class=\"graph\" id=\"waveform-graph\" data-format=\"binary\" data-url=\"\" data-layout=\"area\"></div>
-        </div>
+	$a['waveform'] = 'true' === $a['waveform'];
+	$a['trend_chart'] = 'true' === $a['trend_chart'];
+	$a['bubble_chart'] = 'true' === $a['bubble_chart'];
+	$a['stats'] = 'true' === $a['stats'];
+	$a['activity_log'] = 'true' === $a['activity_log'];
 
-        <div class=\"clear\"></div>
+	$html = "
+			<div id=\"".$a['unique_name']."\">";
 
-        <!-- chart 1 -->
-        <div id=\"chartContainer\" class=\"chartContainer\">
-        </div>
-        <div id=\"chartControls\" class=\"chartControls\">
-          <input type=\"button\" name=\"btn_no_cat\" value=\"No duration\" id=\"btn_no_cat\" class=\"chart1btn enabled\">
-          <input type=\"button\" name=\"btn_all_cat\" value=\"Duration all cats.\" id=\"btn_all_cat\" class=\"chart1btn\">
-          <input type=\"button\" name=\"btn_same_cat\" value=\"Duration same cat.\" id=\"btn_same_cat\" class=\"chart1btn\">
-        </div>
+	if($a['waveform']) {
+		$html .= "
+					<!-- waveform -->
+				  <div id=\"waveform\">
+				    <div class=\"graph\" id=\"waveform-graph\" data-format=\"binary\" data-url=\"\" data-layout=\"area\"></div>
+				  </div>
+					<div class=\"clear\"></div>";
+	}
 
-        <div class=\"clear\"></div>
+	if($a['trend_chart']) {
+		$html .= "
+					<!-- chart 1 -->
+	        <div id=\"chartContainer\" class=\"chartContainer\">
+	        </div>
+	        <div id=\"chartControls\" class=\"chartControls\">
+	          <input type=\"button\" name=\"btn_no_cat\" value=\"No duration\" id=\"btn_no_cat\" class=\"chart1btn enabled\">
+	          <input type=\"button\" name=\"btn_all_cat\" value=\"Duration all cats.\" id=\"btn_all_cat\" class=\"chart1btn\">
+	          <input type=\"button\" name=\"btn_same_cat\" value=\"Duration same cat.\" id=\"btn_same_cat\" class=\"chart1btn\">
+	        </div>
 
-        <!-- chart2  -->
+	        <div class=\"clear\"></div>"; 
+	};
+
+	if($a['bubble_chart']) {
+		$html .= "
+				<!-- chart2  -->
         <div id=\"chartControls2\" class=\"\">
           <span class=\"chartTitle\" id=\"trendChart\">Trend chart</span>
           <input type=\"button\" name=\"btn2_cat_all\" value=\"All streams\" id=\"btn2_cat_all\" class=\"All streamSelection\">
@@ -100,8 +123,11 @@ function improv_analysis_handler($atts)
         <div id=\"chartContainer2\" class=\"chartContainer\">
         </div>
  
-        <div class=\"clear\"></div>
+        <div class=\"clear\"></div>";
+	};
 
+	if($a['stats']) {
+		$html .= "
         <!-- stats -->
         <div class=\"stats\">
           <h2>Activity Summary</h2>
@@ -118,30 +144,37 @@ function improv_analysis_handler($atts)
           <div id=\"durationStats\"></div>
         </div>
       
-        <div class=\"clear\"></div>
-      
+        <div class=\"clear\"></div>";
+	};
+
+	if($a['activity_log']) {
+				$html .= "
         <div class=\"stats\">
           <h2>Activity log</h2>
           <div id=\"activityLog\"></div>
         </div>
 
-        <div class=\"clear\"></div>
-
+        <div class=\"clear\"></div>";
+	};
+				
+	$html .= "
         <script type=\"text/javascript\">
           document.addEventListener('DOMContentLoaded',
             function(){
-              client(\"#".$unique_name."\", {
-                \"audioUrl\": \"http://madwort.co.uk/wp-content/plugins/improv-analysis/assets/Everything 1a.mp3\",
-                \"dataUrl\": \"http://madwort.co.uk/wp-content/plugins/improv-analysis/assets/Everything 1a.csv\",
+              client(\"#".$a['unique_name']."\", {
+                \"audioUrl\": \"".$a['audio_url']."\",
+                \"dataUrl\": \"".$a['data_url']."\",
                 \"videoUrl\": \"https://vimeo.com/77930437\",
                 \"analysisName\": \"Everything. Everything at once. Once. (1a)\",
-                \"audioLength\": 209.62975056689342
+                \"audioLength\": ".$a['audio_length']."
               });
             }
           );
         </script>
 
       </div>";
+			
+	return $html;
 }
 
 ?>
