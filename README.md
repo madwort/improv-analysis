@@ -26,6 +26,12 @@
 	* 3: Interface
 	* 4: Interaction
 
+##Wordpress plugin usage
+
+eg: 
+ [improv-analysis unique\_name="analysis1" audio\_url="http://madwort.co.uk/wp-content/plugins/improv-analysis/assets/Everything 1a.mp3" data\_url="http://madwort.co.uk/wp-content/plugins/improv-analysis/assets/Everything 1a.csv" trend\_chart=true bubble\_chart=true]
+
+
 ##Licence
 
 * New code: Not known... 
