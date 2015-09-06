@@ -4,7 +4,7 @@
   // TODO: these functions create HTML elements from functions in rodalytics.js
   // they should be replaced by a proper templating system!
 
-  // Functions are passed an element to enrich & a dataset
+  // static functions are passed an element to enrich & a dataset
 
   ra.stats = (function () {
 
