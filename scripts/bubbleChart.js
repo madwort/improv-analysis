@@ -27,7 +27,7 @@
 			myChart.setBounds(60, 0, 550, 430);
 			var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			x.timePeriod = d3.time.seconds;
-			x.timeInterval = 10;
+			x.timeInterval = 15;
 			x.overrideMin = raTime.zeroTime;
 
 		   var y = myChart.addCategoryAxis("y", "stream_name");
