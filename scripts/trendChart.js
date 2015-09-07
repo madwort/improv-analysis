@@ -110,7 +110,6 @@
     }
     
     function applyBounds(lowerBound, upperBound) {
-      console.log("BLAHA2", currentStream, lowerBound, upperBound);
       if (currentStream !== null) {
          myData.map(function (d) {
            d.duration = d.duration_per_stream;
