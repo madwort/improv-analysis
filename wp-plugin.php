@@ -73,7 +73,9 @@ function improv_analysis_handler($atts)
 			'trend_chart' => 'false',
 			'bubble_chart' => 'false',
 			'stats' => 'false',
-			'activity_log' => 'false'
+			'activity_log' => 'false',
+			'left_bound' => "0",
+			'right_bound' => "209.6"
   ), $atts );
 
 	$a['waveform'] = 'true' === $a['waveform'];
@@ -172,7 +174,9 @@ function improv_analysis_handler($atts)
                 \"dataUrl\": \"".$a['data_url']."\",
                 \"videoUrl\": \"https://vimeo.com/77930437\",
                 \"analysisName\": \"Everything. Everything at once. Once. (1a)\",
-                \"audioLength\": ".$a['audio_length']."
+                \"audioLength\": ".$a['audio_length'].",
+                \"leftBound\": ".$a['left_bound'].",
+                \"rightBound\": ".$a['right_bound']"
               });
             }
           );

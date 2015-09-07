@@ -5,7 +5,15 @@
     // glob vars for everyone
 
     var leftBound = 0;
+    if (typeof config.leftBound != 'undefined') {
+      leftBound = config.leftBound;
+    }
+
     var rightBound = config.audioLength;
+    if (typeof config.rightBound != 'undefined') {
+      rightBound = config.rightBound;
+    }
+
     var playheadPos = leftBound;
     var playheadTimer = null;
 
