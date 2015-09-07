@@ -69,11 +69,18 @@ button.playPause { border: 1px solid black; font-size: 0.7em; margin-right: 0.5e
 
 button.playPause.highlight { background: #236467; color: white;}
 
-.chartContainer { float: left;}
+.chartContainer {
+  float: left;
+}
 
 .chartContainer .playhead {
 	opacity: 0.7;
 	fill: #00282A;
+}
+
+.chartContainer {
+  position: relative;
+  top: -24px;
 }
 
 /* emulate h2 but inline element */
@@ -83,7 +90,7 @@ button.playPause.highlight { background: #236467; color: white;}
 	float: left;
 	position: relative;
 	left: 18em;
-	top: 20px;
+	top: 24px;
 }
 
 .chartControls input { 
@@ -113,8 +120,12 @@ button.playPause.highlight { background: #236467; color: white;}
   clear: left;
 }
 
+#chartControls2 {
+  padding-left: 1em;
+}
+
 .streamSelection { 
-	width: 8em;
+	width: 6.5em;
 	border: 1px solid black; 
 	margin: 0.5em 1em 0 0 ;
 	float: left;
