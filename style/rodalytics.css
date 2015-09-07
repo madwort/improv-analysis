@@ -78,10 +78,7 @@ button.playPause.highlight { background: #236467; color: white;}
 	fill: #00282A;
 }
 
-.chartContainer {
-  position: relative;
-  top: -24px;
-}
+.chartContainer { }
 
 /* emulate h2 but inline element */
 .chartTitle { font-size: 1.5em; font-weight: bold;}

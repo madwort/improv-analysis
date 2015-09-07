@@ -45,8 +45,8 @@ add_action( 'wp_enqueue_scripts', 'improv_analysis_scripts' );
 
 function improv_analysis_style()
 {
-    wp_register_style( 'normalize.css', plugins_url( 'bower_components/normalize.css/normalize.css', __FILE__ ));
-    wp_enqueue_style( 'normalize.css' );
+    // wp_register_style( 'normalize.css', plugins_url( 'bower_components/normalize.css/normalize.css', __FILE__ ));
+    // wp_enqueue_style( 'normalize.css' );
     wp_register_style( 'ionrangeslider', plugins_url( 'bower_components/ionrangeslider/css/ion.rangeSlider.css', __FILE__ ));
     wp_enqueue_style( 'ionrangeslider' );
     wp_register_style( 'ionrangeslider-skin', plugins_url( 'bower_components/ionrangeslider/css/ion.rangeSlider.skinFlat.css', __FILE__ ));
@@ -97,7 +97,14 @@ function improv_analysis_handler($atts)
 	if($a['trend_chart']) {
 		$html .= "
 					<!-- chart 1 -->
-	        <div id=\"chartContainer\" class=\"chartContainer\">
+	        <div id=\"chartContainer\" class=\"chartContainer\"";
+
+		if($a['waveform']) {
+			// bump up the chart to the bottom of the waveform
+			$html .= " style='position: relative; top: -24px;'";
+		}
+
+		$html .= ">
 		        <div id=\"chartControls\" class=\"chartControls\">
 		          <input type=\"button\" name=\"btn_no_cat\" value=\"No duration\" id=\"btn_no_cat\" class=\"chart1btn enabled\">
 		          <input type=\"button\" name=\"btn_all_cat\" value=\"Duration all cats.\" id=\"btn_all_cat\" class=\"chart1btn\">
