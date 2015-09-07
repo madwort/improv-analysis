@@ -66,12 +66,12 @@
 			 	.classed("playhead", true);
 
 			 function createChart1Btn(selector,min,max,durationFunction) {
-				d3.select(selector).on("click", function() {
+				d3.select(container).select(selector).on("click", function() {
 					z.overrideMin = min;
 					z.overrideMax = max;
 					myData.map(durationFunction);
-				 	d3.selectAll('.chart1btn').classed("enabled", false);
-					d3.select(selector).classed("enabled",true);
+				 	d3.select(container).selectAll('.chart1btn').classed("enabled", false);
+					d3.select(container).select(selector).classed("enabled",true);
 					myChart.draw(550);
 					// don't need to redo the click handlers because bounds don't change 
 				});
@@ -92,7 +92,7 @@
 
 		 	myChart.draw(550);
 			// redo click handlers
-			ra.bubbleClickAudio(mySeries,d3.select('audio'));
+			ra.bubbleClickAudio(mySeries,d3.select(container).select('audio'));
 		}
 		
 		function currentData() {

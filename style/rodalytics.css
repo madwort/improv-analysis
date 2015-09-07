@@ -83,7 +83,7 @@ button.playPause.highlight { background: #236467; color: white;}
 	float: left;
 	position: relative;
 	left: 18em;
-	top: -500px;
+	top: 20px;
 }
 
 .chartControls input { 

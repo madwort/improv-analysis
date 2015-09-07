@@ -3,7 +3,7 @@
 Plugin Name: Improv Analysis
 Plugin URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Package Improv Analysis tool for WP
-Version: 0.3
+Version: 0.4
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -98,11 +98,11 @@ function improv_analysis_handler($atts)
 		$html .= "
 					<!-- chart 1 -->
 	        <div id=\"chartContainer\" class=\"chartContainer\">
-	        </div>
-	        <div id=\"chartControls\" class=\"chartControls\">
-	          <input type=\"button\" name=\"btn_no_cat\" value=\"No duration\" id=\"btn_no_cat\" class=\"chart1btn enabled\">
-	          <input type=\"button\" name=\"btn_all_cat\" value=\"Duration all cats.\" id=\"btn_all_cat\" class=\"chart1btn\">
-	          <input type=\"button\" name=\"btn_same_cat\" value=\"Duration same cat.\" id=\"btn_same_cat\" class=\"chart1btn\">
+		        <div id=\"chartControls\" class=\"chartControls\">
+		          <input type=\"button\" name=\"btn_no_cat\" value=\"No duration\" id=\"btn_no_cat\" class=\"chart1btn enabled\">
+		          <input type=\"button\" name=\"btn_all_cat\" value=\"Duration all cats.\" id=\"btn_all_cat\" class=\"chart1btn\">
+		          <input type=\"button\" name=\"btn_same_cat\" value=\"Duration same cat.\" id=\"btn_same_cat\" class=\"chart1btn\">
+		        </div>
 	        </div>
 
 	        <div class=\"clear\"></div>"; 
@@ -111,16 +111,15 @@ function improv_analysis_handler($atts)
 	if($a['bubble_chart']) {
 		$html .= "
 				<!-- chart2  -->
-        <div id=\"chartControls2\" class=\"\">
-          <span class=\"chartTitle\" id=\"trendChart\">Trend chart</span>
-          <input type=\"button\" name=\"btn2_cat_all\" value=\"All streams\" id=\"btn2_cat_all\" class=\"All streamSelection\">
-          <input type=\"button\" name=\"btn2_cat_1\" value=\"Material\" id=\"btn2_cat_1\" class=\"Material streamSelection\">
-          <input type=\"button\" name=\"btn2_cat_2\" value=\"Formal\" id=\"btn2_cat_2\" class=\"Formal streamSelection\">
-          <input type=\"button\" name=\"btn2_cat_3\" value=\"Interface\" id=\"btn2_cat_3\" class=\"Interface streamSelection\">
-          <input type=\"button\" name=\"btn2_cat_4\" value=\"Interaction\" id=\"btn2_cat_4\" class=\"Interaction streamSelection\"> 
-        </div>
-
         <div id=\"chartContainer2\" class=\"chartContainer\">
+	        <div id=\"chartControls2\" class=\"\">
+	          <span class=\"chartTitle\" id=\"trendChart\">Trend chart</span>
+	          <input type=\"button\" name=\"btn2_cat_all\" value=\"All streams\" id=\"btn2_cat_all\" class=\"All streamSelection\">
+	          <input type=\"button\" name=\"btn2_cat_1\" value=\"Material\" id=\"btn2_cat_1\" class=\"Material streamSelection\">
+	          <input type=\"button\" name=\"btn2_cat_2\" value=\"Formal\" id=\"btn2_cat_2\" class=\"Formal streamSelection\">
+	          <input type=\"button\" name=\"btn2_cat_3\" value=\"Interface\" id=\"btn2_cat_3\" class=\"Interface streamSelection\">
+	          <input type=\"button\" name=\"btn2_cat_4\" value=\"Interaction\" id=\"btn2_cat_4\" class=\"Interaction streamSelection\"> 
+	        </div>
         </div>
  
         <div class=\"clear\"></div>";

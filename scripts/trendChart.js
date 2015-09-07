@@ -84,11 +84,12 @@
 			 	.classed("playhead", true);
 
 
-			d3.select("#btn2_cat_all").on("click", function() {
+			d3.select(container).select("#btn2_cat_all").on("click", function() {
 				currentStream = null;
 			 	lines.shapes.attr("stroke","#00282A");
 				// access leftBound & rightBound via the range slider...
-				applyBounds($('#range_slider').data().from, $('#range_slider').data().to);
+        // applyBounds($('#range_slider').data().from, $('#range_slider').data().to);
+				applyBounds(0, 150);
 			});
 
 			function create_btn2(index) {
@@ -96,18 +97,20 @@
 					currentStream = index;
 				 	lines.shapes.attr("stroke",ra.stream_colours[index]);
 					// access leftBound & rightBound via the range slider...
-					applyBounds($('#range_slider').data().from, $('#range_slider').data().to);
+          // applyBounds($('#range_slider').data().from, $('#range_slider').data().to);
+  				applyBounds(0, 150);
 				}
 			}
 
 			// move this code out into function because of scoping issues in closures!
 			for (var i = 1; i < 5; i++) {
-				d3.select("#btn2_cat_"+i).on("click", create_btn2(i));				
+				d3.select(container).select("#btn2_cat_"+i).on("click", create_btn2(i));				
 			}
 		
 		}
 		
 		function applyBounds(lowerBound, upperBound) {
+      console.log("BLAHA2", currentStream, lowerBound, upperBound);
 			if (currentStream !== null) {
 				 myData.map(function (d) {
 				 	d.duration = d.duration_per_stream;
