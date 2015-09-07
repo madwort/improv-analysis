@@ -9,6 +9,19 @@ body { font-family: "Open Sans", "Helvetica", Arial, sans-serif;}
 /* UI colour palette based on #236467 @ http://paletton.com */
 /* http://paletton.com/palette.php?uid=53j0u0kllll97A-ferBrsf4-F8P */
 
+
+/*#content {*/
+/* don't overlap with the topbar */
+/* this should be #topbar.height + 10 ! */
+/*  padding-top: 210px;*/
+
+/* centre the content */
+/*  margin-left: auto;*/
+/*  margin-right: auto;*/
+/*  width: 650px;*/
+	
+/*}*/
+
 /* height should relate to #content */
 #topbar { 
 	position: fixed;
@@ -57,18 +70,6 @@ audio { width: 550px; height: 25px;}
 button.playPause { border: 1px solid black; font-size: 0.7em; margin-right: 0.5em;}
 
 button.playPause.highlight { background: #236467; color: white;}
-
-#content {
-/* don't overlap with the topbar */
-/* this should be #topbar.height + 10 ! */
-	padding-top: 210px;
-
-/* centre the content */
-	margin-left: auto;
-	margin-right: auto;
-	width: 650px;
-	
-}
 
 .chartContainer { float: left;}
 
