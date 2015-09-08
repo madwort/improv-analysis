@@ -75,7 +75,8 @@ function improv_analysis_handler($atts)
 			'stats' => 'false',
 			'activity_log' => 'false',
 			'left_bound' => "0",
-			'right_bound' => "209.6"
+			'right_bound' => "209.6",
+      'zoom' => 'false'
   ), $atts );
 
 	$a['waveform'] = 'true' === $a['waveform'];
@@ -83,9 +84,26 @@ function improv_analysis_handler($atts)
 	$a['bubble_chart'] = 'true' === $a['bubble_chart'];
 	$a['stats'] = 'true' === $a['stats'];
 	$a['activity_log'] = 'true' === $a['activity_log'];
+	$a['zoom'] = 'true' === $a['zoom'];
 
 	$html = "
 			<div id=\"".$a['unique_name']."\">";
+
+	if($a['zoom']) {
+    $html .= "
+    <div id=\"wrapper\">
+    <span id=\"title\"></span>
+
+    <div class=\"sliderContainer\">
+      <input type=\"text\" name=\"range_slider\" value=\"\" id=\"range_slider\">
+    </div>
+
+    <span id=\"audioPlayer\">
+      <audio src=\"\"></audio>
+      <button id=\"play\" class=\"playPause\">Play</button><button id=\"pause\" class=\"playPause highlight\">Pause</button>
+    </span>
+  </div>";
+  };
 
 	if($a['waveform']) {
 		$html .= "

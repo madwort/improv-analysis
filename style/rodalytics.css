@@ -40,7 +40,7 @@
 }
 
 /* emulate h1 but inline element */
-#title { font-size: 2em; font-weight: bold; }
+#title { font-size: 1.5em; font-weight: bold; }
 
 #title a:link, #title a:visited, #title a:hover, #title a:active  { color: #00282A;}
 

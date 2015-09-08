@@ -16,6 +16,7 @@
 
     var playheadPos = leftBound;
     var playheadTimer = null;
+    var waveform_layout = null;
 
     var parent = d3.select(parentName);
     
@@ -29,15 +30,14 @@
 
     // title
     
-    // TODO: remove jQuery!
-    var titleObject = $("#title");
-    titleObject.html(titleObject.text()+" - \<a href=\""+config.videoUrl+"\" target=\"_blank\"\>"+config.analysisName+"\</a\>");
+    var titleObject = parent.select('#title');
+    titleObject.html("\<a href=\""+config.videoUrl+"\" target=\"_blank\"\>"+config.analysisName+"\</a\>");
 
     // create rangeslider
     
     // TODO: remove jQuery!
     // min interval 12 seconds because less breaks our waveform display
-    $("#range_slider").ionRangeSlider({
+    $(parentName+" #range_slider").ionRangeSlider({
       type: 'double',
       min: leftBound,
       max: rightBound,
@@ -63,17 +63,27 @@
       var waveform = d3.select(this);
       var size = { width: 550, height: 149 };
       var formats = {
-        json: { "extension": "json", "mimeType": "application/json", "responseType": "json" },
-        binary: { "extension": "raw", "mimeType": "application/octet-stream", "responseType": "arraybuffer" }
+        json: { 
+          "extension": "json", 
+          "mimeType": "application/json", 
+          "responseType": "json" 
+        },
+        binary: { 
+          "extension": "raw", 
+          "mimeType": "application/octet-stream", 
+          "responseType": "arraybuffer" 
+        }
       };
-  
-      var waveform_layout = null;
   
       var waveformSvg = waveform.append("svg")
         .attr("width", size.width)
         .attr("height", size.height)
-      waveformSvg.append("text").attr("x",0).attr("y",148).attr("id","waveform_position").text("00:00").style("visibility","hidden");
-
+      waveformSvg.append("text")
+        .attr("x",0)
+        .attr("y",148)
+        .attr("id","waveform_position")
+        .text("00:00")
+        .style("visibility","hidden");
 
       waveform.attr("data-url",config.audioUrl);
       var format = formats[waveform.attr("data-format")];
