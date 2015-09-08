@@ -3,7 +3,7 @@
 Plugin Name: Improv Analysis
 Plugin URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Package Improv Analysis tool for WP
-Version: 0.6
+Version: 0.7
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -96,7 +96,7 @@ function improv_analysis_handler($atts)
 					<div class=\"clear\"></div>";
 	}
 
-	if($a['trend_chart']) {
+	if($a['bubble_chart']) {
 		$html .= "
 					<!-- chart 1 -->
 	        <div id=\"chartContainer\" class=\"chartContainer\"";
@@ -117,7 +117,7 @@ function improv_analysis_handler($atts)
 	        <div class=\"clear\"></div>"; 
 	};
 
-	if($a['bubble_chart']) {
+	if($a['trend_chart']) {
 		$html .= "
 				<!-- chart2  -->
         <div id=\"chartContainer2\" class=\"chartContainer\">
