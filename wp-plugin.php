@@ -176,7 +176,7 @@ function improv_analysis_handler($atts)
                 \"analysisName\": \"Everything. Everything at once. Once. (1a)\",
                 \"audioLength\": ".$a['audio_length'].",
                 \"leftBound\": ".$a['left_bound'].",
-                \"rightBound\": ".$a['right_bound']"
+                \"rightBound\": ".$a['right_bound']."
               });
             }
           );
