@@ -50,7 +50,6 @@
       }
     });
 
-
     // waveform display stuff starts here
     parent.select(".graph[data-format]").each(function(d, i){
       var waveform = d3.select(this);
@@ -232,11 +231,13 @@
     // Update everything when we change the zoom of waveform & chart 1
     function applyBounds() {
       
-      chart1.applyBounds(leftBound, rightBound);
-      chart2.applyBounds(leftBound, rightBound);
+      if ( chart1 !== null ) { chart1.applyBounds(leftBound, rightBound); };
+      if ( chart2 !== null ) { chart2.applyBounds(leftBound, rightBound); };
 
       // apply to waveform display
-      waveform_layout.setBounds(parseInt(leftBound),parseInt(rightBound));
+      if (waveform_layout !== null) {
+        waveform_layout.setBounds(parseInt(leftBound),parseInt(rightBound));
+      };
 
       // apply to audio playback 
       var audioPlayer = parent.select('audio');
