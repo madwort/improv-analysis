@@ -21,22 +21,29 @@
 /*}*/
 
 /* height should relate to #content */
-#topbar { 
-	position: fixed;
-	height: 200px;
-	background: #7CAAAC;
-	width: 100%;
-	/* ensure this draws above any charts/labels */
-	z-index: 10;
+/* ensure this draws above any charts/labels */
+/*#topbar {
+  position: fixed;
+  height: 200px;
+  background: #7CAAAC;
+  width: 100%;
+  z-index: 10;
 }
+*/
 
-#topbar div#wrapper {
-/* center */
-	margin-left: auto;
-	margin-right: auto;
-	width: 550px;
 /* and nudge content so it lines up with other content */
-	padding-left: 20px;
+/*#topbar div#wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  width: 550px;
+  padding-left: 20px;
+}
+*/
+
+#zoom {
+  background: #7CAAAC;
+  margin-left: 59px;
+  width: 551px;
 }
 
 /* emulate h1 but inline element */

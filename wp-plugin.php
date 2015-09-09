@@ -3,7 +3,7 @@
 Plugin Name: Improv Analysis
 Plugin URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Package Improv Analysis tool for WP
-Version: 0.7
+Version: 0.9
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -91,7 +91,7 @@ function improv_analysis_handler($atts)
 
 	if($a['zoom']) {
     $html .= "
-    <div id=\"wrapper\">
+    <div id=\"zoom\">
     <span id=\"title\"></span>
 
     <div class=\"sliderContainer\">

@@ -33,8 +33,17 @@
     }
 
     #content { 
-      width: 650px;
+/*      width: 650px;*/
     }
+    
+    .datafile {
+      width: 650px;
+      float: left;
+      border-left: 2px solid #999;
+      padding-left: 2em;
+    }
+    
+    
     </style>
   
   </head>
@@ -44,8 +53,8 @@
     </div> -->
 
     <div id="content">
-      <div id="datafile1">
-        <div id="wrapper">
+      <div id="datafile1" class="datafile">
+        <div id="zoom">
           <span id="title"></span>
 
           <div class="sliderContainer">
@@ -122,9 +131,9 @@
                 "dataUrl": "./assets/Everything 1a.csv",
                 "videoUrl": "https://vimeo.com/77930437",
                 "analysisName": "Everything. Everything at once. Once. (1a)",
-                "audioLength": 209.62975056689342,
-                "leftBound": 0,
-                "rightBound": 100
+                "audioLength": 209.62975056689342 //,
+                // "leftBound": 0,
+                // "rightBound": 100
               });
             }
           );
@@ -134,8 +143,8 @@
 
       </div>
   
-      <div id="datafile2">
-        <div id="wrapper">
+      <div id="datafile2" class="datafile">
+        <div id="zoom">
           <span id="title"></span>
 
           <div class="sliderContainer">
