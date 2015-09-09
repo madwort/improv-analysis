@@ -78,7 +78,7 @@
 	<body onload="client();">
 		<div id="topbar">
 			<div id="wrapper">
-				<span id="title">Rodalytics v1.0.0</span>
+				<span id="title">Improv Analysis</span>
 				
 				<div class="sliderContainer">
 					<input type="text" name="range_slider" value="" id="range_slider">
