@@ -7,7 +7,7 @@
 		var svg = d3.select(container)
                 .append('svg')
                 .attr("width", 650)
-                .attr("height", 500);
+                .attr("height", 470);
 		var myChart = null;
 		var myData = null;
 		var mySeries = null;
