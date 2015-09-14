@@ -62,12 +62,12 @@
 			var previous_time_offsets = [];
 			
 			for (var j = 0; j < chart.data.length; j++) {
-				if (previous_time_offsets.indexOf(chart.data[j].time_offset) == -1) { 
+				if (previous_time_offsets.indexOf(Math.floor(chart.data[j].time_offset)) == -1) {
 					chart.data[j].stream_regression = regression.points[j][1];
 				} else {
 					delete chart.data[j].stream_regression;
 				} 
-				previous_time_offsets.push(chart.data[j].time_offset);
+				previous_time_offsets.push(Math.floor(chart.data[j].time_offset));
 			}
 		}
 		
