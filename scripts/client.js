@@ -110,7 +110,8 @@
       waveformSvg.on("mousemove", function(){
 
         var timeInSeconds = waveform_layout.time(d3.mouse(this)[0])+parseInt(leftBound);
-        var datecode = new Date(timeInSeconds*550);
+        // convert milliseconds to seconds!
+        var datecode = new Date(timeInSeconds*1000);
 
         var displayX = d3.mouse(this)[0]+5; 
         if (displayX > 960) { displayX = 960; }; 
