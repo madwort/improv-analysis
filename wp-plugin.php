@@ -3,7 +3,7 @@
 Plugin Name: Improv Analysis
 Plugin URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Package Improv Analysis tool for WP
-Version: 0.11
+Version: 0.12
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
