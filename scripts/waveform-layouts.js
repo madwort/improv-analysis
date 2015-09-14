@@ -16,14 +16,14 @@
       var arrayBufferAdapter = WaveformData.adapters.arraybuffer;
 
       // Asynchronous parsing
-		WaveformData.builders.webaudio(xhr.response, onDataProcessed);
+      WaveformData.builders.webaudio(xhr.response, onDataProcessed);
 
       // Processing parsed data
       function onDataProcessed(data){
         graph.append("path");
         waveform_data = data;
 
-		  waveform_data.offset(offsetX, config.size.width);
+        waveform_data.offset(offsetX, config.size.width);
 
         done(waveform_data);
       }
@@ -31,9 +31,13 @@
 
     function init(xhr){
       var renderer = this.renderers[config.layout];
-		myRenderer = renderer;
+      myRenderer = renderer;
 
       setup(xhr, function onSetupDone(waveform_data){
+        // outer function params but require access to waveform_data
+        config.leftBound = typeof config.leftBound !== 'undefined' ? config.leftBound : 0;
+        config.rightBound = typeof config.rightBound !== 'undefined' ? config.rightBound : waveform_data.duration;
+
         scale = waveform_data.adapter.scale;
 
         var values = {
@@ -46,21 +50,19 @@
         y.domain([d3.min(values.min), d3.max(values.max)]).rangeRound([offsetY, -offsetY]);
 
         renderer(values);
-		  
-		  // redraw it showing the whole waveform
-		  setBounds(0,waveform_data.duration);
+
+        // redraw it showing the whole waveform
+        setBounds(config.leftBound,config.rightBound);
 
       });
     }
-	 
+
 	 // bounds are in seconds
 	 function setBounds(leftBound,rightBound) {
 		 // check these values!
 		 leftBound = parseInt(leftBound);
 		 rightBound = parseInt(rightBound);
-		 
-		 // console.log("bounds",leftBound,rightBound);
-       
+
 		 var renderer = myRenderer;
 		 var newScale = ((rightBound-leftBound)*waveform_data.adapter.sample_rate/config.size.width);
 		 // console.log("new scale",newScale);

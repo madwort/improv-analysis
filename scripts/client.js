@@ -5,7 +5,14 @@
     // glob vars for everyone
 
     var leftBound = 0;
+    if (typeof config.leftBound != 'undefined') {
+      leftBound = config.leftBound;
+    }
+
     var rightBound = config.audioLength;
+    if (typeof config.rightBound != 'undefined') {
+      rightBound = config.rightBound;
+    }
 
     var playheadPos = leftBound;
     var playheadTimer = null;
@@ -32,8 +39,8 @@
     // min interval 12 seconds because less breaks our waveform display
     $(parentName+" #range_slider").ionRangeSlider({
       type: 'double',
-      min: leftBound,
-      max: rightBound,
+      min: 0,
+      max: config.audioLength,
       from: leftBound,
       to: rightBound,
       min_interval: 12,
@@ -85,7 +92,9 @@
         size: size,
         layout: waveform.attr("data-layout"),
         resample: true,
-        data_url: waveform.attr("data-url")
+        data_url: waveform.attr("data-url"),
+        leftBound: leftBound,
+        rightBound: rightBound
       };
 
       var layout = layouts(waveformSvg, audio_config);
@@ -129,16 +138,6 @@
       .attr("x",0).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
       
     });
-
-    // The waveform display needs to use the maximum possible bounds,
-    // everything else wants the bounds as specified in the config
-    if (typeof config.leftBound != 'undefined') {
-      leftBound = config.leftBound;
-    }
-
-    if (typeof config.rightBound != 'undefined') {
-      rightBound = config.rightBound;
-    }
 
     // do chart 1
     var chart1 = null;
@@ -269,9 +268,6 @@
       createStats(chart1.currentData());
   
     }
-
-    // ensure we're using the correct bounds
-    applyBounds();
 
   };
 
