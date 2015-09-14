@@ -3,7 +3,7 @@
 Plugin Name: Improv Analysis
 Plugin URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Package Improv Analysis tool for WP
-Version: 0.9
+Version: 0.10
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -65,31 +65,33 @@ add_shortcode('improv-analysis', 'improv_analysis_handler');
 function improv_analysis_handler($atts)
 {
   $a = shortcode_atts( array(
-			'unique_name' => 'analysis1',
+      'unique_name' => 'analysis1',
       'audio_url' => plugins_url( '/assets/Everything 1a.mp3', __FILE__ ),
       'data_url' => plugins_url( '/assets/Everything 1a.csv', __FILE__ ),
-			'audio_length' => "209.6",
-			'waveform' => 'false',
-			'trend_chart' => 'false',
-			'bubble_chart' => 'false',
-			'stats' => 'false',
-			'activity_log' => 'false',
-			'left_bound' => "0",
-			'right_bound' => "209.6",
+      'video_url' => 'http://rodrigoconstanzo.com',
+      'analysis_name' => 'No analysis_name supplied',
+      'audio_length' => "209.6",
+      'waveform' => 'false',
+      'trend_chart' => 'false',
+      'bubble_chart' => 'false',
+      'stats' => 'false',
+      'activity_log' => 'false',
+      'left_bound' => "0",
+      'right_bound' => "209.6",
       'zoom' => 'false'
   ), $atts );
 
-	$a['waveform'] = 'true' === $a['waveform'];
-	$a['trend_chart'] = 'true' === $a['trend_chart'];
-	$a['bubble_chart'] = 'true' === $a['bubble_chart'];
-	$a['stats'] = 'true' === $a['stats'];
-	$a['activity_log'] = 'true' === $a['activity_log'];
-	$a['zoom'] = 'true' === $a['zoom'];
+  $a['waveform'] = 'true' === $a['waveform'];
+  $a['trend_chart'] = 'true' === $a['trend_chart'];
+  $a['bubble_chart'] = 'true' === $a['bubble_chart'];
+  $a['stats'] = 'true' === $a['stats'];
+  $a['activity_log'] = 'true' === $a['activity_log'];
+  $a['zoom'] = 'true' === $a['zoom'];
 
-	$html = "
-			<div id=\"".$a['unique_name']."\">";
+  $html = "
+    <div id=\"".$a['unique_name']."\">";
 
-	if($a['zoom']) {
+  if($a['zoom']) {
     $html .= "
     <div id=\"zoom\">
     <span id=\"title\"></span>
@@ -190,8 +192,8 @@ function improv_analysis_handler($atts)
               client(\"#".$a['unique_name']."\", {
                 \"audioUrl\": \"".$a['audio_url']."\",
                 \"dataUrl\": \"".$a['data_url']."\",
-                \"videoUrl\": \"https://vimeo.com/77930437\",
-                \"analysisName\": \"Everything. Everything at once. Once. (1a)\",
+                \"videoUrl\": \"".$a['video_url']."\",
+                \"analysisName\": \"".$a['analysis_name']."\",
                 \"audioLength\": ".$a['audio_length'].",
                 \"leftBound\": ".$a['left_bound'].",
                 \"rightBound\": ".$a['right_bound']."
