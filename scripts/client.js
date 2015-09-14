@@ -130,6 +130,16 @@
       
     });
 
+    // The waveform display needs to use the maximum possible bounds,
+    // everything else wants the bounds as specified in the config
+    if (typeof config.leftBound != 'undefined') {
+      leftBound = config.leftBound;
+    }
+
+    if (typeof config.rightBound != 'undefined') {
+      rightBound = config.rightBound;
+    }
+
     // do chart 1
     var chart1 = null;
 
@@ -168,10 +178,12 @@
     });
 
     function createStats(data) {
-      ra.stats.activitySummary(parent.select("#activitySummary"),ra.activitySummary(data));
-      ra.stats.cooccurrence(parent.select("#cooccurrence"), ra.cooccurrence(data));
-      ra.stats.durationPerStream(parent.select("#durationStats"),ra.durationPerStream(data));
-      ra.stats.activityLog(parent.select("#activityLog"),data);
+      var stats_data = data.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
+
+      ra.stats.activitySummary(parent.select("#activitySummary"),ra.activitySummary(stats_data));
+      ra.stats.cooccurrence(parent.select("#cooccurrence"), ra.cooccurrence(stats_data));
+      ra.stats.durationPerStream(parent.select("#durationStats"),ra.durationPerStream(stats_data));
+      ra.stats.activityLog(parent.select("#activityLog"),stats_data);
     }
 
     // common stuff starts here
@@ -258,15 +270,7 @@
   
     }
 
-    // Final step: apply any bounds as specified in the config
-    if (typeof config.leftBound != 'undefined') {
-      leftBound = config.leftBound;
-    }
-
-    if (typeof config.rightBound != 'undefined') {
-      rightBound = config.rightBound;
-    }
-
+    // ensure we're using the correct bounds
     applyBounds();
 
   };
