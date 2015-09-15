@@ -226,8 +226,8 @@
 				</div>		
 				
 				<div class="stats">
-					<h2>Co-occurrence</h2>
-					<div id="cooccurrence"></div>		
+					<h2>Transition Matrix</h2>
+					<div id="transitionMatrix"></div>		
 				</div>
 							
 				<div class="stats">

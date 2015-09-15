@@ -138,7 +138,7 @@
 		
 		function createStats(data) {
 			rodstat.activitySummary(d3.select("#activitySummary"),ra.activitySummary(data));
-			rodstat.cooccurrence(d3.select("#cooccurrence"), ra.cooccurrence(data));
+			rodstat.transitionMatrix(d3.select("#transitionMatrix"), ra.transitionMatrix(data));
 		  	rodstat.durationPerStream(d3.select("#durationStats"),ra.durationPerStream(data));
 			rodstat.activityLog(d3.select("#activityLog"),data);
 		}
@@ -219,7 +219,7 @@
 			// This is a bit inefficient - removing the whole table & re-rendering
 			// but it is simple & expendient!
 			d3.select('#activitySummary table').remove();
-			d3.select('#cooccurrence table').remove();
+			d3.select('#transitionMatrix table').remove();
 			d3.select('#durationStats table').remove();
 			d3.select('#activityLog table').remove();
 			createStats(chart1.currentData());

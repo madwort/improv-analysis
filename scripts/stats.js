@@ -5,7 +5,7 @@
    w["stats"] = function(){
 
 	// assumes the data is ordered firstly by time 
-	function cooccurrence(element, stream_cooccurrence) {
+	function transitionMatrix(element, stream_transitionMatrix) {
 		var mytable = element.append("table");
 		 var heading_row = mytable.append("tr");
 		 heading_row.append("th").text("Stream").classed("All", true);
@@ -15,13 +15,13 @@
 			 label.classed(ra.stream_names[(i+1)], "true");
 		 };
 	
-		 for (var i = 0; i < stream_cooccurrence.length; i++) {
+		 for (var i = 0; i < stream_transitionMatrix.length; i++) {
 			 var myrow = mytable.append("tr");
 			 var label = myrow.append("td");
 			 label.text(ra.stream_names[i+1]);
 			 label.classed(ra.stream_names[i+1], "true");
-			 for (var j = 0; j < stream_cooccurrence[i].length; j++) {
-				 myrow.append("td").text(stream_cooccurrence[i][j]);
+			 for (var j = 0; j < stream_transitionMatrix[i].length; j++) {
+				 myrow.append("td").text(stream_transitionMatrix[i][j]);
 			 }
 		 }
 	}
@@ -85,7 +85,7 @@
 	
 	
 	return {
-		cooccurrence: cooccurrence,
+		transitionMatrix: transitionMatrix,
 		activitySummary: activitySummary,
 		durationPerStream: durationPerStream,
 		activityLog: activityLog
