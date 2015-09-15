@@ -182,7 +182,7 @@
       var stats_data = data.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
 
       ra.stats.activitySummary(parent.select("#activitySummary"),ra.activitySummary(stats_data));
-      ra.stats.cooccurrence(parent.select("#cooccurrence"), ra.cooccurrence(stats_data));
+      ra.stats.transitionMatrix(parent.select("#transitionMatrix"), ra.transitionMatrix(stats_data));
       ra.stats.durationPerStream(parent.select("#durationStats"),ra.durationPerStream(stats_data));
       ra.stats.activityLog(parent.select("#activityLog"),stats_data);
     }
@@ -264,7 +264,7 @@
       // This is a bit inefficient - removing the whole table & re-rendering
       // but it is simple & expendient!
       parent.select('#activitySummary table').remove();
-      parent.select('#cooccurrence table').remove();
+      parent.select('#transitionMatrix table').remove();
       parent.select('#durationStats table').remove();
       parent.select('#activityLog table').remove();
       createStats(chart1.currentData());

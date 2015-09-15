@@ -93,11 +93,11 @@
 		}
 		
 		// assumes the data is ordered firstly by time 
-		function cooccurrence(data) {
+		function transitionMatrix(data) {
   			// We're translating streamids 1-4 to be 0-3 for our purposes!
   			// Remember this when rendering!!!
-  			// stream_cooccurrence[from][to]
-  			var stream_cooccurrence = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
+  			// stream_transitionMatrix[from][to]
+  			var stream_transitionMatrix = [[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];
   			// assume at least one piece of data!
   			var previous_streamid = (data[0].streamid-1);
   			var this_streamid = -1;
@@ -105,10 +105,10 @@
   			data = data.sort(raTime.timeFormatCSVComparison);
   			for (var i = 1; i < data.length; i++) {
   				 this_streamid = (data[i].streamid-1);
-  				 stream_cooccurrence[previous_streamid][this_streamid]++;
+  				 stream_transitionMatrix[previous_streamid][this_streamid]++;
   				 previous_streamid = this_streamid;
   			}
-			return stream_cooccurrence;
+			return stream_transitionMatrix;
 		}
 		
 		function activitySummary(data) {
@@ -152,7 +152,7 @@
 			add_stream_name: add_stream_name,
 			assignColours: assignColours,
 			bubbleClickAudio: bubbleClickAudio,
-			cooccurrence: cooccurrence,
+			transitionMatrix: transitionMatrix,
 			activitySummary: activitySummary,
 			durationPerStream: durationPerStream
 		}

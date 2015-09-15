@@ -164,7 +164,7 @@ function improv_analysis_handler($atts)
       
         <div class=\"stats\">
           <h2>Co-occurrence</h2>
-          <div id=\"cooccurrence\"></div>    
+          <div id=\"transitionMatrix\"></div>    
         </div>
             
         <div class=\"stats\">
