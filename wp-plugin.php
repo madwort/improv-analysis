@@ -163,7 +163,7 @@ function improv_analysis_handler($atts)
         </div>    
       
         <div class=\"stats\">
-          <h2>Transition Matrix/h2>
+          <h2>Transition Matrix</h2>
           <div id=\"transitionMatrix\"></div>    
         </div>
             
