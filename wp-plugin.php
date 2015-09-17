@@ -3,7 +3,7 @@
 Plugin Name: Improv Analysis
 Plugin URI: http://www.rodrigoconstanzo.com/thesis/
 Description: Package Improv Analysis tool for WP
-Version: 0.13
+Version: 0.14
 Author: MADWORT
 Author URI: http://www.madwort.co.uk
 */
@@ -163,7 +163,7 @@ function improv_analysis_handler($atts)
         </div>    
       
         <div class=\"stats\">
-          <h2>Co-occurrence</h2>
+          <h2>Transition Matrix</h2>
           <div id=\"transitionMatrix\"></div>    
         </div>
             
