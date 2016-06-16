@@ -201,7 +201,7 @@ function improv_analysis_handler($atts)
             }
           );
         </script>
-        <span class=\"datafiles\">
+        <span class=\"datafiles\" style=\"display: none;\">
           Datafiles: <a href='".$a['audio_url']."'>audio</a>;
                   <a href='".$a['data_url']."'>analysis</a>.
         </span>
