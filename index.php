@@ -1,4 +1,19 @@
-<!doctype html>
+<?php
+// default data
+$data = Array('1a', "./Everything 1a.mp3", "./Everything 1a.csv", "https://www.youtube.com/watch?v=i3tYa2N9fm4", "Constanzo - Everything at once. (1a)", "209.629");
+
+// search CSV file for requested analysis
+$csvFile = file('analyses.csv');
+foreach ($csvFile as $line) {
+    $line_data = str_getcsv($line);
+    if ($line_data[0] == $_GET['q']) {
+      // this is the dataset we're looking for
+      $data = $line_data;
+      break;
+    }
+}
+
+?><!doctype html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -10,132 +25,15 @@
 		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
 		<script src="./bower_components/ionrangeslider/js/ion.rangeSlider.min.js"></script>
 
+<!-- DEBUGGING: resources selected <?php echo "using..."; var_dump($data); ?> -->
+
 		<script type="text/javascript">
 			// Configuration
-			<?php 
-		switch ($_GET['q']) {
-			
-			case '1a':
-			?>
-			var audioUrl = "./Everything 1a.mp3";
-			var dataUrl = "./Everything 1a.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=i3tYa2N9fm4";
-			var analysisName = "Constanzo - Everything at once. (1a)";
-			var audioLength = 209.629;
-			<?php
-				break;
-			
-			case '1b': 
-			?>
-		    var audioUrl = "./Everything 1b.mp3";
-		 	var dataUrl = "./Everything 1b.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=1FKE3D7swWY";
-			var analysisName = "Constanzo - Everything at once. (1b)";
-			var audioLength = 165.887;
-			<?php 
-				break;
-					
-			case '1c': 
-			?>
-			var audioUrl = "./Everything 1c.mp3";
-			var dataUrl = "./Everything 1c.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=bQf1lFEdr9w";
-			var analysisName = "Constanzo - Everything at once. (1c)";
-			var audioLength = 162.456;
-			<?php 
-				break;
-				
-			case 'pa1': 
-			?>
-			var audioUrl = "./PA 1.mp3";
-			var dataUrl = "./PA 1.csv";
-			var videoUrl = "#";
-			var analysisName = "Tremblay - Bass + Laptop improvisation (1)";
-			var audioLength = 363.408;
-			<?php 
-				break;
-				
-			case 'pa2': 
-			?>
-			var audioUrl = "./PA 2.mp3";
-			var dataUrl = "./PA 2.csv";
-			var videoUrl = "#";
-			var analysisName = "Tremblay - Bass + Laptop improvisation (2)";
-			var audioLength = 228.048;
-			<?php 
-				break;
-				
-			case 'anton': 
-			?>
-			var audioUrl = "./anton.mp3";
-			var dataUrl = "./anton.csv";
-			var videoUrl = "#";
-			var analysisName = "Hunter - Guitar + Pedals improvisation";
-			var audioLength = 224.760;
-			<?php 
-				break;
-				
-			case 'ucb': 
-			?>
-			var audioUrl = "./ucb.mp3";
-			var dataUrl = "./ucb.csv";
-			var videoUrl = "https://youtu.be/1otcGrYVSag?t=22m55s";
-			var analysisName = "ASSSSCAT! - Buzzards";
-			var audioLength = 156.709;
-			<?php 
-				break;
-				
-			case 'feldman': 
-			?>
-			var audioUrl = "./feldman.mp3";
-			var dataUrl = "./feldman.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=bQf1lFEdr9w";
-			var analysisName = "Feldman - Triadic Memories";
-			var audioLength = 1553.914;
-			<?php 
-				break;	
-				
-			case 'thf1': 
-			?>
-			var audioUrl = "./thf1.mp3";
-			var dataUrl = "./thf1.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=qTvBkYGRqXk";
-			var analysisName = "THF Drenching - Invention of Duct Tape";
-			var audioLength = 399.649;
-			<?php 
-				break;	
-				
-			case 'thf2': 
-			?>
-			var audioUrl = "./thf2.mp3";
-			var dataUrl = "./thf2.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=gxVBVGqByEw";
-			var analysisName = "THF Drenching - Skimming of Black Milk";
-			var audioLength = 339.464;
-			<?php 
-				break;	
-				
-			case 'otto1': 
-			?>
-			var audioUrl = "./otto1.mp3";
-			var dataUrl = "./otto1.csv";
-			var videoUrl = "https://www.youtube.com/watch?v=DfLe41_Ed9g";
-			var analysisName = "Willberg - all weather";
-			var audioLength = 206.623;
-			<?php 
-				break;	
-			
-			default:
-			?>
-			var audioUrl = "./Everything 1a.mp3";
-			var dataUrl = "./Everything 1a.csv";
-			var videoUrl = "#";
-			var analysisName = "Everything. Everything at once. Once. (1a)";
-			var audioLength = 209.629;
-			<?php
-				break;
-				
-		} ?>
+      var audioUrl = "<?php echo $data[1]?>";
+			var dataUrl = "<?php echo $data[2]?>";
+			var videoUrl = "<?php echo $data[3]?>";
+			var analysisName = "<?php echo $data[4]?>";
+			var audioLength = <?php echo floatval($data[5])?>;
 		</script>
 
 		<script src="./scripts/time.js"></script>
@@ -241,6 +139,16 @@
 					<h2>Activity log</h2>
 					<div id="activityLog"></div>
 				</div>
+
+				<div class="clear"></div>
+
+        <div class="stats">
+          <h2>Asset files</h2>
+          <div>
+            <a href="<?php echo $data[1]; ?>">Audio file</a>,
+            <a href="<?php echo $data[2]; ?>">CSV file</a>
+          </div>
+        </div>
 		</div>
 	</body>
 	
