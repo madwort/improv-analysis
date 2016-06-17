@@ -142,7 +142,7 @@ foreach ($csvFile as $line) {
 
 				<div class="clear"></div>
 
-        <div class="stats">
+        <div class="stats" style="display: none;">
           <h2>Asset files</h2>
           <div>
             <a href="<?php echo $data[1]; ?>">Audio file</a>,
