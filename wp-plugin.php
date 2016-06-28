@@ -190,8 +190,8 @@ function improv_analysis_handler($atts)
           document.addEventListener('DOMContentLoaded',
             function(){
               client(\"#".$a['unique_name']."\", {
-                \"audioUrl\": \"".$a['audio_url']."\",
-                \"dataUrl\": \"".$a['data_url']."\",
+                \"audioUrl\": $('#ia_datafiles_".$a['unique_name']." a.audio').first().attr('href'),
+                \"dataUrl\": $('#ia_datafiles_".$a['unique_name']." a.data').first().attr('href'),
                 \"videoUrl\": \"".$a['video_url']."\",
                 \"analysisName\": \"".$a['analysis_name']."\",
                 \"audioLength\": ".$a['audio_length'].",
@@ -201,9 +201,9 @@ function improv_analysis_handler($atts)
             }
           );
         </script>
-        <span class=\"datafiles\" style=\"display: none;\">
-          Datafiles: <a href='".$a['audio_url']."'>audio</a>;
-                  <a href='".$a['data_url']."'>analysis</a>.
+        <span id=\"ia_datafiles_".$a['unique_name']."\" style=\"display: none;\">
+          Datafiles: <a href='".$a['audio_url']."' class='audio'>audio</a>;
+                  <a href='".$a['data_url']."' class='data'>analysis</a>.
         </span>
       </div>";
 			
