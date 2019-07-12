@@ -1,15 +1,15 @@
-#Rodalytics
+# Rodalytics
 
-##Interactive visualisation for Rodrigo Constanzo's improvisation self-reflection
+## Interactive visualisation for Rodrigo Constanzo's improvisation self-reflection
 
-##Install
+## Install
 
 * install nodejs 
 	* ubuntu12: https://rtcamp.com/tutorials/nodejs/node-js-npm-install-ubuntu/
 * sudo npm install -g bower 
 * bower install
 
-##Datafiles
+## Datafiles
 
 * audio file readable by Web Audio API in your browser of choice (eg. MP3) 
 * CSV file of format:
@@ -26,37 +26,37 @@
 	* 3: Interface
 	* 4: Interaction
 
-##Licence
+## Licence
 
 * New code: Not known... 
 * Portions written by oncletom under unknown licence
 
-##References
+## References
 
-###d3 
+### d3 
 http://d3js.org
 
-###charts
+### charts
 https://github.com/PMSI-AlignAlytics/dimple/wiki/dimple
 http://dc-js.github.io/dc.js/ (alternative, not used)
 
-###data processing
+### data processing
 https://github.com/mbostock/d3/wiki/CSV#parse
 http://misoproject.com/dataset/examples.html (alternative, not used)
 
-###time formats
+### time formats
 http://en.wikipedia.org/wiki/ISO_8601
 https://github.com/mbostock/d3/wiki/Time-Formatting
 https://github.com/mbostock/d3/wiki/Time-Intervals
 
-###js range sliders
+### js range sliders
 http://ionden.com/a/plugins/ion.rangeSlider/demo.html 
 http://refreshless.com/nouislider/ (alternative, not used)
 
-###waveform-view
+### waveform-view
 https://github.com/bbcrd/waveform-data.js
 http://bl.ocks.org/oncletom/5822102
 http://waveform.prototyping.bbc.co.uk
 
-###html5 audio playback
+### html5 audio playback
 https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_HTML5_audio_and_video
