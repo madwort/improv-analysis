@@ -2,7 +2,7 @@
   "name": "rodalytics",
   "description" : "Interactive visualisation for Rodrigo Constanzo's improvisation self-reflection",
   "author" : "Tom Ward <tomward@fmail.co.uk>",
-  "version": "1.0.0",
+  "version": "2.0.0alpha1",
   "dependencies": {
   }
 }
