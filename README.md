@@ -28,8 +28,10 @@ Interactive visualisation for Rodrigo Constanzo's improvisation self-reflection 
 
 * install nodejs 
 	* ubuntu12: https://rtcamp.com/tutorials/nodejs/node-js-npm-install-ubuntu/
-* sudo npm install -g bower 
-* bower install
+  * ubuntu18: https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04
+* `sudo npm install -g bower` 
+* `bower install`
+* `mv bower_components plugin/`
 
 ## Datafiles
 
