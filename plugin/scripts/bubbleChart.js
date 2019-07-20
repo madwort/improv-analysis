@@ -9,6 +9,7 @@
 		var myData = null;
 		var mySeries = null;
 		var z = null;
+    var idealTimeTicks = 20;
 		 
 		function init(data, leftBound, rightBound) {
 			myData = data;
@@ -24,7 +25,7 @@
 			myChart.setBounds(60, 0, 1000, 430);
 			var x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			x.timePeriod = d3.time.seconds;
-			x.timeInterval = 10;
+			x.timeInterval = 100;
 			x.overrideMin = raTime.zeroTime;
 
 		   var y = myChart.addCategoryAxis("y", "stream_name");
@@ -80,13 +81,16 @@
 		} // init
 		
 		function applyBounds(leftBound, rightBound) {
-			myChart.data = myData.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
+			myChart.data =
+        myData.filter(raTime.timeFormatCSVFilter(leftBound,rightBound));
 
 			var x = myChart.axes[0];
 			// fix the scales on the graph
 			x.overrideMin = raTime.timeFromSeconds(leftBound);
 			x.overrideMax = raTime.timeFromSeconds(rightBound);
 
+      x.timeInterval =
+        Math.floor((x.overrideMax-x.overrideMin)/1000/idealTimeTicks/10)*10;
 		 	myChart.draw(1000);
 			// redo click handlers
 			ra.bubbleClickAudio(mySeries,d3.select('audio'));

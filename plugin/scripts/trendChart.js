@@ -11,6 +11,7 @@
 		 var x,y = null;
 		 var currentStream = null;
 		 var lines = null;
+     var idealTimeTicks = 20;
 		 
 		 function init(data, lowerBound, upperBound) {
 		    myData = data;
@@ -28,7 +29,7 @@
 		    x = myChart.addTimeAxis("x", "time", raTime.timeFormatCSVString, raTime.timeFormatDisplayString);
 			 // x.addOrderRule("Date");
 			 x.timePeriod = d3.time.seconds;
-			 x.timeInterval = 10;
+			 x.timeInterval = 100;
 
 			 x.overrideMin = raTime.zeroTime;
 			 var maxTime = d3.max(myData, function (d) {
@@ -127,6 +128,8 @@
 			x.overrideMin = raTime.timeFromSeconds(lowerBound);
 			x.overrideMax = raTime.timeFromSeconds(upperBound);
 
+      x.timeInterval =
+        Math.floor((x.overrideMax-x.overrideMin)/1000/idealTimeTicks/10)*10;
 		 	myChart.draw(1000);
 			// redo click handlers
 			ra.bubbleClickAudio(mySeries,d3.select('audio'));
