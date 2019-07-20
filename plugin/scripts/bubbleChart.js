@@ -90,7 +90,13 @@
 			x.overrideMax = raTime.timeFromSeconds(rightBound);
 
       x.timeInterval =
-        Math.floor((x.overrideMax-x.overrideMin)/1000/idealTimeTicks/10)*10;
+        Math.floor((x.overrideMax-x.overrideMin)/1000/idealTimeTicks);
+
+      if (x.timeInterval > 10) {
+        // round to the nearest 10sec
+        x.timeInterval = Math.floor(x.timeInterval/10)*10;
+      }
+
 		 	myChart.draw(1000);
 			// redo click handlers
 			ra.bubbleClickAudio(mySeries,d3.select('audio'));
