@@ -42,7 +42,6 @@
 			var videoUrl = "";
 			var analysisName = "";
 			var audioLength = 0;
-      var ra = null;
 
       xhr.onload = function() {
         if (xhr.status == 200) {
