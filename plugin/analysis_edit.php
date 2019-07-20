@@ -77,7 +77,7 @@ function improv_analysis_analysis_download_csv()
  
   $file = fopen('php://output', 'w');
  
-  fputcsv($file, array('time', 'stream', 'comment'));
+  fputcsv($file, array('time', 'streamid', 'comment'));
 
   global $wpdb;
   $query =
