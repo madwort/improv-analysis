@@ -1,4 +1,13 @@
-<!doctype html>
+<?php 
+
+  if (isset($_GET['id']) && $_GET['id'] != '') {
+    $url_id = $_GET['id'];
+  } else {
+    // default to "Everything 1a"
+    $url_id = "1a";
+  }
+
+?><!doctype html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -33,7 +42,7 @@
 		<script type="text/javascript">
 			// Configuration
       xhr = new XMLHttpRequest();
-      xhr.open('GET', "https://madwort.co.uk/wp-content/plugins/improv-analysis-2.0/analysis_json.php?id=<?php echo $_GET['id'] ?>");
+      xhr.open('GET', "https://madwort.co.uk/wp-content/plugins/improv-analysis-2.0/analysis_json.php?id=<?php echo $url_id; ?>");
       xhr.responseType = 'json';
 
       var audioUrl = "";
@@ -50,7 +59,7 @@
           data = xhr.response.events;
     			dataUrl = "https://madwort.co.uk/wp-admin/admin.php?" +
                      "page=improv-analysis-edit&csv=1" + 
-                     "&analysis=<?php echo $_GET['id']; ?>&";
+                     "&analysis=<?php echo $url_id; ?>&";
     			videoUrl = metadata.video_url;
     			analysisName = metadata.title;
     			audioLength = metadata.duration;
