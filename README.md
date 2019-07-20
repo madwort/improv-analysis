@@ -72,29 +72,29 @@ M3,"Impulsive start (Inner monologue: ""Just GO, FFS"")",0:03.500
 ## References
 
 ### d3 
-http://d3js.org
+* http://d3js.org
 
 ### charts
-https://github.com/PMSI-AlignAlytics/dimple/wiki/dimple
-http://dc-js.github.io/dc.js/ (alternative, not used)
+* https://github.com/PMSI-AlignAlytics/dimple/wiki/dimple
+* http://dc-js.github.io/dc.js/ (alternative, not used)
 
 ### data processing
-https://github.com/mbostock/d3/wiki/CSV#parse
-http://misoproject.com/dataset/examples.html (alternative, not used)
+* https://github.com/mbostock/d3/wiki/CSV#parse
+* http://misoproject.com/dataset/examples.html (alternative, not used)
 
 ### time formats
-http://en.wikipedia.org/wiki/ISO_8601
-https://github.com/mbostock/d3/wiki/Time-Formatting
-https://github.com/mbostock/d3/wiki/Time-Intervals
+* http://en.wikipedia.org/wiki/ISO_8601
+* https://github.com/mbostock/d3/wiki/Time-Formatting
+* https://github.com/mbostock/d3/wiki/Time-Intervals
 
 ### js range sliders
-http://ionden.com/a/plugins/ion.rangeSlider/demo.html 
-http://refreshless.com/nouislider/ (alternative, not used)
+* http://ionden.com/a/plugins/ion.rangeSlider/demo.html 
+* http://refreshless.com/nouislider/ (alternative, not used)
 
 ### waveform-view
-https://github.com/bbcrd/waveform-data.js
-http://bl.ocks.org/oncletom/5822102
-http://waveform.prototyping.bbc.co.uk
+* https://github.com/bbcrd/waveform-data.js
+* http://bl.ocks.org/oncletom/5822102
+* http://waveform.prototyping.bbc.co.uk
 
 ### html5 audio playback
-https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_HTML5_audio_and_video
+* https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/Using_HTML5_audio_and_video
