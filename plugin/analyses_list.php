@@ -51,7 +51,7 @@ function improv_analysis_analyses_list()
                   <a href="<?php echo
                    improv_analysis_analysis_edit_link($value->url_id); 
                    ?>">Edit</a>
-                   <a href="#">View</a>
+                   <a href="/wp-content/plugins/improv-analysis-2.0/?id=<?php echo $value->url_id; ?>">View</a>
                   <a href="<?php echo
                    improv_analysis_analysis_edit_link($value->url_id)."&csv=1"; 
                    ?>">CSV</a>
