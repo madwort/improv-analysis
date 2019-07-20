@@ -62,7 +62,7 @@ function improv_analysis_install_submit()
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `analysis_id` int(11) NOT NULL,
   `time` varchar(127) COLLATE latin1_general_ci NOT NULL,
-  `stream` tinyint(4) NOT NULL DEFAULT '0',
+  `streamid` tinyint(4) NOT NULL DEFAULT '0',
   `comment` text COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;";

@@ -7,7 +7,7 @@ function improv_analysis_get_event_count($analysis_id, $stream_id = 0)
                        "WHERE analysis_id='".$analysis_id."'";
 
   if ($stream_id != 0) {
-    $query .= " AND stream='".$stream_id."'";
+    $query .= " AND streamid='".$stream_id."'";
   }
 
   $result = $wpdb->get_results($query);

@@ -78,7 +78,7 @@ function improv_analysis_upload_csv_data($analysis_id, $file_name)
           if($data[0] === 'time') { continue; }
           $query = 
             "INSERT INTO improv_analysis_events ".
-            "(analysis_id, time, stream, comment) VALUES".
+            "(analysis_id, time, streamid, comment) VALUES".
             "('". $analysis_id ."','".
             $wpdb->_real_escape($data[0])."',".
             $wpdb->_real_escape($data[1]).",'".

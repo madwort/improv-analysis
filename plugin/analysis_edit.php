@@ -5,7 +5,7 @@ function improv_analysis_stream_radio_button($stream, $value)
 ?>
   <input type="radio" name="stream[<?php echo $value->id; ?>]" 
     value="<?php echo $stream['id'] ?>" <?php 
-    if ($stream['id'] == $value->stream) {
+    if ($stream['id'] == $value->streamid) {
       ?>checked="checked"<?php
     } ?>>
 <?php
@@ -99,7 +99,7 @@ function improv_analysis_analysis_save_changes()
 {
   global $wpdb;
   foreach ($_POST['stream'] as $key => $value) {
-    $query = "UPDATE improv_analysis_events SET stream = ".
+    $query = "UPDATE improv_analysis_events SET streamid = ".
               $wpdb->_real_escape($value)." WHERE ".
              "id = '".$wpdb->_real_escape($key)."'";
     $result = $wpdb->get_results( $query );
