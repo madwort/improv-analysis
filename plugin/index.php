@@ -37,6 +37,7 @@
       xhr.responseType = 'json';
 
       var audioUrl = "";
+      var data = null;
 			var dataUrl = "";
 			var videoUrl = "";
 			var analysisName = "";
@@ -47,6 +48,7 @@
         if (xhr.status == 200) {
           metadata = xhr.response.metadata;
           audioUrl = metadata.media_url;
+          data = xhr.response.events;
     			dataUrl = "https://madwort.co.uk/wp-admin/admin.php?" +
                      "page=improv-analysis-edit&csv=1" + 
                      "&analysis=<?php echo $_GET['id']; ?>&";
