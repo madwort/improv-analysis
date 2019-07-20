@@ -114,27 +114,24 @@
 	 	waveformSvg.append("rect")
 		.attr("x",0).attr("y",0).attr("width",2).attr("height",150).classed("playhead", true); 
 
+		// load stats module
+		var rodstat = stats();
+
 		// do chart 1
 		var chart1 = null;
 		
-		d3.csv(dataUrl, function (data) {
-			chart1 = bubbleChart();
-			chart1.init(data,leftBound,rightBound);
+		chart1 = bubbleChart();
+		chart1.init(data,leftBound,rightBound);
 
-			// also do stats at the same time!
-			createStats(data);
-		});
+		// also do stats at the same time!
+    createStats(data);
 
 		// do chart 2
 		var chart2 = null;
 
-	 	d3.csv(dataUrl, function (data) {
-			chart2 = trendChart();
-			chart2.init(data,leftBound,rightBound);
-	 	});
+		chart2 = trendChart();
+		chart2.init(data,leftBound,rightBound);
 
-		// load stats module
-		var rodstat = stats();
 		
 		function createStats(data) {
 			rodstat.activitySummary(d3.select("#activitySummary"),ra.activitySummary(data));

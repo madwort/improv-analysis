@@ -1,71 +1,3 @@
-<?php
-// default data
-$data = Array('1a', "./Everything 1a.mp3", "./Everything 1a.csv", "https://www.youtube.com/watch?v=i3tYa2N9fm4", "Constanzo - Everything at once. (1a)", "209.629");
-
-// search CSV file for requested analysis
-$csvFile = file('analyses.csv');
-foreach ($csvFile as $line) {
-    $line_data = str_getcsv($line);
-    if ($line_data[0] == $_GET['q']) {
-      // this is the dataset we're looking for
-      $data = $line_data;
-      break;
-    }
-}
-
-?><!doctype html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-	   <script src="./bower_components/d3/d3.min.js"></script>
-	   <script src="./bower_components/dimple/dist/dimple.v2.1.2.min.js"></script>
-	   <script src="./bower_components/regression-js/build/regression.min.js"></script>
-		<script src="./bower_components/waveform-data/dist/waveform-data.js"></script>
-		
-		<script src="./bower_components/jquery/dist/jquery.min.js"></script>
-		<script src="./bower_components/ionrangeslider/js/ion.rangeSlider.min.js"></script>
-
-<!-- DEBUGGING: resources selected <?php echo "using..."; var_dump($data); ?> -->
-
-		<script type="text/javascript">
-			// Configuration
-      var audioUrl = "<?php echo $data[1]?>";
-			var dataUrl = "<?php echo $data[2]?>";
-			var videoUrl = "<?php echo $data[3]?>";
-			var analysisName = "<?php echo $data[4]?>";
-			var audioLength = <?php echo floatval($data[5])?>;
-		</script>
-
-		<script src="./scripts/time.js"></script>
-		<script type="text/javascript">
-			// load this before rodalytics.js
-			var raTime = rodalyticsTime();
-		</script>
-		<script src="./scripts/rodalytics.js"></script>
-		<script type="text/javascript">
-			// load our helper functions
-			// need to load this before loading stats.js
-			var ra = rodalytics();
-		</script>
-		
-		<script src="./scripts/waveform-layouts.js"></script>
-		<script src="./scripts/audioEvents.js"></script>
-		<script src="./scripts/stats.js"></script>
-		<script src="./scripts/bubbleChart.js"></script>
-		<script src="./scripts/trendChart.js"></script>
-		<script src="./scripts/client.js"></script>
-
-		<link rel="stylesheet" href="bower_components/normalize.css/normalize.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.css" type="text/css" media="screen">
-		<link rel="stylesheet" href="bower_components/ionrangeslider/css/ion.rangeSlider.skinFlat.css" type="text/css" media="screen">
-
-		<link rel="stylesheet" href="./style/rodalytics.css" type="text/css" media="screen">
-		<!-- this is from oncletom's d3 waveform-live -->
-		<link rel="stylesheet" href="./style/waveform-view.css" type="text/css" media="screen">
-		
-	</head>
-	
-	<body onload="client();">
 		<div id="topbar">
 			<div id="wrapper">
 				<span id="title">Improv Analysis</span>
@@ -150,6 +82,3 @@ foreach ($csvFile as $line) {
           </div>
         </div>
 		</div>
-	</body>
-	
-</html>
