@@ -54,7 +54,7 @@ function improv_analysis_options_page() {
   $list_hookname = add_menu_page(
     "Improv Analysis",
     "Improv Analysis",
-    "improv-analysis-options",
+    "edit_pages",
     'improv-analysis',
     'improv_analysis_analyses_list'
   );
@@ -65,7 +65,7 @@ function improv_analysis_options_page() {
     'improv-analysis',
     'Analysis stats',
     'Stats',
-    'improv-analysis-options',
+    'edit_pages',
     'improv-analysis-stats',
     'improv_analysis_analyses_stats'
   );
@@ -75,7 +75,7 @@ function improv_analysis_options_page() {
       'improv-analysis',
       'Analysis editor',
       'Editor',
-      'improv-analysis-options',
+      'edit_pages',
       'improv-analysis-edit',
       'improv_analysis_analysis_edit'
   );
@@ -87,7 +87,7 @@ function improv_analysis_options_page() {
       'improv-analysis',
       'Upload analysis',
       'Upload',
-      'improv-analysis-options',
+      'edit_pages',
       'improv-analysis-upload',
       'improv_analysis_upload_analysis'
   );
@@ -98,7 +98,7 @@ function improv_analysis_options_page() {
       'improv-analysis',
       'Install',
       'Install',
-      'improv-analysis-options',
+      'edit_plugins',
       'improv-analysis-install',
       'improv_analysis_install'
   );
